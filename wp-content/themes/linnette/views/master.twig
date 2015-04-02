@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="cs_CZ" itemscope itemtype="https://schema.org/WebPage">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="image" content="{{ theme.uri }}/images/logo.png"/>
+
+	<title itemprop="name">{{ wp_title }}</title>
+
+	{{ wp_head }}
+
+	<script>
+		var ajax = new XMLHttpRequest();
+		ajax.open("GET", "{{ theme.uri }}/assets//images/svg_sprite.svg", true);
+		ajax.send();
+		ajax.onload = function(e) {
+			var div = document.createElement("div");
+			div.style.display = 'none';
+			div.innerHTML = ajax.responseText;
+			document.body.insertBefore(div, document.body.childNodes[0]);
+		}
+	</script>
+</head>
+<body>
+
+<div class="page_wrap">
+
+	<button class="mobile_menu_button" aria-controls="main_header" data-js-menu_button><svg aria-label="Otevřít menu"><use xlink:href="#icon-menu"></use></svg></button>
+
+	<aside class="mobile_header" data-js-mobile_header>
+		<a href="" class="mobile_header__logo"><svg aria-label="Linnette Logo"><use xlink:href="#icon-logo_mobile"></use></svg></a>
+	</aside>
+
+	<header class="main_header" role="banner" id="main_header" data-js-main_header>
+
+		<a class="main_header__logo" href=""><svg class="main_header__logo__image" aria-label="Linnette Logo"><use xlink:href="#icon-logo"></use></svg></a>
+
+		<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
+
+		<nav class="main_header__nav" role="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement">
+			<ul class="main_header__nav__ul">
+				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Úvod</a></li>
+				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Portfolio</a></li>
+				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Retuše</a></li>
+				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Reference</a></li>
+				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Autor</a></li>
+				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Kontakt</a></li>
+			</ul>
+		</nav>
+
+		<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
+
+		<nav class="main_header__socials">
+			<a class="main_header__socials__link" href=""><svg class="main_header__socials__link__image" aria-label="Facebook"><use xlink:href="#icon-facebook"></use></svg></a>
+			<a class="main_header__socials__link" href=""><svg class="main_header__socials__link__image" aria-label="Instagram"><use xlink:href="#icon-instagram"></use></svg></a>
+		</nav>
+
+		<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
+
+		<div class="main_header__copyright">&copy; 2015 Linnette.cz</div>
+
+	</header>
+
+	<article class="main_content" role="main" itemprop="mainContentOfPage">
+
+		<nav class="main_content__breadcrumbs" data-js-breadcrumbs>
+			<div class="main_content__breadcrumbs__wrap" itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+				<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Portfolio</a>
+				<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Portfolio</a>
+				<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Cestování</a>
+				<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Cestování</a>
+				<a class="main_content__breadcrumbs__item is-active" href="" itemprop="itemListElement">Zatopený lom</a>
+			</div>
+		</nav>
+
+		<figure class="main_content__featured_image captioned_image" itemprop="primaryImageOfPage" itemscope itemtype="https://schema.org/ImageObject">
+			<img alt="Zatopený lom"
+			     srcset="sample_content/zatopeny_lom_1023.jpg 1023w,
+			            sample_content/zatopeny_lom_800.jpg 800w,
+			            sample_content/zatopeny_lom_400.jpg 400w"
+			     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
+			     width="3000" height="2000"
+			     class="captioned_image__image"
+			     itemprop="image"/>
+			<figcaption class="captioned_image__caption" itemprop="caption">Zatopený lom<br/><span>Cestování</span></figcaption>
+		</figure>
+
+		<div class="main_content__typo">
+
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur eligendi expedita iste non optio
+				quidem totam? Adipisci alias autem illo in inventore minus obcaecati pariatur, quae reiciendis, saepe,
+				ullam voluptate.</p>
+
+			<h2>Lorem ipsum dolor.</h2>
+
+			<p>Eaque quod, reprehenderit! Assumenda consequatur deserunt doloribus dolorum inventore, itaque labore
+				laboriosam magni nesciunt pariatur perspiciatis possimus reprehenderit soluta sunt voluptate. Commodi
+				eos ex, illum iure maiores soluta velit veritatis!</p>
+
+			<p>Eaque quod, reprehenderit! Assumenda consequatur deserunt doloribus dolorum inventore, itaque labore
+				laboriosam magni nesciunt pariatur perspiciatis possimus reprehenderit soluta sunt voluptate. Commodi
+				eos ex, illum iure maiores soluta velit veritatis!</p>
+
+			<div class="article_gallery is-2-cols" itemscope itemtype="https://schema.org/ImageGallery">
+				<figure class="article_gallery__item" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+					<div class="article_gallery__item__image_wrap">
+						<img class="article_gallery__item__image"
+						     alt="Bez captionu"
+						     srcset="sample_content/sample_portrait_488.jpg 488w"
+						     sizes="(min-width: 1280px) 490px, (min-width: 800px) 50vw, 100vw"
+						     width="3000" height="2000"
+						     data-url="sample_content/sample_portrait_488.jpg" data-width="488" data-height="731"
+						     itemprop="image" />
+						<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+					</div>
+					<figcaption class="article_gallery__item__caption" itemprop="caption">Popis obrázku</figcaption>
+				</figure>
+				<figure class="article_gallery__item">
+					<div class="article_gallery__item__image_wrap">
+						<img class="article_gallery__item__image"
+						     alt="Bez captionu"
+						     srcset="sample_content/zatopeny_lom_1023.jpg 1023w,
+						            sample_content/zatopeny_lom_800.jpg 800w,
+						            sample_content/zatopeny_lom_400.jpg 400w"
+						     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
+						     width="3000" height="2000"
+						     data-url="sample_content/zatopeny_lom_1023.jpg" data-width="1023" data-height="512" />
+						<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+					</div>
+					<figcaption class="article_gallery__item__caption">Popis obrázku</figcaption>
+				</figure>
+				<figure class="article_gallery__item">
+					<div class="article_gallery__item__image_wrap">
+						<img class="article_gallery__item__image"
+						     alt="Bez captionu"
+						     srcset="sample_content/zatopeny_lom_1023.jpg 1023w,
+						            sample_content/zatopeny_lom_800.jpg 800w,
+						            sample_content/zatopeny_lom_400.jpg 400w"
+						     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
+						     width="3000" height="2000"
+						     data-url="sample_content/zatopeny_lom_1023.jpg" data-width="1023" data-height="512" />
+						<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+					</div>
+				</figure>
+				<figure class="article_gallery__item">
+					<div class="article_gallery__item__image_wrap">
+						<img class="article_gallery__item__image"
+						     alt="Bez captionu"
+						     srcset="sample_content/zatopeny_lom_1023.jpg 1023w,
+						            sample_content/zatopeny_lom_800.jpg 800w,
+						            sample_content/zatopeny_lom_400.jpg 400w"
+						     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
+						     width="3000" height="2000"
+						     data-url="sample_content/zatopeny_lom_1023.jpg" data-width="1023" data-height="512" />
+						<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+					</div>
+				</figure>
+			</div>
+
+			<div class="article_gallery">
+				<figure class="article_gallery__item">
+					<div class="article_gallery__item__image_wrap">
+						<img class="article_gallery__item__image"
+						     alt="Bez captionu"
+						     srcset="sample_content/zatopeny_lom_1023.jpg 1023w,
+						            sample_content/zatopeny_lom_800.jpg 800w,
+						            sample_content/zatopeny_lom_400.jpg 400w"
+						     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
+						     width="3000" height="2000"
+						     data-url="sample_content/zatopeny_lom_1023.jpg" data-width="1023" data-height="512" />
+						<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+					</div>
+				</figure>
+				<figure class="article_gallery__item">
+					<div class="article_gallery__item__image_wrap">
+						<img class="article_gallery__item__image"
+						     alt="Bez captionu"
+						     srcset="sample_content/zatopeny_lom_1023.jpg 1023w,
+						            sample_content/zatopeny_lom_800.jpg 800w,
+						            sample_content/zatopeny_lom_400.jpg 400w"
+						     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
+						     width="3000" height="2000"
+						     data-url="sample_content/zatopeny_lom_1023.jpg" data-width="1023" data-height="512" />
+						<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+					</div>
+					<figcaption class="article_gallery__item__caption">Popis obrázku</figcaption>
+				</figure>
+				<figure class="article_gallery__item">
+					<div class="article_gallery__item__image_wrap">
+						<img class="article_gallery__item__image"
+						     alt="Bez captionu"
+						     srcset="sample_content/zatopeny_lom_1023.jpg 1023w,
+						            sample_content/zatopeny_lom_800.jpg 800w,
+						            sample_content/zatopeny_lom_400.jpg 400w"
+						     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
+						     width="3000" height="2000"
+						     data-url="sample_content/zatopeny_lom_1023.jpg" data-width="1023" data-height="512" />
+						<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+					</div>
+					<figcaption class="article_gallery__item__caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem error odit quia? Earum, quod ratione. Dignissimos, eaque facilis, itaque libero magnam maxime minima mollitia omnis quibusdam reiciendis saepe sed sequi!</figcaption>
+				</figure>
+
+
+			</div>
+
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto eveniet id iusto laborum nemo
+				obcaecati quam, quas quibusdam temporibus voluptatem. Aliquid aperiam architecto, at cum doloremque
+				error iste molestiae quo?</p>
+
+
+		</div>
+
+	</article>
+
+</div>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+	<!-- Background of PhotoSwipe.
+		 It's a separate element as animating opacity is faster than rgba(). -->
+	<div class="pswp__bg"></div>
+
+	<!-- Slides wrapper with overflow:hidden. -->
+	<div class="pswp__scroll-wrap">
+
+		<!-- Container that holds slides.
+			PhotoSwipe keeps only 3 of them in the DOM to save memory.
+			Don't modify these 3 pswp__item elements, data is added later on. -->
+		<div class="pswp__container">
+			<div class="pswp__item"></div>
+			<div class="pswp__item"></div>
+			<div class="pswp__item"></div>
+		</div>
+
+		<!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+		<div class="pswp__ui pswp__ui--hidden">
+
+			<div class="pswp__top-bar">
+
+				<!--  Controls are self-explanatory. Order can be changed. -->
+
+				<div class="pswp__counter"></div>
+
+				<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+				<button class="pswp__button pswp__button--share" title="Share"></button>
+
+				<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+				<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+				<!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+				<!-- element will get class pswp__preloader--active when preloader is running -->
+				<div class="pswp__preloader">
+					<div class="pswp__preloader__icn">
+						<div class="pswp__preloader__cut">
+							<div class="pswp__preloader__donut"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+				<div class="pswp__share-tooltip"></div>
+			</div>
+
+			<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+			</button>
+
+			<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+			</button>
+
+			<div class="pswp__caption">
+				<div class="pswp__caption__center"></div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+<script src="js/libs/picturefill.js"></script>
+<script src="js/libs/modernizr.js"></script>
+
+<script src="js/libs/jquery-2.1.3.js"></script>
+<script src="js/libs/velocity.js"></script> <!-- jq -->
+<script src="js/libs/enquire.js"></script>
+<script src="js/libs/headroom.js"></script>
+<script src="js/libs/jQuery.headroom.js"></script> <!-- jq, headroom -->
+<script src="js/menu.js"></script> <!-- jq, velocity, enquire, headroom -->
+<script src="js/breadcrumbs.js"></script> <!-- jq -->
+
+<script src="js/libs/photoswipe.js"></script>
+<script src="js/libs/photoswipe-ui-default.js"></script><!-- photoswipe -->
+<script src="js/lightbox.js"></script><!-- jq, photoswipe-ui -->
+
+{{ wp_footer }}
+
+</body>
+</html>

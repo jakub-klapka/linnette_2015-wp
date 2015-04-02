@@ -1,0 +1,1 @@
+!function(i){var n={init:function(n){this.el=n.children(),this.scrollToEnd(),i(document).load(i.proxy(this.scrollToEnd,this)),i(window).on("resize",i.proxy(this.scrollToEnd,this))},scrollToEnd:function(){this.el.scrollLeft(9999)}};i(function(){i("[data-js-breadcrumbs]").each(function(){Object.create(n).init(i(this))})})}(jQuery);
