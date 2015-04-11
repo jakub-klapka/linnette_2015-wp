@@ -6,6 +6,11 @@
 spl_autoload_register( function( $name ){
 	if( strpos( $name, 'Linnette\\Controllers\\' ) !== false ) {
 		include_once( __DIR__ . '/controllers/' . str_replace( 'Linnette\\Controllers\\', '', $name ) . '.php' );
+		return;
+	}
+	if( strpos( $name, 'Linnette\\Models\\' ) !== false ) {
+		include_once( __DIR__ . '/models/' . str_replace( 'Linnette\\Models\\', '', $name ) . '.php' );
+		return;
 	}
 } );
 
@@ -28,7 +33,8 @@ $lumi[ 'config' ] = [
  * Setup controllers
  */
 add_action( 'wp_loaded', function(){
-//	$lumi[ 'Controllers' ][ 'ScriptStyle' ] = \Linnette\Controllers\ScriptStyle::getInstance();
-	$lumi[ 'Controllers' ][ 'Layout' ] = \Linnette\Controllers\Layout::getInstance();
-	$lumi[ 'Controllers' ][ 'PluginsModifications' ] = \Linnette\Controllers\PluginsModifications::getInstance();
+	\Linnette\Controllers\Layout::getInstance();
+	\Linnette\Controllers\PluginsModifications::getInstance();
+	\Linnette\Controllers\ImageSizes::getInstance();
+	\Linnette\Controllers\FeaturedImage::getInstance();
 } );

@@ -33,7 +33,7 @@
 
 	<header class="main_header" role="banner" id="main_header" data-js-main_header>
 
-		<a class="main_header__logo" href=""><svg class="main_header__logo__image" aria-label="Linnette Logo"><use xlink:href="#icon-logo"></use></svg></a>
+		<a class="main_header__logo" href="{{ site.url }}"><svg class="main_header__logo__image" aria-label="Linnette Logo"><use xlink:href="#icon-logo"></use></svg></a>
 
 		<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
 
@@ -63,43 +63,24 @@
 
 	<article class="main_content" role="main" itemprop="mainContentOfPage">
 
-		<nav class="main_content__breadcrumbs" data-js-breadcrumbs>
-			<div class="main_content__breadcrumbs__wrap" itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-				<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Portfolio</a>
-				<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Portfolio</a>
-				<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Cestování</a>
-				<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Cestování</a>
-				<a class="main_content__breadcrumbs__item is-active" href="" itemprop="itemListElement">Zatopený lom</a>
-			</div>
-		</nav>
+		{#<nav class="main_content__breadcrumbs" data-js-breadcrumbs>#}
+			{#<div class="main_content__breadcrumbs__wrap" itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">#}
+				{#<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Portfolio</a>#}
+				{#<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Portfolio</a>#}
+				{#<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Cestování</a>#}
+				{#<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Cestování</a>#}
+				{#<a class="main_content__breadcrumbs__item is-active" href="" itemprop="itemListElement">Zatopený lom</a>#}
+			{#</div>#}
+		{#</nav>#}
 
-		<figure class="main_content__featured_image captioned_image" itemprop="primaryImageOfPage" itemscope itemtype="https://schema.org/ImageObject">
-			<img alt="Zatopený lom"
-			     srcset="sample_content/zatopeny_lom_1023.jpg 1023w,
-			            sample_content/zatopeny_lom_800.jpg 800w,
-			            sample_content/zatopeny_lom_400.jpg 400w"
-			     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
-			     width="3000" height="2000"
-			     class="captioned_image__image"
-			     itemprop="image"/>
-			<figcaption class="captioned_image__caption" itemprop="caption">Zatopený lom<br/><span>Cestování</span></figcaption>
-		</figure>
+		{% block featured_image %}{% endblock %}
 
 		<div class="main_content__typo">
 
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur eligendi expedita iste non optio
-				quidem totam? Adipisci alias autem illo in inventore minus obcaecati pariatur, quae reiciendis, saepe,
-				ullam voluptate.</p>
+			<h1>{{ post.title }}</h1>
 
-			<h2>Lorem ipsum dolor.</h2>
+			{{ post.content }}
 
-			<p>Eaque quod, reprehenderit! Assumenda consequatur deserunt doloribus dolorum inventore, itaque labore
-				laboriosam magni nesciunt pariatur perspiciatis possimus reprehenderit soluta sunt voluptate. Commodi
-				eos ex, illum iure maiores soluta velit veritatis!</p>
-
-			<p>Eaque quod, reprehenderit! Assumenda consequatur deserunt doloribus dolorum inventore, itaque labore
-				laboriosam magni nesciunt pariatur perspiciatis possimus reprehenderit soluta sunt voluptate. Commodi
-				eos ex, illum iure maiores soluta velit veritatis!</p>
 
 			<div class="article_gallery is-2-cols" itemscope itemtype="https://schema.org/ImageGallery">
 				<figure class="article_gallery__item" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
@@ -203,9 +184,6 @@
 
 			</div>
 
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto eveniet id iusto laborum nemo
-				obcaecati quam, quas quibusdam temporibus voluptatem. Aliquid aperiam architecto, at cum doloremque
-				error iste molestiae quo?</p>
 
 
 		</div>
@@ -284,20 +262,20 @@
 </div>
 
 
-<script src="js/libs/picturefill.js"></script>
-<script src="js/libs/modernizr.js"></script>
+{#<script src="js/libs/picturefill.js"></script>#}
+{#<script src="js/libs/modernizr.js"></script>#}
 
-<script src="js/libs/jquery-2.1.3.js"></script>
-<script src="js/libs/velocity.js"></script> <!-- jq -->
-<script src="js/libs/enquire.js"></script>
-<script src="js/libs/headroom.js"></script>
-<script src="js/libs/jQuery.headroom.js"></script> <!-- jq, headroom -->
-<script src="js/menu.js"></script> <!-- jq, velocity, enquire, headroom -->
-<script src="js/breadcrumbs.js"></script> <!-- jq -->
+{#<script src="js/libs/jquery-2.1.3.js"></script>#}
+{#<script src="js/libs/velocity.js"></script> <!-- jq -->#}
+{#<script src="js/libs/enquire.js"></script>#}
+{#<script src="js/libs/headroom.js"></script>#}
+{#<script src="js/libs/jQuery.headroom.js"></script> <!-- jq, headroom -->#}
+{#<script src="js/menu.js"></script> <!-- jq, velocity, enquire, headroom -->#}
+{#<script src="js/breadcrumbs.js"></script> <!-- jq -->#}
 
-<script src="js/libs/photoswipe.js"></script>
-<script src="js/libs/photoswipe-ui-default.js"></script><!-- photoswipe -->
-<script src="js/lightbox.js"></script><!-- jq, photoswipe-ui -->
+{#<script src="js/libs/photoswipe.js"></script>#}
+{#<script src="js/libs/photoswipe-ui-default.js"></script><!-- photoswipe -->#}
+{#<script src="js/lightbox.js"></script><!-- jq, photoswipe-ui -->#}
 
 {{ wp_footer }}
 
