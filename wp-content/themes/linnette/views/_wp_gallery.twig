@@ -1,0 +1,26 @@
+<div class="article_gallery{% if cols == 2 %} is-2-cols{% endif %}" itemscope itemtype="https://schema.org/ImageGallery">
+	{% if cols == 2 %}
+		{% set sizes = '(min-width: 1280px) 490px, (min-width: 800px) 50vw, 100vw' %}
+	{% else %}
+		{% set sizes = '(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw' %}
+	{% endif %}
+	{% for image in images %}
+		<figure class="article_gallery__item" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+			<div class="article_gallery__item__image_wrap">
+				<img class="article_gallery__item__image"
+				     alt="{{ image.responsive_image.alt }}"
+				     srcset="{{ image.responsive_image.srcset }}"
+				     sizes="{{ sizes }}"
+				     width="{{ image.responsive_image.width }}" height="{{ image.responsive_image.height }}"
+				     data-url="{{ image.full_image.url }}" data-width="{{ image.full_image.width }}" data-height="{{ image.full_image.height }}" />
+				<noscript>
+					<img src="{{ image.full_image.url }}" alt="{{ image.responsive_image.alt }}" itemprop="image"/>
+				</noscript>
+				<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+			</div>
+			{% if image.caption %}
+				<figcaption class="article_gallery__item__caption" itemprop="caption">{{ image.caption }}</figcaption>
+			{% endif %}
+		</figure>
+	{% endfor %}
+</div>

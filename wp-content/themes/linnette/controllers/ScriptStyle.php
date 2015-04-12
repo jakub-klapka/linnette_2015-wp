@@ -52,9 +52,22 @@ class ScriptStyle {
 	}
 
 	static function enqueuePicturefill() {
-		add_action( 'wp_enqueue_scripts', function() {
-			wp_enqueue_script( 'picturefill' );
-		} );
+		wp_enqueue_script( 'picturefill' );
+	}
+
+	static function enqueueLightbox() {
+		wp_enqueue_style( 'lightbox' );
+		wp_enqueue_script( 'lightbox' );
+
+		global $lumi;
+
+		if( !isset( $lumi[ 'lightbox_enqueued' ] ) ){
+			add_action( 'wp_footer', function() {
+				echo \Timber::compile( '_pswp_footer.twig' );
+			} );
+			$lumi[ 'lightbox_enqueued' ] = true;
+		}
+
 	}
 
 }

@@ -37,4 +37,5 @@ add_action( 'wp_loaded', function(){
 	\Linnette\Controllers\PluginsModifications::getInstance();
 	\Linnette\Controllers\ImageSizes::getInstance();
 	\Linnette\Controllers\TwigResponsiveImage::getInstance();
+	\Linnette\Controllers\WPGallery::getInstance();
 } );
