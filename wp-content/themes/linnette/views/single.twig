@@ -1,13 +1,21 @@
 {% extends 'master.twig' %}
 
 {% block featured_image %}
-	<figure class="main_content__featured_image captioned_image" itemprop="primaryImageOfPage" itemscope itemtype="https://schema.org/ImageObject">
-		<img alt="{{ featured_image.alt }}"
-		     srcset="{{ featured_image.srcset }}"
-		     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
-		     width="{{ featured_image.width }}" height="{{ featured_image.height }}"
-		     class="captioned_image__image"
-		     itemprop="image"/>
-		<figcaption class="captioned_image__caption" itemprop="caption">Zatopený lom<br/><span>Cestování</span></figcaption>
-	</figure>
+	{% if post.featured_image %}
+		{% set image_data = responsive_image( post.featured_image ) %}
+		<figure class="main_content__featured_image captioned_image" itemprop="primaryImageOfPage" itemscope itemtype="https://schema.org/ImageObject">
+			<img alt="{{ image_data.alt }}"
+			     srcset="{{ image_data.srcset }}"
+			     sizes="(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw"
+			     width="{{ image_data.width }}" height="{{ image_data.height }}"
+			     class="captioned_image__image"
+			     itemprop="image"/>
+			{% if post.featured_image_caption_1 or post.featured_image_caption_2 %}
+				<figcaption class="captioned_image__caption" itemprop="caption">
+					{{ post.featured_image_caption_1 }}{% if post.featured_image_caption_1 and post.featured_image_caption_1 %}<br/>{% endif %}
+					{% if post.featured_image_caption_2 %}<span>{{ post.featured_image_caption_2 }}</span>{% endif %}
+				</figcaption>
+			{% endif %}
+		</figure>
+	{% endif %}
 {% endblock %}

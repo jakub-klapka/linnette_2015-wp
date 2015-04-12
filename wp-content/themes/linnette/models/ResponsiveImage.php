@@ -6,10 +6,12 @@ namespace Linnette\Models;
 class ResponsiveImage {
 
 	private $image_id;
+	private $image_sizes;
 
 	public function __construct( $image_id ) {
 
 		$this->image_id = $image_id;
+		$this->image_sizes = $this->get_image_sizes();
 
 	}
 
@@ -37,20 +39,20 @@ class ResponsiveImage {
 	}
 
 	private function getSrcset() {
-		$image_sizes = $this->get_image_sizes();
 		$srcset_images_strings = array();
-		foreach( $image_sizes as $size ) {
+		foreach( $this->image_sizes as $size ) {
 			$srcset_images_strings[] = $size[ 'url' ] . ' ' . $size[ 'width' ] . 'w';
 		};
 		return implode( ', ', $srcset_images_strings );
 	}
 
 	public function getImageData() {
+		$last_image_size = end( $this->image_sizes );
 		return array(
-			'alt' => 'test',
+			'alt' => get_post_meta( $this->image_id, '_wp_attachment_image_alt', true ),
 			'srcset' => $this->getSrcset(),
-			'width' => '',
-			'height' => ''
+			'width' => $last_image_size[ 'width' ],
+			'height' => $last_image_size[ 'height' ]
 		);
 	}
 
