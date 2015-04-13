@@ -1,0 +1,13 @@
+{% extends 'single.twig' %}
+
+{% block featured_image_caption %}
+	{% set categories = portfolio_categories %}
+	<figcaption class="captioned_image__caption" itemprop="caption">
+		{{ post.title }}{% if post.terms %}<br/>
+		<span>{{ post.terms|join(', ') }}</span>{% endif %}
+	</figcaption>
+{% endblock %}
+
+{% block content %}
+	{{ post.content }}
+{% endblock %}

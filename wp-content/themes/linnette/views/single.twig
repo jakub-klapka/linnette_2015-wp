@@ -10,12 +10,14 @@
 			     width="{{ image_data.width }}" height="{{ image_data.height }}"
 			     class="captioned_image__image"
 			     itemprop="image"/>
-			{% if post.featured_image_caption_1 or post.featured_image_caption_2 %}
-				<figcaption class="captioned_image__caption" itemprop="caption">
-					{{ post.featured_image_caption_1 }}{% if post.featured_image_caption_1 and post.featured_image_caption_1 %}<br/>{% endif %}
-					{% if post.featured_image_caption_2 %}<span>{{ post.featured_image_caption_2 }}</span>{% endif %}
-				</figcaption>
-			{% endif %}
+			{% block featured_image_caption %}
+				{% if post.featured_image_caption_1 or post.featured_image_caption_2 %}
+					<figcaption class="captioned_image__caption" itemprop="caption">
+						{{ post.featured_image_caption_1 }}{% if post.featured_image_caption_1 and post.featured_image_caption_1 %}<br/>{% endif %}
+						{% if post.featured_image_caption_2 %}<span>{{ post.featured_image_caption_2 }}</span>{% endif %}
+					</figcaption>
+				{% endif %}
+			{% endblock %}
 		</figure>
 	{% endif %}
 {% endblock %}
