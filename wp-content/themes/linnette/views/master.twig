@@ -63,15 +63,15 @@
 
 	<article class="main_content" role="main" itemprop="mainContentOfPage">
 
-		{#<nav class="main_content__breadcrumbs" data-js-breadcrumbs>#}
-			{#<div class="main_content__breadcrumbs__wrap" itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">#}
-				{#<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Portfolio</a>#}
-				{#<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Portfolio</a>#}
-				{#<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Cestování</a>#}
-				{#<a class="main_content__breadcrumbs__item" href="" itemprop="itemListElement">Cestování</a>#}
-				{#<a class="main_content__breadcrumbs__item is-active" href="" itemprop="itemListElement">Zatopený lom</a>#}
-			{#</div>#}
-		{#</nav>#}
+		{% if breadcrumbs %}
+			<nav class="main_content__breadcrumbs" data-js-breadcrumbs>
+				<div class="main_content__breadcrumbs__wrap" itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+					{% for item in breadcrumbs %}
+						<a class="main_content__breadcrumbs__item" href="{{ item.url }}" itemprop="itemListElement">{{ item.title }}</a>
+					{% endfor %}
+				</div>
+			</nav>
+		{% endif %}
 
 		{% block featured_image %}{% endblock %}
 
