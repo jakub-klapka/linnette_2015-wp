@@ -21,6 +21,8 @@ class Portfolio {
 
 		add_action( 'wp', array( $this, 'check_for_portfolio_type' ) );
 
+		add_action( 'wp', array( $this, 'add_portfolio_archive_cats' ) );
+
 	}
 
 	private function register_post_type() {
@@ -134,6 +136,22 @@ class Portfolio {
 		);
 
 		$context[ 'breadcrumbs' ] = $breadcrumbs;
+
+		return $context;
+	}
+
+	public function add_portfolio_archive_cats() {
+
+		if( is_post_type_archive( 'portfolio' ) ) {
+
+			add_filter( 'timber_context', array( $this, 'add_portfolio_archive_cats_cb' ) );
+
+		}
+
+	}
+
+	public function add_portfolio_archive_cats_cb( $context ) {
+		$context[ 'cats' ] = \Timber::get_terms( 'portfolio_category', array( 'parent' => 0 ) );
 
 		return $context;
 	}

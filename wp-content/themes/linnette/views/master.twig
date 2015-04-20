@@ -61,33 +61,37 @@
 
 	</header>
 
-	<article class="main_content" role="main" itemprop="mainContentOfPage">
+	{% block main_content %}
 
-		{% if breadcrumbs %}
-			<nav class="main_content__breadcrumbs" data-js-breadcrumbs>
-				<div class="main_content__breadcrumbs__wrap" itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-					{% for item in breadcrumbs %}
-						<a class="main_content__breadcrumbs__item" href="{{ item.url }}" itemprop="itemListElement">{{ item.title }}</a>
-					{% endfor %}
-				</div>
-			</nav>
-		{% endif %}
+		<article class="main_content" role="main" itemprop="mainContentOfPage">
 
-		{% block featured_image %}{% endblock %}
+			{% if breadcrumbs %}
+				<nav class="main_content__breadcrumbs" data-js-breadcrumbs>
+					<div class="main_content__breadcrumbs__wrap" itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+						{% for item in breadcrumbs %}
+							<a class="main_content__breadcrumbs__item" href="{{ item.url }}" itemprop="itemListElement">{{ item.title }}</a>
+						{% endfor %}
+					</div>
+				</nav>
+			{% endif %}
 
-		<div class="main_content__typo">
+			{% block featured_image %}{% endblock %}
 
-			{% block content %}
+			<div class="main_content__typo">
 
-				<h1>{{ post.title }}</h1>
+				{% block content %}
 
-				{{ post.content }}
+					<h1>{{ post.title }}</h1>
 
-			{% endblock %}
+					{{ post.content }}
 
-		</div>
+				{% endblock %}
 
-	</article>
+			</div>
+
+		</article>
+
+	{% endblock %}
 
 </div>
 

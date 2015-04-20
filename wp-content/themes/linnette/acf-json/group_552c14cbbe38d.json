@@ -3,6 +3,31 @@
     "title": "Hlavn\u00ed obr\u00e1zek portfolia",
     "fields": [
         {
+            "key": "field_5534d82a1c51f",
+            "label": "Obr\u00e1zek pro v\u00fdpis portfoli\u00ed",
+            "name": "image_for_archive",
+            "prefix": "",
+            "type": "image",
+            "instructions": "Bude o\u0159\u00edznut na \u010dtverec",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
             "key": "field_552c14cc0953b",
             "label": "Hlavn\u00ed obr\u00e1zek",
             "name": "featured_image",
@@ -43,5 +68,5 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "modified": 1428952286
+    "modified": 1429526609
 }

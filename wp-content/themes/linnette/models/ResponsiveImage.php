@@ -5,7 +5,7 @@ namespace Linnette\Models;
 
 class ResponsiveImage {
 
-	private $image_id;
+	protected $image_id;
 	private $image_sizes;
 
 	public function __construct( $image_id ) {
@@ -15,7 +15,7 @@ class ResponsiveImage {
 
 	}
 
-	private function get_image_sizes() {
+	protected function get_image_sizes() {
 
 		$sizes = get_intermediate_image_sizes();
 		$sizes = array_filter( $sizes, function( $item ){
