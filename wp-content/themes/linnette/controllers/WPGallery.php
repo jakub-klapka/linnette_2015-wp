@@ -3,6 +3,7 @@
 namespace Linnette\Controllers;
 
 
+use Linnette\Models\LightboxedImage;
 use Linnette\Models\ResponsiveImage;
 
 class WPGallery {
@@ -30,18 +31,7 @@ class WPGallery {
 		$ids = explode( ',', $atts[ 'ids' ] );
 		$images = array();
 		foreach( $ids as $image_id ) {
-			$image_post = new \TimberPost( $image_id );
-			$res_image = new ResponsiveImage( $image_id );
-			$full_image = wp_get_attachment_image_src( $image_id, 'full_image' );
-			$images[] = array(
-				'responsive_image' => $res_image->getImageData(),
-				'caption' => $image_post->post_excerpt,
-				'full_image' => array(
-					'url' => $full_image[0],
-					'width' => $full_image[1],
-					'height' => $full_image[2]
-				)
-			);
+			$images[] = new LightboxedImage( $image_id );
 		}
 
 		return \Timber::compile( '_wp_gallery.twig', array( 'images' => $images, 'cols' => $atts[ 'columns' ] ) );

@@ -20,7 +20,7 @@
 					<a href="{{ post.link }}" class="main_content__thumb_list__item captioned_image is-hoverable" itemscope itemtype="https://schema.org/Article">
 						<meta itemprop="url" content="{{ post.link }}"/>
 						<meta itemprop="name" content="{{ post.title }}"/>
-						{% set image_data = responsive_image_square( post.image_for_archive ) %}
+						{% set image_data = responsive_image_square( post.featured_image ) %}
 						{#<!-- max width: 503px -->#}
 						<img alt="{{ post.title }}"
 						     srcset="{{ image_data.srcset }}"

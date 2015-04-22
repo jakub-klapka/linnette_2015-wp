@@ -1,0 +1,32 @@
+{% extends 'master.twig' %}
+
+{% block main_content %}
+
+	<article class="main_content" role="main" itemprop="mainContentOfPage">
+
+		<div class="images_list" itemscope itemtype="https://schema.org/ImageGallery">
+
+			{% for image in home_images %}
+				{% set below_fold_count = 12 %}
+				<figure class="images_list__item" itemscope itemtype="https://schema.org/ImageObject" itemprop="image">
+					<div class="images_list__item__image_wrap">
+						<img alt="{{ image.responsive_image.alt }}"
+						     srcset="{{ image.responsive_image.srcset }}"
+						     {% if loop.index <= below_fold_count %}sizes="(max-width: 730px) 50vw, (max-width: 1024px) 25vw, (max-width: 1280px) calc( ( 100vw - 258px ) / 4 ), 256px"{% endif %}
+						     width="{{ image.responsive_image.width }}" height="{{ image.responsive_image.height }}"
+						     class="images_list__item__image{% if loop.index > below_fold_count %} lazyload{% endif %}"
+						     itemprop="image"
+						     data-url="{{ image.full_image.url }}" data-width="{{ image.full_image.width }}" data-height="{{ image.full_image.height }}"/>
+						<noscript>
+							<img src="{{ image.full_image.url }}" alt="{{ image.responsive_image.alt }}" itemprop="image"/>
+						</noscript>
+						<svg class="images_list__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+					</div>
+				</figure>
+			{% endfor %}
+
+		</div>
+
+	</article>
+
+{% endblock %}

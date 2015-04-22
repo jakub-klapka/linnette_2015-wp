@@ -39,6 +39,7 @@ add_action( 'wp_loaded', function(){
 	\Linnette\Controllers\TwigResponsiveImage::getInstance();
 	\Linnette\Controllers\WPGallery::getInstance();
 	\Linnette\Controllers\Portfolio::getInstance();
+	\Linnette\Controllers\HomePage::getInstance();
 
 	if( is_admin() ) {
 		\Linnette\Controllers\AdminModifications::getInstance();

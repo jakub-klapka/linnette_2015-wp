@@ -1,14 +1,14 @@
 {
-    "key": "group_552c14cbbe38d",
-    "title": "Hlavn\u00ed obr\u00e1zek portfolia",
+    "key": "group_55378edca5823",
+    "title": "Home Page",
     "fields": [
         {
-            "key": "field_552c14cc0953b",
-            "label": "Hlavn\u00ed obr\u00e1zek",
-            "name": "featured_image",
+            "key": "field_55378ee63c011",
+            "label": "Obr\u00e1zky",
+            "name": "home_images",
             "prefix": "",
-            "type": "image",
-            "instructions": "Alespo\u0148 1023px na \u0161\u00ed\u0159ku.",
+            "type": "gallery",
+            "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -16,10 +16,11 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "id",
+            "min": "",
+            "max": "",
             "preview_size": "thumbnail",
             "library": "all",
-            "min_width": 1023,
+            "min_width": "",
             "min_height": "",
             "min_size": "",
             "max_width": "",
@@ -31,17 +32,17 @@
     "location": [
         [
             {
-                "param": "post_type",
+                "param": "options_page",
                 "operator": "==",
-                "value": "portfolio"
+                "value": "acf-options-home-page"
             }
         ]
     ],
     "menu_order": 0,
-    "position": "acf_after_title",
+    "position": "normal",
     "style": "default",
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "modified": 1429705875
+    "modified": 1429704449
 }

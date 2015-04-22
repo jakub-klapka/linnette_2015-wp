@@ -25,6 +25,12 @@ class ImageSizes {
 		add_image_size( 'rwd_1200', 1200, 9999 );
 		add_image_size( 'rwd_1600', 1600, 9999 );
 
+		add_image_size( 'square_200', 200, 200, true );
+		add_image_size( 'square_300', 300, 300, true );
+		add_image_size( 'square_400', 400, 400, true );
+		add_image_size( 'square_500', 500, 500, true );
+		add_image_size( 'square_600', 600, 600, true );
+
 		add_image_size( 'full_image', 1280, 1024 );
 
 	}

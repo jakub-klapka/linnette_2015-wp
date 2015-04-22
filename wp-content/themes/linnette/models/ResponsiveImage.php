@@ -7,6 +7,7 @@ class ResponsiveImage {
 
 	protected $image_id;
 	private $image_sizes;
+	protected $square = false;
 
 	public function __construct( $image_id ) {
 
@@ -19,7 +20,8 @@ class ResponsiveImage {
 
 		$sizes = get_intermediate_image_sizes();
 		$sizes = array_filter( $sizes, function( $item ){
-			if( strpos( $item, 'rwd_' ) === 0 ) return true;
+			$prefix = ( $this->square ) ? 'square_' : 'rwd_';
+			if( strpos( $item, $prefix ) === 0 ) return true;
 			return false;
 		} );
 
