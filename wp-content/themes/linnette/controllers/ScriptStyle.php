@@ -48,8 +48,10 @@ class ScriptStyle {
 		wp_register_script( 'photoswipe', get_template_directory_uri() . '/assets/js/libs/photoswipe-ui-default.js', array( 'photoswipe_dep' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 		wp_register_script( 'lightbox', get_template_directory_uri() . '/assets/js/lightbox.js', array( 'jquery', 'photoswipe' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 
-		wp_register_script( 'lazysizes', get_template_directory_uri() . '/assets/js/lazysizes.js', array(), $lumi[ 'config' ][ 'static_assets_ver' ], true );
+		wp_register_script( 'lazysizes', get_template_directory_uri() . '/assets/js/libs/lazysizes.js', array(), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 
+		wp_register_script( 'autosize', get_template_directory_uri() . '/assets/js/libs/autosize.js', array(), $lumi[ 'config' ][ 'static_assets_ver' ], true );
+		wp_register_script( 'form', get_template_directory_uri() . '/assets/js/form.js', array( 'jquery', 'autosize' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 
 	}
 

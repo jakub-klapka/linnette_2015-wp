@@ -1,0 +1,1 @@
+!function(t){t(function(){autosize(t(".form textarea"))})}(jQuery);

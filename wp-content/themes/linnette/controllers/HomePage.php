@@ -26,13 +26,15 @@ class HomePage {
 
 		add_action( 'wp', array( $this, 'add_images_to_context' ) );
 
-		$this->enqueue_scripts();
+		add_action( 'wp', array( $this, 'enqueue_scripts' ) );
 
 	}
 
 	public function enqueue_scripts() {
 
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_cb' ) );
+		if( is_front_page() ){
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_cb' ) );
+		}
 
 	}
 
