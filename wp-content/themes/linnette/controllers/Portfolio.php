@@ -142,7 +142,7 @@ class Portfolio {
 
 	public function add_portfolio_archive_cats() {
 
-		if( is_post_type_archive( 'portfolio' ) ) {
+		if( is_post_type_archive( 'portfolio' ) || is_tax( 'portfolio_category' ) ) {
 
 			add_filter( 'timber_context', array( $this, 'add_portfolio_archive_cats_cb' ) );
 
@@ -151,7 +151,7 @@ class Portfolio {
 	}
 
 	public function add_portfolio_archive_cats_cb( $context ) {
-		$context[ 'cats' ] = \Timber::get_terms( 'portfolio_category', array( 'parent' => 0 ) );
+		$context[ 'cats' ] = \Timber::get_terms( 'portfolio_category', array(), '\Linnette\Models\PortfolioTerm' );
 
 		return $context;
 	}
