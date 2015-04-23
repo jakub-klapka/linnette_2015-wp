@@ -73,7 +73,9 @@ class PluginsModifications {
 		remove_post_type_support( 'page', 'author' );
 		remove_post_type_support( 'page', 'comments' );
 
+
 	}
+
 
 	public function aiowps_disable_server_signature( $rules ) {
 		foreach( $rules as $key => $rule ) {
