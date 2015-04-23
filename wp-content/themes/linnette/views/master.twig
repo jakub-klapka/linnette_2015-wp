@@ -39,23 +39,32 @@
 
 		<nav class="main_header__nav" role="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement">
 			<ul class="main_header__nav__ul">
-				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Úvod</a></li>
-				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Portfolio</a></li>
-				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Retuše</a></li>
-				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Reference</a></li>
-				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Autor</a></li>
-				<li class="main_header__nav__ul__item"><a href="" itemprop="name url">Kontakt</a></li>
+				{% for item in main_menu.get_items %}
+					<li class="main_header__nav__ul__item">
+						<a href="{{ item.link }}" itemprop="name url">{{ item.title }}</a>
+					</li>
+				{% endfor %}
 			</ul>
 		</nav>
 
 		<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
 
-		<nav class="main_header__socials">
-			<a class="main_header__socials__link" href=""><svg class="main_header__socials__link__image" aria-label="Facebook"><use xlink:href="#icon-facebook"></use></svg></a>
-			<a class="main_header__socials__link" href=""><svg class="main_header__socials__link__image" aria-label="Instagram"><use xlink:href="#icon-instagram"></use></svg></a>
-		</nav>
+		{% if facebook_link and instagram_link %}
+			<nav class="main_header__socials">
+				{% if facebook_link %}
+					<a class="main_header__socials__link" href="{{ facebook_link }}">
+						<svg class="main_header__socials__link__image" aria-label="Facebook"><use xlink:href="#icon-facebook"></use></svg>
+					</a>
+				{% endif %}
+				{% if instagram_link %}
+					<a class="main_header__socials__link" href="{{ instagram_link }}">
+						<svg class="main_header__socials__link__image" aria-label="Instagram"><use xlink:href="#icon-instagram"></use></svg>
+					</a>
+				{% endif %}
+			</nav>
+			<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
+		{% endif %}
 
-		<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
 
 		<div class="main_header__copyright">&copy; 2015 Linnette.cz</div>
 

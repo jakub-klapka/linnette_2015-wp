@@ -1,7 +1,7 @@
 <?php
 
 
-namespace linnette\controllers;
+namespace Linnette\Controllers;
 
 /**
  * Singleton Class PluginsModifications
@@ -41,7 +41,7 @@ class PluginsModifications {
 
 	public function add_wpcf7_scripts() {
 		global $post;
-		if( strpos( $post->post_content, '[contact-form-7' ) !== false ) {
+		if( isset( $post->post_content ) && strpos( $post->post_content, '[contact-form-7' ) !== false ) {
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'add_wpcf7_scripts_cb' ) );
 			if ( function_exists( 'wpcf7_enqueue_scripts' ) ) {

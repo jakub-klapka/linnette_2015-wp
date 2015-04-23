@@ -1,0 +1,56 @@
+{
+    "key": "group_5538ee0dac8b9",
+    "title": "Obecn\u00e9 nastaven\u00ed",
+    "fields": [
+        {
+            "key": "field_5538ee15a6e47",
+            "label": "Facebook odkaz",
+            "name": "menu_facebook_link",
+            "prefix": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_5538ee40a6e48",
+            "label": "Instagram odkaz",
+            "name": "menu_instagram_link",
+            "prefix": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "acf-options-obecne-nastaveni"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "modified": 1429794381
+}
