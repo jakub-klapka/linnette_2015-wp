@@ -22,6 +22,9 @@
 			document.body.insertBefore(div, document.body.childNodes[0]);
 		}
 	</script>
+
+	{% include '_favicons.twig' %}
+
 </head>
 <body>
 
@@ -105,22 +108,6 @@
 	{% endblock %}
 
 </div>
-
-
-{#<script src="js/libs/picturefill.js"></script>#}
-{#<script src="js/libs/modernizr.js"></script>#}
-
-{#<script src="js/libs/jquery-2.1.3.js"></script>#}
-{#<script src="js/libs/velocity.js"></script> <!-- jq -->#}
-{#<script src="js/libs/enquire.js"></script>#}
-{#<script src="js/libs/headroom.js"></script>#}
-{#<script src="js/libs/jQuery.headroom.js"></script> <!-- jq, headroom -->#}
-{#<script src="js/menu.js"></script> <!-- jq, velocity, enquire, headroom -->#}
-{#<script src="js/breadcrumbs.js"></script> <!-- jq -->#}
-
-{#<script src="js/libs/photoswipe.js"></script>#}
-{#<script src="js/libs/photoswipe-ui-default.js"></script><!-- photoswipe -->#}
-{#<script src="js/lightbox.js"></script><!-- jq, photoswipe-ui -->#}
 
 {{ wp_footer }}
 
