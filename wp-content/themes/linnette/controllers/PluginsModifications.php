@@ -24,6 +24,7 @@ class PluginsModifications {
 		 * Yoast
 		 */
 		add_filter('disable_wpseo_json_ld_search', '__return_true');
+		add_filter( 'wpseo_json_ld_output', array( $this, 'remove_json_ld' ), 10, 2 );
 
 		/*
 		 * CF7
@@ -33,6 +34,13 @@ class PluginsModifications {
 		add_filter( 'wpcf7_load_js', '__return_false' );
 		add_filter( 'wpcf7_load_css', '__return_false' );
 
+	}
+
+	public function remove_json_ld( $data, $context ) {
+		if( $context === 'website' ) {
+			return false;
+		}
+		return $data;
 	}
 
 	public function add_form_class( $class_string ){

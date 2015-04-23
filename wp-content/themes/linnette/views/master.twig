@@ -4,6 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="image" content="{{ theme.uri }}/images/logo.png"/>
+	<meta itemprop="url" content="{{ canonical_url }}"/>
+	<meta itemprop="description" content="{{ seo_description }}"/>
 
 	<title itemprop="name">{{ wp_title }}</title>
 
@@ -11,7 +13,7 @@
 
 	<script>
 		var ajax = new XMLHttpRequest();
-		ajax.open("GET", "{{ theme.uri }}/assets//images/svg_sprite.svg", true);
+		ajax.open("GET", "{{ theme.uri }}/assets/images/svg_sprite.svg", true);
 		ajax.send();
 		ajax.onload = function(e) {
 			var div = document.createElement("div");

@@ -45,6 +45,10 @@ class Layout {
 		$context[ 'main_menu' ] = new \TimberMenu();
 		$context[ 'facebook_link' ] = get_field( 'menu_facebook_link', 'option' );
 		$context[ 'instagram_link' ] = get_field( 'menu_instagram_link', 'option' );
+
+		$wpseo_front = \WPSEO_Frontend::get_instance();
+		$context[ 'canonical_url' ] = $wpseo_front->canonical( false );
+		$context[ 'seo_description' ] = $wpseo_front->metadesc( false );
 		return $context;
 	}
 
