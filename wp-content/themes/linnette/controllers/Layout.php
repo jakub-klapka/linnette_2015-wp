@@ -28,9 +28,6 @@ class Layout {
 
 		register_nav_menu( 'main_menu', 'Hlavní menu' );
 
-		if( function_exists( 'acf_add_options_page' ) ){
-			acf_add_options_page( 'Obecné nastavení' );
-		}
 
 	}
 
@@ -43,8 +40,11 @@ class Layout {
 	public function add_post_to_context( $context ) {
 		$context[ 'post' ] = new \TimberPost();
 		$context[ 'main_menu' ] = new \TimberMenu();
-		$context[ 'facebook_link' ] = get_field( 'menu_facebook_link', 'option' );
-		$context[ 'instagram_link' ] = get_field( 'menu_instagram_link', 'option' );
+
+		$wpseo_options = \WPSEO_Options::get_instance();
+		$wpseo_options = $wpseo_options->get_all();
+		$context[ 'facebook_link' ] = $wpseo_options[ 'facebook_site' ];
+		$context[ 'instagram_link' ] = $wpseo_options[ 'instagram_url' ];
 
 		$wpseo_front = \WPSEO_Frontend::get_instance();
 		$context[ 'canonical_url' ] = $wpseo_front->canonical( false );

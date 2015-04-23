@@ -25,6 +25,8 @@ class PluginsModifications {
 		 */
 		add_filter('disable_wpseo_json_ld_search', '__return_true');
 		add_filter( 'wpseo_json_ld_output', array( $this, 'remove_json_ld' ), 10, 2 );
+		add_filter( 'wpseo_metabox_prio', function() {return 'low';} );
+		add_filter( 'wpseo_use_page_analysis', function() {return false;} );
 
 		/*
 		 * CF7
@@ -34,6 +36,60 @@ class PluginsModifications {
 		add_filter( 'wpcf7_load_js', '__return_false' );
 		add_filter( 'wpcf7_load_css', '__return_false' );
 
+		/**
+		 * ACF cache delete
+		 */
+		add_filter( 'acf/save_post', function($post_id) {
+			if( $post_id === 'options' ) {
+				if( function_exists( 'wp_cache_clear_cache' ) ){
+					wp_cache_clear_cache();
+				}
+			}
+		} );
+
+		/**
+		 * Delete cache on save term
+		 */
+		add_action( 'edit_term', array( $this, 'delete_cache_on_save_post' ) );
+		add_action( 'create_term', array( $this, 'delete_cache_on_save_post' ) );
+		add_action( 'delete_term', array( $this, 'delete_cache_on_save_post' ) );
+
+		/*
+		* AIOWPS ServerSignature Off
+		*/
+		add_filter( 'aiowps_htaccess_rules_before_writing', array( $this, 'aiowps_disable_server_signature' ) );
+
+		/*
+		Update Nag
+		*/
+		add_action('admin_menu', function() {
+			remove_action( 'admin_notices', 'update_nag', 3 );
+		});
+
+		/*
+		 * post type support
+		 */
+		remove_post_type_support( 'page', 'custom-fields' );
+		remove_post_type_support( 'page', 'author' );
+		remove_post_type_support( 'page', 'comments' );
+
+	}
+
+	public function aiowps_disable_server_signature( $rules ) {
+		foreach( $rules as $key => $rule ) {
+			if( $rule == 'ServerSignature Off' || $rule == 'LimitRequestBody 10240000' ) {
+				unset( $rules[$key] );
+			}
+		}
+		return $rules;
+	}
+
+
+	public function delete_cache_on_save_post( $post_id = null )
+	{
+		if( function_exists('wp_cache_clear_cache') ){
+			wp_cache_clear_cache();
+		}
 	}
 
 	public function remove_json_ld( $data, $context ) {
