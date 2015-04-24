@@ -27,6 +27,7 @@ class PluginsModifications {
 		add_filter( 'wpseo_json_ld_output', array( $this, 'remove_json_ld' ), 10, 2 );
 		add_filter( 'wpseo_metabox_prio', function() {return 'low';} );
 		add_filter( 'wpseo_use_page_analysis', function() {return false;} );
+		add_action( 'add_meta_boxes', array( $this, 'rename_yoast' ) );
 
 		/*
 		 * CF7
@@ -73,6 +74,34 @@ class PluginsModifications {
 		remove_post_type_support( 'page', 'author' );
 		remove_post_type_support( 'page', 'comments' );
 
+		/*
+		 * Login logo
+		 */
+		add_action( 'login_enqueue_scripts', array( $this, 'my_login_logo' ) );
+
+
+	}
+
+	public function my_login_logo() { ?>
+		<style type="text/css">
+			.login h1 a {
+				background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/assets/login-logo.png);
+				background-size: 207px 130px;
+				width: 207px;
+				height: 130px;
+			}
+		</style>
+	<?php }
+
+	public function rename_yoast( $post_type ) {
+		global $wp_meta_boxes;
+
+		if( isset( $wp_meta_boxes[ 'page' ][ 'normal' ][ 'low' ][ 'wpseo_meta' ] ) ){
+			$wp_meta_boxes[ 'page' ][ 'normal' ][ 'low' ][ 'wpseo_meta' ][ 'title' ] = 'SEO';
+		}
+		if( isset( $wp_meta_boxes[ 'post' ][ 'normal' ][ 'low' ][ 'wpseo_meta' ] ) ){
+			$wp_meta_boxes[ 'post' ][ 'normal' ][ 'low' ][ 'wpseo_meta' ][ 'title' ] = 'SEO';
+		}
 
 	}
 

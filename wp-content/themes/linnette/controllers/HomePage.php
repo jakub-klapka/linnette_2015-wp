@@ -56,11 +56,11 @@ class HomePage {
 	}
 
 	public function add_images_to_context_cb( $context ) {
-		$gallery = get_field( 'home_images', 'option' );
+		$gallery = get_field( 'home_images', 'option', false );
 
 		$home_images = array();
 		foreach( $gallery as $image ){
-			$home_images[] = new LightboxedImage( $image['ID'], true );
+			$home_images[] = new LightboxedImage( $image, true );
 		}
 
 		$context[ 'home_images' ] = $home_images;
