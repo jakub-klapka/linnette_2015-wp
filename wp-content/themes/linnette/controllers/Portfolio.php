@@ -23,6 +23,8 @@ class Portfolio {
 
 		add_action( 'wp', array( $this, 'add_portfolio_archive_cats' ) );
 
+		add_action( 'wp', array( $this, 'modify_og_image' ) );
+
 	}
 
 	private function register_post_type() {
@@ -154,6 +156,25 @@ class Portfolio {
 		$context[ 'cats' ] = \Timber::get_terms( 'portfolio_category', array(), '\Linnette\Models\PortfolioTerm' );
 
 		return $context;
+	}
+
+	public function modify_og_image() {
+
+		if( is_singular( 'portfolio' ) || is_singular( 'page' ) ){
+
+			if( get_field( 'featured_image' ) ) {
+
+				add_filter( 'wpseo_opengraph_image', array( $this, 'modify_og_image_cb' ) );
+
+			}
+
+		}
+
+	}
+
+	public function modify_og_image_cb( $image ) {
+		$image = new \TimberImage( get_field( 'featured_image' ) );
+		return $image->get_src( 'full_image' );
 	}
 
 }

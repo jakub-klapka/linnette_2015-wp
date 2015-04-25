@@ -2,7 +2,7 @@
 
 {% block featured_image %}
 	{% if post.featured_image %}
-		{% set image_data = responsive_image( post.featured_image ) %}
+		{% set image_data = responsive_image_wide( post.featured_image ) %}
 		<figure class="main_content__featured_image captioned_image" itemprop="primaryImageOfPage" itemscope itemtype="https://schema.org/ImageObject">
 			<img alt="{{ image_data.alt }}"
 			     srcset="{{ image_data.srcset }}"

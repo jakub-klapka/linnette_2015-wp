@@ -33,6 +33,11 @@ class ImageSizes {
 
 		add_image_size( 'full_image', 1280, 1024 );
 
+		$wide_widths = array( 100, 200, 400, 600, 800, 1000, 1200, 1600 );
+		foreach( $wide_widths as $width ) {
+			add_image_size( 'wide_' . $width, $width, round( ( $width / 16 ) * 7 ), true );
+		}
+
 	}
 
 }
