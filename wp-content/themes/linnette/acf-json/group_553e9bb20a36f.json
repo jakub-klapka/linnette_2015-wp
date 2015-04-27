@@ -1,0 +1,108 @@
+{
+    "key": "group_553e9bb20a36f",
+    "title": "SEO nastaven\u00ed",
+    "fields": [
+        {
+            "key": "field_553e9bbdaa7eb",
+            "label": "N\u00e1zev webu",
+            "name": "seo_website_title",
+            "prefix": "",
+            "type": "text",
+            "instructions": "N\u00e1zev webu se objevuje v z\u00e1hlav\u00ed ka\u017ed\u00e9 str\u00e1nky, m\u011bl by obsahovat maxim\u00e1ln\u011b n\u011bkolik slov.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "readonly": 0,
+            "disabled": 0
+        },
+        {
+            "key": "field_553e9be8aa7ec",
+            "label": "Popis webu",
+            "name": "seo_website_desc",
+            "prefix": "",
+            "type": "textarea",
+            "instructions": "Popis je nej\u010dast\u011bji zobrazov\u00e1n p\u0159i vyhled\u00e1n\u00ed str\u00e1nek ve vyhled\u00e1va\u010d\u00edch nebo na soci\u00e1ln\u00edch s\u00edt\u00edch. M\u011bl by obecn\u011b popisovat v\u00fdznam webu. Ide\u00e1ln\u011b by m\u011bl m\u00edt max. 255 znak\u016f.<br>\r\nV nastaven\u00ed konkr\u00e9tn\u00edch str\u00e1nek m\u016f\u017eete tento popis p\u0159epsat.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": "wpautop",
+            "readonly": 0,
+            "disabled": 0
+        },
+        {
+            "key": "field_553e9c5eaa7ed",
+            "label": "Facebook odkaz",
+            "name": "seo_facebook_link",
+            "prefix": "",
+            "type": "url",
+            "instructions": "Odkaz na va\u0161i Facebook str\u00e1nku.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_553e9c75aa7ee",
+            "label": "Facebook obr\u00e1zek",
+            "name": "seo_facebook_image",
+            "prefix": "",
+            "type": "image",
+            "instructions": "Tento obr\u00e1zek bude pou\u017eit p\u0159i sd\u00edlen\u00ed na facebooku, pokud u konkr\u00e9tn\u00ed str\u00e1nky nenastav\u00edte jin\u00fd.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "acf-options-seo-nastaveni"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "modified": 1430166689
+}

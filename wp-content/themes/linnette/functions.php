@@ -61,6 +61,7 @@ add_action( 'init', function(){
 
 	if( is_admin() ) {
 		\Linnette\Controllers\AdminModifications::getInstance();
+		\Linnette\Controllers\EditorSEOSettings::getInstance();
 	}
 } );
 
