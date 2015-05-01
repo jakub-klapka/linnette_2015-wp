@@ -4,7 +4,7 @@
 namespace Linnette\Controllers;
 
 
-class Portfolio {
+class Blog {
 
 	public static function getInstance()
 	{
@@ -19,9 +19,9 @@ class Portfolio {
 
 		$this->register_post_type();
 
-		add_action( 'wp', array( $this, 'check_for_portfolio_type' ) );
+		add_action( 'wp', array( $this, 'check_for_blog_type' ) );
 
-		add_action( 'wp', array( $this, 'add_portfolio_archive_cats' ) );
+		add_action( 'wp', array( $this, 'add_blog_archive_cats' ) );
 
 		add_action( 'wp', array( $this, 'modify_og_image' ) );
 
@@ -30,28 +30,28 @@ class Portfolio {
 	private function register_post_type() {
 
 		$labels = array(
-			'name'               => 'Portfolio',
-			'singular_name'      => 'Portfolio',
-			'menu_name'          => 'Portfolio',
-			'name_admin_bar'     => 'Portfolio',
+			'name'               => 'Blog',
+			'singular_name'      => 'Blog',
+			'menu_name'          => 'Blog',
+			'name_admin_bar'     => 'Blog',
 			'add_new'            => 'Přidat',
-			'add_new_item'       => 'Přidat portfolio',
-			'new_item'           => 'Nové portfolio',
-			'edit_item'          => 'Upravit portfolio',
-			'view_item'          => 'Ukázat portfolio',
-			'all_items'          => 'Všechna portfolia',
-			'search_items'       => 'Hledat portfolia',
-			'parent_item_colon'  => 'Nadřazená portfolia:',
-			'not_found'          => 'Žádné portfolia nenalezena.',
-			'not_found_in_trash' => 'Žádné portfolia nenalezena ani v koši.'
+			'add_new_item'       => 'Přidat blog',
+			'new_item'           => 'Nový blog',
+			'edit_item'          => 'Upravit blog',
+			'view_item'          => 'Ukázat blog',
+			'all_items'          => 'Všechny příspěvky',
+			'search_items'       => 'Hledat příspěvky',
+			'parent_item_colon'  => 'Nadřazený blog:',
+			'not_found'          => 'Žádný blog nenalezen.',
+			'not_found_in_trash' => 'Žádný blog nenalezen ani v koši.'
 		);
 
-		register_post_type( 'portfolio', array(
+		register_post_type( 'blog', array(
 			'labels' => $labels,
 			'public' => true,
 			'supports' => array( 'title', 'editor', 'revisions' ),
 			'has_archive' => true,
-			'taxonomies' => array( 'portfolio_category' ),
+			'taxonomies' => array( 'blog_category' ),
 			'rewrite' => array(
 				'pages' => false
 			)
@@ -71,7 +71,7 @@ class Portfolio {
 			'menu_name'         => 'Kategorie'
 		);
 
-		register_taxonomy( 'portfolio_category', 'portfolio', array(
+		register_taxonomy( 'blog_category', 'blog', array(
 			'labels' => $tax_labels,
 			'show_tagcloud' => false,
 			'show_admin_column' => true,
@@ -84,19 +84,19 @@ class Portfolio {
 
 	}
 
-	public function check_for_portfolio_type() {
+	public function check_for_blog_type() {
 
-		if( is_singular( 'portfolio' ) ) {
+		if( is_singular( 'blog' ) ) {
 
-			add_filter( 'timber_context', array( $this, 'add_portfolio_breadcrumbs' ) );
+			add_filter( 'timber_context', array( $this, 'add_blog_breadcrumbs' ) );
 
 		}
 
 	}
 
-	public function add_portfolio_breadcrumbs( $context ) {
+	public function add_blog_breadcrumbs( $context ) {
 		$post = new \TimberPost();
-		$terms = $post->get_terms( 'portfolio_category' );
+		$terms = $post->get_terms( 'blog_category' );
 
 		if( empty( $terms ) ) return $context;
 
@@ -106,7 +106,7 @@ class Portfolio {
 
 		$iterating_term = $base_term;
 		while( $iterating_term->parent !== 0 ) {
-			$new_term = new \TimberTerm( $iterating_term->parent, 'portfolio_category' );
+			$new_term = new \TimberTerm( $iterating_term->parent, 'blog_category' );
 			$terms_for_breadcb[] = $new_term;
 			$iterating_term = $new_term;
 		}
@@ -119,8 +119,8 @@ class Portfolio {
 		 */
 		$breadcrumbs = array(
 			(object)array(
-				'title' => 'Portfolio',
-				'url' => get_post_type_archive_link( 'portfolio' )
+				'title' => 'Blog',
+				'url' => get_post_type_archive_link( 'blog' )
 			)
 		);
 
@@ -142,25 +142,25 @@ class Portfolio {
 		return $context;
 	}
 
-	public function add_portfolio_archive_cats() {
+	public function add_blog_archive_cats() {
 
-		if( is_post_type_archive( 'portfolio' ) || is_tax( 'portfolio_category' ) ) {
+		if( is_post_type_archive( 'blog' ) || is_tax( 'blog_category' ) ) {
 
-			add_filter( 'timber_context', array( $this, 'add_portfolio_archive_cats_cb' ) );
+			add_filter( 'timber_context', array( $this, 'add_blog_archive_cats_cb' ) );
 
 		}
 
 	}
 
-	public function add_portfolio_archive_cats_cb( $context ) {
-		$context[ 'cats' ] = \Timber::get_terms( 'portfolio_category', array(), '\Linnette\Models\PortfolioTerm' );
+	public function add_blog_archive_cats_cb( $context ) {
+		$context[ 'cats' ] = \Timber::get_terms( 'blog_category', array(), '\Linnette\Models\BlogTerm' );
 
 		return $context;
 	}
 
 	public function modify_og_image() {
 
-		if( is_singular( 'portfolio' ) || is_singular( 'page' ) ){
+		if( is_singular( 'blog' ) || is_singular( 'page' ) ){
 
 			if( get_field( 'featured_image' ) ) {
 

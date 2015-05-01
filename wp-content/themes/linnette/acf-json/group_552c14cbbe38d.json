@@ -1,6 +1,6 @@
 {
     "key": "group_552c14cbbe38d",
-    "title": "Hlavn\u00ed obr\u00e1zek portfolia",
+    "title": "Hlavn\u00ed obr\u00e1zek blogu",
     "fields": [
         {
             "key": "field_552c14cc0953b",
@@ -33,7 +33,7 @@
             {
                 "param": "post_type",
                 "operator": "==",
-                "value": "portfolio"
+                "value": "blog"
             }
         ]
     ],
@@ -43,5 +43,5 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "modified": 1429705875
+    "modified": 1430508404
 }

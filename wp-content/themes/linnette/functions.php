@@ -54,7 +54,7 @@ add_action( 'init', function(){
 	\Linnette\Controllers\ImageSizes::getInstance();
 	\Linnette\Controllers\TwigResponsiveImage::getInstance();
 	\Linnette\Controllers\WPGallery::getInstance();
-	\Linnette\Controllers\Portfolio::getInstance();
+	\Linnette\Controllers\Blog::getInstance();
 	\Linnette\Controllers\HomePage::getInstance();
 	\Linnette\Controllers\ShortcodeZakodovatEmail::getInstance();
 	\Linnette\Controllers\ClearTwigCache::getInstance();
@@ -74,7 +74,7 @@ add_filter( 'gt_default_glances', function() {
 	$glances = array(
 		'attachment' => array( 'icon' => 'f104', 'sort' => 3 ),
 		'page' => array( 'icon' => 'f105', 'sort' => 1 ),
-		'portfolio' => array( 'icon' => 'f306', 'sort' => 2 )
+		'blog' => array( 'icon' => 'f306', 'sort' => 2 )
 	);
 	return $glances;
 } );

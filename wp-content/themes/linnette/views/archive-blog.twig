@@ -29,7 +29,7 @@
 						     class="captioned_image__image"
 						     itemprop="image" />
 						<div class="captioned_image__caption">{{ post.title }}
-							{% if post.terms('portfolio_category') %}<br/><span>{{ post.terms('portfolio_category')|join(', ') }}</span>{% endif %}
+							{% if post.terms('blog_category') %}<br/><span>{{ post.terms('blog_category')|join(', ') }}</span>{% endif %}
 						</div>
 					</a>
 				{% endfor %}

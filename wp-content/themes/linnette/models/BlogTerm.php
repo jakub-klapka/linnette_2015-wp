@@ -3,7 +3,7 @@
 namespace Linnette\Models;
 
 
-class PortfolioTerm extends \TimberTerm {
+class BlogTerm extends \TimberTerm {
 
 	public function current() {
 
