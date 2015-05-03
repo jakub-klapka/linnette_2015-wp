@@ -1,0 +1,1 @@
+!function(n){n(window).load(function(){setTimeout(function(){n.getScript("//connect.facebook.net/cs_CZ/sdk.js",function(){FB.init({status:!0,xfbml:!0,version:"v2.3",appId:"214334225273929"})})},5e3)})}(jQuery);

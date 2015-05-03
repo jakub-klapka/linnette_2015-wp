@@ -21,6 +21,8 @@ class ScriptStyle {
 	protected function __construct() {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
+		
+		add_filter( 'get_twig', array( $this, 'add_load_scripts_functions' ) );
 
 	}
 
@@ -52,6 +54,8 @@ class ScriptStyle {
 
 		wp_register_script( 'autosize', get_template_directory_uri() . '/assets/js/libs/autosize.js', array(), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 		wp_register_script( 'form', get_template_directory_uri() . '/assets/js/form.js', array( 'jquery', 'autosize' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
+		
+		wp_register_script( 'load_fb_share', get_template_directory_uri() . '/assets/js/load_fb_share.js', array( 'jquery' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 
 	}
 
@@ -72,6 +76,18 @@ class ScriptStyle {
 			$lumi[ 'lightbox_enqueued' ] = true;
 		}
 
+	}
+
+	/**
+	 * @param $twig \Twig_Environment
+	 */
+	public function add_load_scripts_functions( $twig ) {
+		$load_fb_like = new \Twig_SimpleFunction( 'enqueue_load_fb_like', function(){
+			wp_enqueue_script( 'load_fb_share' );
+		} );
+		$twig->addFunction( $load_fb_like );
+
+		return $twig;
 	}
 
 }
