@@ -155,6 +155,21 @@ class Blog {
 	public function add_blog_archive_cats_cb( $context ) {
 		$context[ 'cats' ] = \Timber::get_terms( 'blog_category', array(), '\Linnette\Models\BlogTerm' );
 
+		if( is_tax( 'blog_category' ) ) {
+			//On any term page, but not on all items page
+			$new_item = (object)array(
+				'current' => false,
+				'name' => 'Všechny',
+				'link' => get_post_type_archive_link( 'blog' )
+			);
+
+			if( is_array( $context[ 'cats' ] ) ) {
+				array_unshift( $context[ 'cats' ], $new_item );
+			} else {
+				$context[ 'cats' ] = array( $new_item );
+			}
+		}
+
 		return $context;
 	}
 
