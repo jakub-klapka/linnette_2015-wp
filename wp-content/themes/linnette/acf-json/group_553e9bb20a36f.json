@@ -69,7 +69,7 @@
             "name": "seo_facebook_image",
             "prefix": "",
             "type": "image",
-            "instructions": "Tento obr\u00e1zek bude pou\u017eit p\u0159i sd\u00edlen\u00ed na facebooku, pokud u konkr\u00e9tn\u00ed str\u00e1nky nenastav\u00edte jin\u00fd.",
+            "instructions": "Tento obr\u00e1zek bude pou\u017eit p\u0159i sd\u00edlen\u00ed na facebooku, pokud u konkr\u00e9tn\u00ed str\u00e1nky nenastav\u00edte jin\u00fd.<br>\r\nVelikost obr\u00e1zku by m\u011bla b\u00fdt minim\u00e1ln\u011b 1200x630px.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -104,6 +104,5 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "modified": 1430168722,
-    "local": "json"
+    "modified": 1430667664
 }
