@@ -13,8 +13,12 @@
 			{% block featured_image_caption %}
 				{% if post.featured_image_caption_1 or post.featured_image_caption_2 %}
 					<figcaption class="captioned_image__caption" itemprop="caption">
-						{{ post.featured_image_caption_1 }}{% if post.featured_image_caption_1 and post.featured_image_caption_1 %}<br/>{% endif %}
-						{% if post.featured_image_caption_2 %}<span>{{ post.featured_image_caption_2 }}</span>{% endif %}
+						{% if post.featured_image_caption_1 %}
+							<span class="captioned_image__caption__heading">{{ post.featured_image_caption_1 }}</span>
+						{% endif %}
+						{% if post.featured_image_caption_2 %}
+							<span class="captioned_image__caption__subheading">{{ post.featured_image_caption_2 }}</span>
+						{% endif %}
 					</figcaption>
 				{% endif %}
 			{% endblock %}

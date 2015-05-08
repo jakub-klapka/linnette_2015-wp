@@ -28,8 +28,15 @@
 						     width="{{ image_data.width }}" height="{{ image_data.height }}"
 						     class="captioned_image__image"
 						     itemprop="image" />
-						<div class="captioned_image__caption">{{ post.title }}
-							{% if post.terms('blog_category') %}<br/><span>{{ post.terms('blog_category')|join(', ') }}</span>{% endif %}
+						<div class="captioned_image__caption">
+							<span class="captioned_image__caption__heading">{{ post.title }}</span>
+							<span class="captioned_image__caption__subheading">
+								{% if post.terms('blog_category') %}
+									{{ post.terms('blog_category')|join(', ') }}<br>
+								{% endif %}
+								<time itemprop="dateCreated" datetime="{{ post.post_date|date('Y-m-d') }}">{{ post.post_date|date }}</time>
+							</span>
+
 						</div>
 					</a>
 				{% endfor %}
