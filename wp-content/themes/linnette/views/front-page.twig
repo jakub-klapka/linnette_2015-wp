@@ -12,7 +12,7 @@
 					<div class="images_list__item__image_wrap">
 						<img alt="{{ image.responsive_image.alt }}"
 				             {% if loop.index > below_fold_count %}data-{% endif %}srcset="{{ image.responsive_image.srcset }}"
-						     {% if loop.index <= below_fold_count %}sizes="(max-width: 730px) 50vw, (max-width: 1024px) 25vw, (max-width: 1280px) calc( ( 100vw - 258px ) / 4 ), 256px"{% endif %}
+				             {% if loop.index > below_fold_count %}data-{% endif %}sizes="(max-width: 730px) 50vw, (max-width: 1024px) 25vw, (max-width: 1280px) calc( ( 100vw - 258px ) / 4 ), 256px"
 						     width="{{ image.responsive_image.width }}" height="{{ image.responsive_image.height }}"
 						     class="images_list__item__image{% if loop.index > below_fold_count %} lazyload{% endif %}"
 						     itemprop="image"
