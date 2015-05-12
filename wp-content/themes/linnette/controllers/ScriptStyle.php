@@ -57,6 +57,9 @@ class ScriptStyle {
 		
 		wp_register_script( 'load_fb_share', get_template_directory_uri() . '/assets/js/load_fb_share.js', array( 'jquery' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 
+		wp_register_script( 'fitvids_lib', get_template_directory_uri() . '/assets/js/libs/jquery.fitvids.js', array( 'jquery' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
+		wp_register_script( 'fitvids', get_template_directory_uri() . '/assets/js/fitvids.js', array( 'jquery', 'fitvids_lib' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
+
 	}
 
 	static function enqueuePicturefill() {

@@ -58,6 +58,7 @@ add_action( 'init', function(){
 	\Linnette\Controllers\HomePage::getInstance();
 	\Linnette\Controllers\ShortcodeZakodovatEmail::getInstance();
 	\Linnette\Controllers\ClearTwigCache::getInstance();
+	\Linnette\Controllers\OEmbedModifications::getInstance();
 
 	if( is_admin() ) {
 		\Linnette\Controllers\AdminModifications::getInstance();
