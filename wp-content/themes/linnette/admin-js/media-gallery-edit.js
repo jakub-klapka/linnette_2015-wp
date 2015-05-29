@@ -18,7 +18,6 @@
 		/*
 		Edit some options on gallery setting
 		 */
-		//TODO: remove arrive dep
 		//TODO: click on edit button
 
 		wp.media.galleryDefaults.columns = 1;
@@ -94,7 +93,8 @@
 
 							self.render( self.template( {
 								attachments: attachments,
-								columns: attrs.columns ? parseInt( attrs.columns, 10 ) : wp.media.galleryDefaults.columns
+								/*MY EDIT*/
+								columns: attrs.columns ? attrs.columns : wp.media.galleryDefaults.columns
 							} ) );
 						} )
 						.fail( function( jqXHR, textStatus ) {

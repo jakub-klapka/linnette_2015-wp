@@ -60,7 +60,9 @@ class WPGallery {
 							<?php echo esc_html( $i ); ?>
 							</option>
 					<?php endfor; ?>
-					<option value="1_2">1+2</option>
+					<option value="1_2"<#
+								if ( 3 == wp.media.galleryDefaults.columns ) { #>selected="selected"<# }
+									#>>1+2</option>
 					<option value="2_1">2+1</option>
 				</select>
 			</label>

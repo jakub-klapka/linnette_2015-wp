@@ -1,26 +1,68 @@
-<div class="article_gallery{% if cols == 2 %} is-2-cols{% endif %}" itemscope itemtype="https://schema.org/ImageGallery">
-	{% if cols == 2 %}
-		{% set sizes = '(min-width: 1280px) 490px, (min-width: 800px) 50vw, 100vw' %}
-	{% else %}
-		{% set sizes = '(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw' %}
-	{% endif %}
-	{% for image in images %}
-		<figure class="article_gallery__item" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-			<div class="article_gallery__item__image_wrap">
-				<img class="article_gallery__item__image"
-				     alt="{{ image.responsive_image.alt }}"
-				     srcset="{{ image.responsive_image.srcset }}"
-				     sizes="{{ sizes }}"
-				     width="{{ image.responsive_image.width }}" height="{{ image.responsive_image.height }}"
-				     data-url="{{ image.full_image.url }}" data-width="{{ image.full_image.width }}" data-height="{{ image.full_image.height }}" />
-				<noscript>
-					<img src="{{ image.full_image.url }}" alt="{{ image.responsive_image.alt }}" itemprop="image"/>
-				</noscript>
-				<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
-			</div>
-			{% if image.caption %}
-				<figcaption class="article_gallery__item__caption" itemprop="caption">{{ image.caption }}</figcaption>
-			{% endif %}
-		</figure>
-	{% endfor %}
-</div>
+{% if cols == '1' or cols == '2' %}
+	<div class="article_gallery{% if cols == 2 %} is-2-cols{% endif %}" itemscope itemtype="https://schema.org/ImageGallery">
+		{% if cols == 2 %}
+			{% set sizes = '(min-width: 1280px) 490px, (min-width: 800px) 50vw, 100vw' %}
+		{% else %}
+			{% set sizes = '(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw' %}
+		{% endif %}
+		{% for image in images %}
+			<figure class="article_gallery__item" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+				<div class="article_gallery__item__image_wrap">
+					<img class="article_gallery__item__image"
+					     alt="{{ image.responsive_image.alt }}"
+					     srcset="{{ image.responsive_image.srcset }}"
+					     sizes="{{ sizes }}"
+					     width="{{ image.responsive_image.width }}" height="{{ image.responsive_image.height }}"
+					     data-url="{{ image.full_image.url }}" data-width="{{ image.full_image.width }}" data-height="{{ image.full_image.height }}" />
+					<noscript>
+						<img src="{{ image.full_image.url }}" alt="{{ image.responsive_image.alt }}" itemprop="image"/>
+					</noscript>
+					<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+				</div>
+				{% if image.caption %}
+					<figcaption class="article_gallery__item__caption" itemprop="caption">{{ image.caption }}</figcaption>
+				{% endif %}
+			</figure>
+		{% endfor %}
+	</div>
+{% elseif cols == '1_2' or cols == '2_1' %}
+	<div class="article_gallery is-1_2">
+		<!--<div class="article_gallery__column is-single" style="width: calc( ( 4000px / 3000px ) );">-->
+		<!--<div class="article_gallery__column" style="flex-basis: calc( ( ( 4000 / 3000 ) * 2000px ) );">-->
+		<div class="article_gallery__column" style="flex-basis: 2666px; -webkit-flex-basis: 2666px; -ms-flex-basis: 2666px;">
+			<figure class="article_gallery__item">
+				<div class="article_gallery__item__image_wrap">
+					<img class="article_gallery__item__image"
+					     alt="Bez captionu"
+					     srcset="//placehold.it/2000x3000.jpg 2000w"
+					     sizes="(min-width: 1280px) 990px * (1/2col%), (min-width: 1024px) calc( ( 100vw - 258px ) * (1/2col) ), (min-width: 800px) col1/2, 100vw"
+					     width="2000" height="3000"
+					     data-url="sample_content/zatopeny_lom_1023.jpg" data-width="1023" data-height="512" />
+					<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+				</div>
+			</figure>
+		</div>
+		<div class="article_gallery__column has-two_images" style="flex-basis: 3000px; -webkit-flex-basis: 3000px; -ms-flex-basis: 3000px;">
+			<figure class="article_gallery__item">
+				<div class="article_gallery__item__image_wrap">
+					<img class="article_gallery__item__image"
+					     alt="Bez captionu"
+					     srcset="//placehold.it/3000x2000.jpg 3000w"
+					     width="2000" height="3000"
+					     data-url="sample_content/zatopeny_lom_1023.jpg" data-width="1023" data-height="512" />
+					<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+				</div>
+			</figure>
+			<figure class="article_gallery__item">
+				<div class="article_gallery__item__image_wrap">
+					<img class="article_gallery__item__image"
+					     alt="Bez captionu"
+					     srcset="//placehold.it/3000x2000.jpg 3000w"
+					     width="2000" height="3000"
+					     data-url="sample_content/zatopeny_lom_1023.jpg" data-width="1023" data-height="512" />
+					<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+				</div>
+			</figure>
+		</div>
+	</div>
+{% endif %}
