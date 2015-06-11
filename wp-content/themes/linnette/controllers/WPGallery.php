@@ -22,6 +22,8 @@ class WPGallery {
 		add_filter( 'post_gallery', array( $this, 'gallery_shortcode' ), 10, 2 );
 
 		add_action( 'print_media_templates', array( $this, 'add_gallery_settings_template' ) );
+		
+		add_filter( 'get_twig', array( $this, 'addFlexBaxisFunction' ) );
 
 	}
 
@@ -107,6 +109,20 @@ class WPGallery {
 
 		<?php
 
+	}
+
+	/**
+	 * @param $twig \Twig_Environment
+	 *
+	 * @return mixed
+	 */
+	public function addFlexBaxisFunction( $twig ) {
+		$twig->addFunction( new \Twig_SimpleFunction( 'flex_basis', array( $this, 'addFlexBaxisFunctionCb' ) ) );
+		return $twig;
+	}
+
+	public function addFlexBaxisFunctionCb( $value ) {
+		return "-webkit-flex-basis: {$value}px; -ms-flex-basis: {$value}px; flex-basis: {$value}px";
 	}
 
 }
