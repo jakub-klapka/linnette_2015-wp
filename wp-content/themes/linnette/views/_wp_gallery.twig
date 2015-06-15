@@ -1,26 +1,86 @@
-<div class="article_gallery{% if cols == 2 %} is-2-cols{% endif %}" itemscope itemtype="https://schema.org/ImageGallery">
-	{% if cols == 2 %}
-		{% set sizes = '(min-width: 1280px) 490px, (min-width: 800px) 50vw, 100vw' %}
-	{% else %}
-		{% set sizes = '(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw' %}
-	{% endif %}
-	{% for image in images %}
-		<figure class="article_gallery__item" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-			<div class="article_gallery__item__image_wrap">
-				<img class="article_gallery__item__image"
-				     alt="{{ image.responsive_image.alt }}"
-				     srcset="{{ image.responsive_image.srcset }}"
-				     sizes="{{ sizes }}"
-				     width="{{ image.responsive_image.width }}" height="{{ image.responsive_image.height }}"
-				     data-url="{{ image.full_image.url }}" data-width="{{ image.full_image.width }}" data-height="{{ image.full_image.height }}" />
-				<noscript>
-					<img src="{{ image.full_image.url }}" alt="{{ image.responsive_image.alt }}" itemprop="image"/>
-				</noscript>
-				<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+{% macro cols_figure( alt, srcset, col_share, width, height, full_url, full_width, full_height ) %}
+	<figure class="article_gallery__item">
+		<div class="article_gallery__item__image_wrap">
+			<img class="article_gallery__item__image"
+			     alt="{{ alt }}"
+			     srcset="{{ srcset }}"
+			     sizes="(min-width: 1280px) 1020px * {{ col_share }}, (min-width: 1024px) calc( ( 100vw - 258px ) * {{ col_share }} ), (min-width: 800px) {{ col_share * 100 }}%, 100vw"
+			     width="{{ width }}" height="{{ height }}"
+			     data-url="{{ full_url }}" data-width="{{ full_width }}" data-height="{{ full_height }}" />
+			<noscript>
+				<img src="{{ full_url }}" alt="{{ alt }}" itemprop="image"/>
+			</noscript>
+			<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+		</div>
+	</figure>
+{% endmacro %}
+{% import _self as macros %}
+
+{% if cols == '1' or cols == '2' %}
+	<div class="article_gallery{% if cols == 2 %} is-2-cols{% endif %}" itemscope itemtype="https://schema.org/ImageGallery">
+		{% if cols == 2 %}
+			{% set sizes = '(min-width: 1280px) 490px, (min-width: 800px) 50vw, 100vw' %}
+		{% else %}
+			{% set sizes = '(min-width: 1280px) 1022px, (min-width: 1024px) calc( 100% - 228px ), 100vw' %}
+		{% endif %}
+		{% for image in images %}
+			<figure class="article_gallery__item" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+				<div class="article_gallery__item__image_wrap">
+					<img class="article_gallery__item__image"
+					     alt="{{ image.responsive_image.alt }}"
+					     srcset="{{ image.responsive_image.srcset }}"
+					     sizes="{{ sizes }}"
+					     width="{{ image.responsive_image.width }}" height="{{ image.responsive_image.height }}"
+					     data-url="{{ image.full_image.url }}" data-width="{{ image.full_image.width }}" data-height="{{ image.full_image.height }}" />
+					<noscript>
+						<img src="{{ image.full_image.url }}" alt="{{ image.responsive_image.alt }}" itemprop="image"/>
+					</noscript>
+					<svg class="article_gallery__item__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+				</div>
+				{% if image.caption %}
+					<figcaption class="article_gallery__item__caption" itemprop="caption">{{ image.caption }}</figcaption>
+				{% endif %}
+			</figure>
+		{% endfor %}
+	</div>
+{% elseif cols == '1_2' or cols == '2_1' %}
+	<div class="article_gallery is-1_2">
+		{% if cols == '1_2' %}
+			{% set col1_flex_basis = ( ( ( images[1].full_image.height * 2 ) / images[0].full_image.height ) * images[0].full_image.width )|round(2) %}
+			{% set col2_flex_basis = images[1].full_image.width|round(2) %}
+			<div class="article_gallery__column" style="{{ flex_basis( col1_flex_basis ) }}">
+				{% set col_share = ( col1_flex_basis / ( col1_flex_basis + col2_flex_basis ) ) |round(2) %}
+				{{ macros.cols_figure( images[0].responsive_image.alt, images[0].responsive_image.srcset, col_share,
+							images[0].responsive_image.width, images[0].responsive_image.height,
+							images[0].full_image.url, images[0].full_image.width, images[0].full_image.height ) }}
 			</div>
-			{% if image.caption %}
-				<figcaption class="article_gallery__item__caption" itemprop="caption">{{ image.caption }}</figcaption>
-			{% endif %}
-		</figure>
-	{% endfor %}
-</div>
+			<div class="article_gallery__column has-two_images" style="{{ flex_basis( col2_flex_basis ) }}">
+				{% set col_share = ( col2_flex_basis / ( col1_flex_basis + col2_flex_basis ) )|round(2) %}
+				{{ macros.cols_figure( images[1].responsive_image.alt, images[1].responsive_image.srcset, col_share,
+					images[1].responsive_image.width, images[1].responsive_image.height,
+					images[1].full_image.url, images[1].full_image.width, images[1].full_image.height ) }}
+				{{ macros.cols_figure( images[2].responsive_image.alt, images[2].responsive_image.srcset, col_share,
+					images[2].responsive_image.width, images[2].responsive_image.height,
+					images[2].full_image.url, images[2].full_image.width, images[2].full_image.height ) }}
+			</div>
+		{% elseif cols == '2_1' %}
+			{% set col1_flex_basis = images[0].full_image.width|round(2) %}
+			{% set col2_flex_basis = ( ( ( images[0].full_image.height * 2 ) / images[2].full_image.height ) * images[2].full_image.width )|round(2) %}
+			<div class="article_gallery__column has-two_images" style="{{ flex_basis( col1_flex_basis ) }}">
+				{% set col_share = ( col1_flex_basis / ( col1_flex_basis + col2_flex_basis ) )|round(2) %}
+				{{ macros.cols_figure( images[0].responsive_image.alt, images[0].responsive_image.srcset, col_share,
+					images[0].responsive_image.width, images[0].responsive_image.height,
+					images[0].full_image.url, images[0].full_image.width, images[0].full_image.height ) }}
+				{{ macros.cols_figure( images[1].responsive_image.alt, images[1].responsive_image.srcset, col_share,
+					images[1].responsive_image.width, images[1].responsive_image.height,
+					images[1].full_image.url, images[1].full_image.width, images[1].full_image.height ) }}
+			</div>
+			<div class="article_gallery__column" style="{{ flex_basis( col2_flex_basis ) }}">
+				{% set col_share = ( col2_flex_basis / ( col1_flex_basis + col2_flex_basis ) ) |round(2) %}
+				{{ macros.cols_figure( images[2].responsive_image.alt, images[2].responsive_image.srcset, col_share,
+					images[2].responsive_image.width, images[2].responsive_image.height,
+					images[2].full_image.url, images[2].full_image.width, images[2].full_image.height ) }}
+			</div>
+		{% endif %}
+	</div>
+{% endif %}

@@ -42,7 +42,7 @@ global $lumi;
 $lumi[ 'config' ] = [
 	'static_assets_ver' => 4
 ];
-Timber::$cache = true;
+//Timber::$cache = true;
 
 
 /**
