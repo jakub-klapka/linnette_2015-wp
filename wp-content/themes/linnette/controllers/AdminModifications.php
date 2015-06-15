@@ -32,8 +32,8 @@ class AdminModifications {
 	}
 
 	public function enqueue_media_modifications() {
-		wp_register_script( 'watch', get_template_directory_uri() . '/admin-js/jquery-watch.min.js', array( 'jquery' ), null, true );
-		wp_enqueue_script( 'admin-media-modifs', get_template_directory_uri() . '/admin-js/media-gallery-edit.js', array( 'jquery', 'watch' ), null, true );
+		wp_register_script( 'watch', get_template_directory_uri() . '/admin-js/jquery-watch.min.js', array( 'jquery' ), 1, true );
+		wp_enqueue_script( 'admin-media-modifs', get_template_directory_uri() . '/admin-js/media-gallery-edit.js', array( 'jquery', 'watch' ), 1, true );
 	}
 
 }
