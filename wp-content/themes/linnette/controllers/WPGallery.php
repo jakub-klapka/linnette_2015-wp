@@ -32,6 +32,11 @@ class WPGallery {
 		ScriptStyle::enqueueLightbox();
 		ScriptStyle::enqueuePicturefill();
 
+		$atts = shortcode_atts( array(
+			'columns' => '1',
+			'ids' => ''
+		), $atts, 'gallery' );
+
 		$ids = explode( ',', $atts[ 'ids' ] );
 		$images = array();
 		foreach( $ids as $image_id ) {
