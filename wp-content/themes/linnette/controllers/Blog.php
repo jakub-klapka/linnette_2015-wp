@@ -49,7 +49,7 @@ class Blog {
 		register_post_type( 'blog', array(
 			'labels' => $labels,
 			'public' => true,
-			'supports' => array( 'title', 'editor', 'revisions' ),
+			'supports' => array( 'title', 'editor', 'revisions', 'comments' ),
 			'has_archive' => true,
 			'taxonomies' => array( 'blog_category' ),
 			'rewrite' => array(

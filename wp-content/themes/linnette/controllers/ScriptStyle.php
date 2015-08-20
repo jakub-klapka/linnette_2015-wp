@@ -32,6 +32,7 @@ class ScriptStyle {
 		wp_register_style( 'open_sans', '//fonts.googleapis.com/css?family=Open+Sans:300italic,700italic,700,300&subset=latin,latin-ext', array(), $lumi[ 'config' ][ 'static_assets_ver' ] );
 		wp_register_style( 'layout', get_template_directory_uri() . '/assets/css/layout.css', array( 'open_sans' ), $lumi[ 'config' ][ 'static_assets_ver' ] );
 		wp_register_style( 'lightbox', get_template_directory_uri() . '/assets/css/lightbox.css', array( 'layout' ), $lumi[ 'config' ][ 'static_assets_ver' ] );
+		wp_register_style( 'comments', get_template_directory_uri() . '/assets/css/comments.css', array( 'layout' ), $lumi[ 'config' ][ 'static_assets_ver' ] );
 
 		wp_register_script( 'picturefill', get_template_directory_uri() . '/assets/js/libs/picturefill.js', array(), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 		wp_register_script( 'modernizr', get_template_directory_uri() . '/assets/js/libs/modernizr.js', array(), $lumi[ 'config' ][ 'static_assets_ver' ], true );

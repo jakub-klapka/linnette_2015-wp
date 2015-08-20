@@ -1,1 +1,1 @@
-!function(t){t(function(){autosize(t(".form textarea"))})}(jQuery);
+!function(t){var i={init:function(i){this.source=i,this.target=t("[data-js-hidden_target="+this.source.data("js-hidden_source")+"]"),this.hidden=!0,this.bindEvents()},bindEvents:function(){this.source.on("focus",t.proxy(this.showTarget,this))},showTarget:function(){this.hidden===!0&&(this.target.velocity("slideDown"),this.hidden=!1)}};t(function(){autosize(t(".form textarea")),t("[data-js-hidden_source]").each(function(){Object.create(i).init(t(this))})})}(jQuery);
