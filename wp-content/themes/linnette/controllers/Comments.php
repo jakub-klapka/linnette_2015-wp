@@ -25,6 +25,8 @@ class Comments {
 
 		add_filter( 'timber_context', array( $this, 'addCommentContext' ) );
 
+		add_action( 'get_twig', array( $this, 'addAutoPFilter' ) );
+
 	}
 
 	/**
@@ -97,9 +99,21 @@ class Comments {
 				$data[ 'comment' ][ 'message' ] = $comment->comment_content;
 			}
 
-
 		}
 		return $data;
+	}
+
+	/**
+	 * @param \Twig_Environment $twig
+	 *
+	 * @return mixed
+	 */
+	public function addAutoPFilter( $twig ) {
+		$autop = new \Twig_SimpleFilter( 'wpautop', function( $string ){
+			return wpautop( $string );
+		} );
+		$twig->addFilter( $autop );
+		return $twig;
 	}
 
 }

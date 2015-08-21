@@ -1,6 +1,6 @@
 {{ enqueue_comments_scripts() }}
 
-<section class="comments" id="comments">
+<section class="comments" id="comments" itemprop="comment">
 
 	<h2 class="comments__heading">Komentáře</h2>
 
@@ -8,7 +8,7 @@
 		<div class="comments__error">Váš komentář vypadá jako spam. Buď děláte něco, co nemáte, nebo se náš hlídací robot hrozně spletl. Pokud myslíte, že to je chyba, tak nám prosím dejte vědět.</div>
 	{% endif %}
 
-	<form action="{{ site.url }}/wp-comments-post.php" method="post" class="comments__form form is-left_aligned">
+	<form action="{{ site.url }}/wp-comments-post.php" method="post" class="comments__form form is-left_aligned" role="form">
 		<input type="hidden" name="comment_post_ID" value="{{ post.id }}" />
 		<input type="hidden" name="redirect_to" value="{{ post.permalink }}" />
 
@@ -45,101 +45,28 @@
 
 	</form>
 
-	<div class="comments__item">
-		<img src="//placehold.it/50x50" alt="" class="comments__item__avatar">
-		<div class="comments__item__content">
-			<div class="comments__item__content__heading">
-				<time class="comments__item__content__heading__date">10. 10. 2015</time>
-				od <strong>Nikolky Bruncové</strong>
-			</div>
-			<div class="comments__item__content__message">
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloremque eaque
-					eius, enim expedita impedit incidunt quas? Adipisci architecto blanditiis commodi
-					doloremque excepturi, magni maiores mollitia non porro suscipit velit?</p>
-
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa cum, dignissimos
-					exercitationem fugit ipsa magni, quam quibusdam sit temporibus ullam unde vero.
-					Distinctio dolore doloremque dolorum illo in incidunt vero!</p>
-			</div>
-		</div>
-	</div>
-
-	<div class="comments__item">
-		<img src="//placehold.it/50x50" alt="" class="comments__item__avatar">
-		<div class="comments__item__content">
-			<div class="comments__item__content__heading">
-				<time class="comments__item__content__heading__date">10. 10. 2015</time>
-				od <strong>Nikolky Bruncové</strong>
-			</div>
-			<div class="comments__item__content__message">
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloremque eaque
-					eius, enim expedita impedit incidunt quas? Adipisci architecto blanditiis commodi
-					doloremque excepturi, magni maiores mollitia non porro suscipit velit?</p>
-
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa cum, dignissimos
-					exercitationem fugit ipsa magni, quam quibusdam sit temporibus ullam unde vero.
-					Distinctio dolore doloremque dolorum illo in incidunt vero!</p>
-			</div>
-
-			<div class="comments__item">
-				<img src="//placehold.it/50x50" alt="" class="comments__item__avatar">
-				<div class="comments__item__content">
-					<div class="comments__item__content__heading">
-						<time class="comments__item__content__heading__date">10. 10. 2015</time>
-						od <strong>Nikolky Bruncové</strong>
-					</div>
-					<div class="comments__item__content__message">
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloremque eaque
-							eius, enim expedita impedit incidunt quas? Adipisci architecto blanditiis commodi
-							doloremque excepturi, magni maiores mollitia non porro suscipit velit?</p>
-
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa cum, dignissimos
-							exercitationem fugit ipsa magni, quam quibusdam sit temporibus ullam unde vero.
-							Distinctio dolore doloremque dolorum illo in incidunt vero!</p>
-					</div>
+	{% import _self as macros %}
+	{% macro comment_item( macros, date, author, content, children, avatar, comment_id ) %}
+		<div class="comments__item" id="comment-{{ comment_id }}" itemscope itemtype="https://schema.org/Comment">
+			<img src="{{ avatar }}" alt="{{ author }} avatar" class="comments__item__avatar">
+			<div class="comments__item__content">
+				<div class="comments__item__content__heading">
+					<time class="comments__item__content__heading__date" itemprop="dateCreated">{{ date | date( 'd.m.Y' ) }}</time>
+					od <strong itemprop="author">{{ author }}</strong>
 				</div>
-			</div>
-
-			<div class="comments__item">
-				<img src="//placehold.it/50x50" alt="" class="comments__item__avatar">
-				<div class="comments__item__content">
-					<div class="comments__item__content__heading">
-						<time class="comments__item__content__heading__date">10. 10. 2015</time>
-						od <strong>Nikolky Bruncové</strong>
-					</div>
-					<div class="comments__item__content__message">
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloremque eaque
-							eius, enim expedita impedit incidunt quas? Adipisci architecto blanditiis commodi
-							doloremque excepturi, magni maiores mollitia non porro suscipit velit?</p>
-
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa cum, dignissimos
-							exercitationem fugit ipsa magni, quam quibusdam sit temporibus ullam unde vero.
-							Distinctio dolore doloremque dolorum illo in incidunt vero!</p>
-					</div>
+				<div class="comments__item__content__message" itemprop="text">
+					{{ content | wpautop }}
 				</div>
-			</div>
-
-		</div>
-	</div>
-
-	<div class="comments__item">
-		<img src="//placehold.it/50x50" alt="" class="comments__item__avatar">
-		<div class="comments__item__content">
-			<div class="comments__item__content__heading">
-				<time class="comments__item__content__heading__date">10. 10. 2015</time>
-				od <strong>Nikolky Bruncové</strong>
-			</div>
-			<div class="comments__item__content__message">
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloremque eaque
-					eius, enim expedita impedit incidunt quas? Adipisci architecto blanditiis commodi
-					doloremque excepturi, magni maiores mollitia non porro suscipit velit?</p>
-
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa cum, dignissimos
-					exercitationem fugit ipsa magni, quam quibusdam sit temporibus ullam unde vero.
-					Distinctio dolore doloremque dolorum illo in incidunt vero!</p>
+				{% for comment in children %}
+					{{ macros.comment_item( macros, comment.date, comment.author, comment.content, comment.children, comment.avatar( 50 ), comment.comment_ID ) }}
+				{% endfor %}
 			</div>
 		</div>
-	</div>
+	{% endmacro %}
+
+	{% for comment in post.comments %}
+		{{ macros.comment_item( macros, comment.date, comment.author, comment.content, comment.children, comment.avatar( 50 ), comment.comment_ID ) }}
+	{% endfor %}
 
 
 </section>
