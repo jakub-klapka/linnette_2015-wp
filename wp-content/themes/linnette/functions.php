@@ -42,7 +42,10 @@ global $lumi;
 $lumi[ 'config' ] = [
 	'static_assets_ver' => 4
 ];
-Timber::$cache = true;
+if( $_SERVER[ 'HTTP_HOST' ] !== 'localhost' ) {
+	Timber::$cache = true;
+}
+
 
 
 /**

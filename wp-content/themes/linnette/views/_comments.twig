@@ -5,9 +5,7 @@
 	<h2 class="comments__heading">Komentáře</h2>
 
 	{% if comment.status == 'spam' %}
-
-		Váš komentář vypadá jako spam. Buď děláte něco, co nemáte, nebo se náš hlídací robot hrozně spletl. Pokud myslíte, že to je chyba, tak nám prosím dejte vědět.
-
+		<div class="comments__error">Váš komentář vypadá jako spam. Buď děláte něco, co nemáte, nebo se náš hlídací robot hrozně spletl. Pokud myslíte, že to je chyba, tak nám prosím dejte vědět.</div>
 	{% endif %}
 
 	<form action="{{ site.url }}/wp-comments-post.php" method="post" class="comments__form form is-left_aligned">
@@ -15,8 +13,14 @@
 		<input type="hidden" name="redirect_to" value="{{ post.permalink }}" />
 
 		<div class="form__input_wrap">
-			<label class="form__label" for="zprava">Napište mi komentář:</label>
-			<textarea class="form__input is-textarea" name="comment" id="zprava" required="required" data-js-hidden_source="comments">{{ comment.message }}</textarea>
+			{#<label class="form__label" for="zprava">Napište mi komentář:</label>#}
+			<textarea
+					class="form__input is-textarea"
+					name="comment"
+					id="zprava"
+					required="required"
+					data-js-hidden_source="comments"
+					placeholder="Napište komentář" >{{ comment.message }}</textarea>
 		</div>
 
 		<div class="form__hidden" data-js-hidden_target="comments">

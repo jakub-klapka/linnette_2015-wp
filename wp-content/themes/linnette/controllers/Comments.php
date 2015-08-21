@@ -23,6 +23,8 @@ class Comments {
 
 		add_filter( 'comment_post_redirect', array( $this, 'handleSentCommentURL' ), 10, 2 );
 
+		add_filter( 'timber_context', array( $this, 'addCommentContext' ) );
+
 	}
 
 	/**
@@ -70,6 +72,34 @@ class Comments {
 		}
 
 		return $location;
+	}
+
+
+	public function addCommentContext( $data ) {
+		global $lumi_is_comment;
+		if( $lumi_is_comment === true ) {
+
+			$status_map = array(
+				'1' => 'approved',
+				'2' => 'spam'
+			);
+
+			$author = ( isset( $_COOKIE[ 'comment_author_' . COOKIEHASH ] ) ) ? $_COOKIE[ 'comment_author_' . COOKIEHASH ] : false;
+			$author_email = ( isset( $_COOKIE[ 'comment_author_email_' . COOKIEHASH ] ) ) ? $_COOKIE[ 'comment_author_email_' . COOKIEHASH ] : false;
+
+			$data[ 'comment' ] = array(
+				'author' => $author,
+				'author_email' => $author_email,
+				'status' => ( isset( $_GET[ 'status' ] ) && isset( $status_map[ $_GET[ 'status' ] ] ) ) ? $status_map[ $_GET[ 'status' ] ] : false
+			);
+			if( $data[ 'comment' ][ 'status' ] === 'spam' && isset( $_GET[ 'comment_id' ] ) ) {
+				$comment = get_comment( $_GET[ 'comment_id' ] );
+				$data[ 'comment' ][ 'message' ] = $comment->comment_content;
+			}
+
+
+		}
+		return $data;
 	}
 
 }
