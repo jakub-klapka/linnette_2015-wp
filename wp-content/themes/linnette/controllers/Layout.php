@@ -2,6 +2,7 @@
 
 
 namespace Linnette\Controllers;
+use Linnette\Models\LinnettePost;
 
 /**
  * Singleton Class Layout
@@ -38,7 +39,7 @@ class Layout {
 	}
 
 	public function add_post_to_context( $context ) {
-		$context[ 'post' ] = new \TimberPost();
+		$context[ 'post' ] = new LinnettePost();
 		$context[ 'main_menu' ] = new \TimberMenu();
 
 		$wpseo_options = \WPSEO_Options::get_instance();
@@ -49,6 +50,9 @@ class Layout {
 		$wpseo_front = \WPSEO_Frontend::get_instance();
 		$context[ 'canonical_url' ] = $wpseo_front->canonical( false );
 		$context[ 'seo_description' ] = $wpseo_front->metadesc( false );
+
+		$context[ 'is_user_logged_in' ] = is_user_logged_in();
+		$context[ 'user' ] = new \TimberUser();
 		return $context;
 	}
 

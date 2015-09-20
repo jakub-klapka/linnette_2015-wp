@@ -25,16 +25,28 @@
 
 		<div class="form__hidden" data-js-hidden_target="comments">
 
-			<div class="form__input_wrap">
-				<label class="form__label" for="jmeno">Jméno:</label>
-				<input class="form__input" type="text" id="jmeno" name="author" required value="{{ comment.author }}"/>
-			</div>
+			{% if is_user_logged_in %}
 
-			<div class="form__input_wrap">
-				<label class="form__label" for="email">E-mail:</label>
-				<div class="form__input_note">Na e-mail vám budou chodit upozornění na nové zprávy. Váš e-mail nebudeme nikde veřejně zobrazovat.</div>
-				<input class="form__input" type="email" id="email" name="email" value="{{ comment.author_email }}" required/>
-			</div>
+				<div class="form__input_wrap is-note">
+					(Jste přihlášeni jako <strong>{{ user.name }}</strong>.)
+				</div>
+
+			{% else %}
+				<div class="form__input_wrap">
+					<label class="form__label" for="jmeno">Jméno:</label>
+					<input class="form__input" type="text" id="jmeno" name="author" required value="{{ comment.author }}"/>
+				</div>
+
+				<div class="form__input_wrap">
+					<label class="form__label" for="email">E-mail:</label>
+					<div class="form__input_note">Na e-mail vám budou chodit upozornění na nové zprávy. Váš e-mail nebudeme nikde veřejně zobrazovat.</div>
+					<input class="form__input" type="email" id="email" name="email" value="{{ comment.author_email }}" required/>
+				</div>
+
+				<div class="test">
+					{% filter shortcodes %}[oa_social_login]{% endfilter %}
+				</div>
+			{% endif %}
 
 
 			<div class="form__input_wrap is-submit">
