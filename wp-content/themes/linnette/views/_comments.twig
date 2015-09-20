@@ -43,8 +43,12 @@
 					<input class="form__input" type="email" id="email" name="email" value="{{ comment.author_email }}" required/>
 				</div>
 
-				<div class="test">
-					{% filter shortcodes %}[oa_social_login]{% endfilter %}
+				<div class="form__input_wrap">
+					<div class="form__label">Nebo se přihlásit přes:</div>
+					<div class="form__input_note">
+						{{ function( 'oa_social_login_add_javascripts' ) }}
+						{% filter shortcodes %}[oa_social_login]{% endfilter %}
+					</div>
 				</div>
 			{% endif %}
 

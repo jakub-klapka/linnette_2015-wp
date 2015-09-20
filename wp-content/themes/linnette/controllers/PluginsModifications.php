@@ -79,6 +79,10 @@ class PluginsModifications {
 		 */
 		add_action( 'login_enqueue_scripts', array( $this, 'my_login_logo' ) );
 
+		/*
+		 * OneAll remove javascripts
+		 */
+		remove_action ('wp_head', 'oa_social_login_add_javascripts');
 
 	}
 
