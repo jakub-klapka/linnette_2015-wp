@@ -20,11 +20,12 @@
 					id="zprava"
 					required="required"
 					data-js-hidden_source="comments"
+					data-js-social_login="textarea"
 					placeholder="Napište komentář" >{{ comment.message }}</textarea>
 		</div>
 
 		<div class="form__hidden" data-js-hidden_target="comments">
-
+			{{ enqueue_js_social_login() }}
 			{% if is_user_logged_in %}
 
 				<div class="form__input_wrap is-note">
@@ -44,12 +45,14 @@
 				</div>
 
 				<div class="form__input_wrap">
-					<div class="form__label">Nebo se přihlásit přes:</div>
-					<div class="form__input_note">
-						{{ function( 'oa_social_login_add_javascripts' ) }}
+					<div class="form__label">Nebo se přihlásit přes <button data-js-social_login="button" class="form__facebook_button"><svg class="form__facebook_button__logo" aria-label="Facebook"><use xlink:href="#icon-facebook"></use></svg></button></div>
+					<div class="form__input_note" style="display: none;" data-js-social_login="oneall_container">
+						Prosím potvrďte tímto tlačítkem:
+						{#{{ function( 'oa_social_login_add_javascripts' ) }} this will be loaded via our JS #}
 						{% filter shortcodes %}[oa_social_login]{% endfilter %}
 					</div>
 				</div>
+
 			{% endif %}
 
 

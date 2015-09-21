@@ -61,6 +61,9 @@ class ScriptStyle {
 		wp_register_script( 'fitvids_lib', get_template_directory_uri() . '/assets/js/libs/jquery.fitvids.js', array( 'jquery' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 		wp_register_script( 'fitvids', get_template_directory_uri() . '/assets/js/fitvids.js', array( 'jquery', 'fitvids_lib' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 
+		wp_register_script( 'js_social_login', get_template_directory_uri() . '/assets/js/js_social_login.js', array( 'jquery', 'velocity' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
+
+
 	}
 
 	static function enqueuePicturefill() {
@@ -90,6 +93,11 @@ class ScriptStyle {
 			wp_enqueue_script( 'load_fb_share' );
 		} );
 		$twig->addFunction( $load_fb_like );
+
+		$load_js_social_login = new \Twig_SimpleFunction( 'enqueue_js_social_login', function(){
+			wp_enqueue_script( 'js_social_login' );
+		} );
+		$twig->addFunction( $load_js_social_login );
 
 		return $twig;
 	}
