@@ -27,6 +27,8 @@ class Comments {
 
 		add_action( 'get_twig', array( $this, 'addAutoPFilter' ) );
 
+		add_action( 'comment_post', array( $this, 'setToAlwaysSubscribe' ), 5 ); //hook before subscriber plugin
+
 	}
 
 	/**
@@ -114,6 +116,10 @@ class Comments {
 		} );
 		$twig->addFilter( $autop );
 		return $twig;
+	}
+
+	public function setToAlwaysSubscribe( $comment_id ) {
+		$_POST[ 'subscribe-reloaded' ] = 'yes';
 	}
 
 }
