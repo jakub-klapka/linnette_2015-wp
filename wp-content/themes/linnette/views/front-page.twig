@@ -4,6 +4,8 @@
 
 	<article class="main_content" role="main" itemprop="mainContentOfPage">
 
+		{% block cats %}{% endblock %}
+
 		<div class="images_list" itemscope itemtype="https://schema.org/ImageGallery">
 
 			{% for image in home_images %}

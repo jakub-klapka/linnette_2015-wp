@@ -1,0 +1,12 @@
+{% extends 'front-page.twig' %}
+
+{% block cats %}
+
+	<nav class="main_content__cat_list" itemscope itemtype="https://schema.org/SiteNavigationElement">
+		<div class="main_content__cat_list__caption">Kategorie:</div>
+		{% for cat in cats %}
+			<a class="main_content__cat_list__item{% if cat.current %} is-active{% endif %}" href="{{ cat.link }}" itemprop="name url">{{ cat.name }}</a>
+		{% endfor %}
+	</nav>
+
+{% endblock %}
