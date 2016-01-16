@@ -40,7 +40,7 @@
 
 		<a class="main_header__logo" href="{{ site.url }}"><svg class="main_header__logo__image" aria-label="Linnette Logo"><use xlink:href="#icon-logo"></use></svg></a>
 
-		<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
+		{% include '_divider.twig' %}
 
 		<nav class="main_header__nav" role="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement">
 			<ul class="main_header__nav__ul">
@@ -52,7 +52,7 @@
 			</ul>
 		</nav>
 
-		<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
+		{% include '_divider.twig' %}
 
 		{% if facebook_link and instagram_link %}
 			<nav class="main_header__socials">
@@ -67,7 +67,7 @@
 					</a>
 				{% endif %}
 			</nav>
-			<div class="divider" aria-hidden="true"><svg class="divider__image"><use xlink:href="#icon-divider"></use></svg></div>
+			{% include '_divider.twig' %}
 		{% endif %}
 
 
