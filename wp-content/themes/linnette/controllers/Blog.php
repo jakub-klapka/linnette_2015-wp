@@ -25,6 +25,8 @@ class Blog {
 
 		add_action( 'wp', array( $this, 'modify_og_image' ) );
 
+		add_action( 'pre_get_posts', array( $this, 'remove_pass_protected_from_archive' ) );
+
 	}
 
 	private function register_post_type() {
@@ -190,6 +192,18 @@ class Blog {
 	public function modify_og_image_cb( $image ) {
 		$image = new \TimberImage( get_field( 'featured_image' ) );
 		return $image->get_src( 'full_image' );
+	}
+
+	public function remove_pass_protected_from_archive( $query ) {
+
+		//Bail if not on blog archive page
+		if( !$query->is_main_query() || is_admin() ) return;
+		if( $query->is_post_type_archive( 'blog' ) || $query->is_tax( 'blog_category' ) ) {
+
+			$query->set( 'has_password', false );
+
+		};
+
 	}
 
 }
