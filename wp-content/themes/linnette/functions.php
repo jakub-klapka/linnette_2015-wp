@@ -64,6 +64,7 @@ add_action( 'init', function(){
 	\Linnette\Controllers\OEmbedModifications::getInstance();
 	\Linnette\Controllers\Comments::getInstance();
 	\Linnette\Controllers\Portfolio::getInstance();
+	\Linnette\Controllers\ShortcodeTupliky::getInstance();
 
 	if( is_admin() ) {
 		\Linnette\Controllers\AdminModifications::getInstance();

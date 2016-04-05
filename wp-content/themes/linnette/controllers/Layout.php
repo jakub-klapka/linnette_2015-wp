@@ -29,9 +29,6 @@ class Layout {
 
 		register_nav_menu( 'main_menu', 'Hlavní menu' );
 
-		add_filter( 'the_content', array( $this, 'replace_hr_with_divider' ) );
-
-
 	}
 
 	public function enqueue_global_scripts() {
@@ -56,22 +53,6 @@ class Layout {
 		$context[ 'is_user_logged_in' ] = is_user_logged_in();
 		$context[ 'user' ] = new \TimberUser();
 		return $context;
-	}
-
-	public function replace_hr_with_divider( $content ) {
-
-		if( stripos( $content, '<hr' ) !== false ) {
-
-			$divider = \Timber::compile( '_divider.twig' );
-			$patterns = array( '<hr>', '<hr >', '<hr/>', '<hr />' );
-			foreach( $patterns as $pattern ) {
-				$content = str_ireplace( $pattern, '<hr style="display: none;" />' . $divider, $content );
-			}
-
-		}
-
-		return $content;
-
 	}
 
 }
