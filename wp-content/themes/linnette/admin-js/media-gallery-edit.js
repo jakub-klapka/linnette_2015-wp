@@ -6,13 +6,17 @@
 		/*
 		Set create gallery as default tab
 		 */
-		$( 'body' ).watch( {
-			properties: 'attr_class',
-			callback: function( data, i ){
-				if( data.vals[ 0 ].indexOf( 'modal-open' ) !== -1 ){
-					$( '.media-menu .media-menu-item:nth-child(2)' ).trigger( 'click' );
+		$( '.button.insert-media.add_media' ).click( function() {
+			$( 'body' ).watch( {
+				properties: 'attr_class',
+				id: '_watcher_lumi_gallery_as_default',
+				callback: function( data, i ){
+					if( data.vals[ 0 ].indexOf( 'modal-open' ) !== -1 ){
+						$( '.media-menu .media-menu-item:nth-child(2)' ).trigger( 'click' );
+					}
+					$.unwatch( '_watcher_lumi_gallery_as_default' );
 				}
-			}
+			} );
 		} );
 
 		/*

@@ -53,7 +53,8 @@ class ShortcodeTupliky {
 	public function register_shortcode_ui() {
 
 		shortcode_ui_register_for_shortcode( 'tupliky', array(
-			'label' => 'Ťuplíky'
+			'label' => 'Ťuplíky',
+			'listItemImage' => 'dashicons-minus'
 		) );
 
 	}
