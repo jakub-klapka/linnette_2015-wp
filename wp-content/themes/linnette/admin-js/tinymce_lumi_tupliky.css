@@ -1,7 +1,0 @@
-/* Custom TinyMCE buttons */
-.mce-ico.mce-i-lumi_tupliky {
-	font-family: dashicons;
-}
-.mce-ico.mce-i-lumi_tupliky::before {
-	content: '\f460';
-}

@@ -65,6 +65,7 @@ add_action( 'init', function(){
 	\Linnette\Controllers\Comments::getInstance();
 	\Linnette\Controllers\Portfolio::getInstance();
 	\Linnette\Controllers\ShortcodeTupliky::getInstance();
+	\Linnette\Controllers\ShortcodeCallToActionLink::getInstance();
 
 	if( is_admin() ) {
 		\Linnette\Controllers\AdminModifications::getInstance();

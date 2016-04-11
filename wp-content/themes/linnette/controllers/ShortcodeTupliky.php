@@ -25,11 +25,6 @@ class ShortcodeTupliky {
 		add_shortcode( 'tupliky', array( $this, 'render_tupliky' ) );
 		add_action( 'register_shortcode_ui', array( $this, 'register_shortcode_ui' ) );
 
-		if( current_user_can( 'edit_posts' ) ) {
-			add_filter( 'mce_buttons_2', array( $this, 'add_tinymce_button' ) );
-			add_filter( 'mce_external_plugins', array( $this, 'register_sc_js' ) );
-		}
-
 	}
 
 	/**
@@ -58,35 +53,9 @@ class ShortcodeTupliky {
 
 		shortcode_ui_register_for_shortcode( 'tupliky', array(
 			'label' => 'Ťuplíky',
-			'listItemImage' => 'dashicons-minus'
+			'listItemImage' => 'dashicons-format-status'
 		) );
 
-	}
-
-	/**
-	 * Add button to TinyMCE
-	 *
-	 * @wp-filter mce_buttons_2
-	 * @param array $buttons All buttons in 2nd row
-	 * @return array
-	 */
-	public function add_tinymce_button( $buttons ) {
-		array_push( $buttons, 'lumi_tupliky' );
-		return $buttons;
-	}
-
-	/**
-	 * Register tinymce plugin JS
-	 *
-	 * @wp-filter mce_external_plugins
-	 * @param array $scripts All tinymce scripts
-	 * @return array
-	 */
-	public function register_sc_js( $scripts ) {
-		global $lumi;
-		wp_enqueue_style( 'lumi_tupliky_css', get_template_directory_uri() . '/admin-js/tinymce_lumi_tupliky.css', array(), $lumi['config']['static_assets_ver'] );
-		$scripts[ 'lumi_tupliky_js' ] = get_template_directory_uri() . '/admin-js/tinymce_lumi_tupliky.js';
-		return $scripts;
 	}
 
 }
