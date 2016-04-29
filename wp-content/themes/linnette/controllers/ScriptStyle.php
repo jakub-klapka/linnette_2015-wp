@@ -21,7 +21,7 @@ class ScriptStyle {
 	protected function __construct() {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
-		
+
 		add_filter( 'get_twig', array( $this, 'add_load_scripts_functions' ) );
 
 	}
@@ -55,7 +55,7 @@ class ScriptStyle {
 
 		wp_register_script( 'autosize', get_template_directory_uri() . '/assets/js/libs/autosize.js', array(), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 		wp_register_script( 'form', get_template_directory_uri() . '/assets/js/form.js', array( 'jquery', 'autosize' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
-		
+
 		wp_register_script( 'load_fb_share', get_template_directory_uri() . '/assets/js/load_fb_share.js', array( 'jquery' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 
 		wp_register_script( 'fitvids_lib', get_template_directory_uri() . '/assets/js/libs/jquery.fitvids.js', array( 'jquery' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
@@ -63,6 +63,8 @@ class ScriptStyle {
 
 		wp_register_script( 'js_social_login', get_template_directory_uri() . '/assets/js/js_social_login.js', array( 'jquery', 'velocity' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 
+		wp_register_script( 'text_fit', get_template_directory_uri() . '/assets/js/libs/textFit.js', array(), $lumi[ 'config' ][ 'static_assets_ver' ], true );
+		wp_register_script( 'image_with_text', get_template_directory_uri() . '/assets/js/image_with_text.js', array( 'jquery', 'text_fit', 'enquire' ), $lumi[ 'config' ][ 'static_assets_ver' ], true );
 
 	}
 

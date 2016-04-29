@@ -3,6 +3,7 @@
 namespace Linnette\Controllers;
 
 use Linnette\Models\LightboxedImage;
+use Linnette\Controllers\ScriptStyle;
 
 class ShortcodePhotoWithDescription {
 
@@ -49,13 +50,18 @@ class ShortcodePhotoWithDescription {
 		//Normalize is_review
 		$atts[ 'is_review' ] = ( $atts[ 'is_review' ] === 'true' ) ? true : false; //Cast from text
 
-		//Check for image and responsive the ..it out of it
-		//TODO: add check for not-existing attachment (to the Model itself)
+		//Check for image existence
 		$atts[ 'image' ] = new LightboxedImage( (int)$atts[ 'attachment' ] );
+		if( empty( $atts[ 'image' ]->responsive_image ) ) {
+			return '';
+		}
 
-		//TODO: enqueue JS (also picturefill)
+		//Enqueue Scripts
+		ScriptStyle::enqueueLightbox();
+		ScriptStyle::enqueuePicturefill();
+		wp_enqueue_script( 'image_with_text' );
 
-		return \Timber::compile( '_photo_with_description.twig', array_merge( $atts, array( 'text' => esc_textarea( $content ) ) ) );
+		return \Timber::compile( '_photo_with_description.twig', array_merge( $atts, array( 'text' => esc_textarea( $content ), 'is_rendering_shortcake' => is_admin() ) ) );
 
 	}
 
