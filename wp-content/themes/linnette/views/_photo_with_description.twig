@@ -1,0 +1,27 @@
+<div class="image_with_text{% if type == 'reverse' %} is-reverse{% endif %}"{% if is_review %} itemscope itemtype="http://schema.org/Review"{% endif %}>
+
+	<figure class="image_with_text__image"{% if is_review %} itemprop="image"{% endif %} itemscope itemtype="https://schema.org/ImageObject" data-js-lightbox>
+		<div class="image_with_text__image__image_wrap">
+			<img class="image_with_text__image__image"
+				 alt="{{ image.responsive_image.alt }}"
+				 srcset="{{ image.responsive_image.srcset }}"
+				 sizes="(min-width: 1280px) 470px, (min-width: 1024px) 34vw, (min-width: 801px) 50vw, 100vw"
+				 width="{{ image.responsive_image.width }}" height="{{ image.responsive_image.height }}"
+				 data-url="{{ image.full_image.url }}" data-width="{{ image.full_image.width }}" data-height="{{ image.full_image.height }}"
+				 itemprop="image" />
+			<svg class="image_with_text__image__image_wrap__expand" aria-hidden="true"><use xlink:href="#icon-expand"></use></svg>
+		</div>
+	</figure>
+
+	<div class="image_with_text__text">
+		<div class="image_with_text__text__inner" data-js-fittext data-js-fittext-maxsize="22" data-js-fittext-dontfitbelow="800">
+
+			<p{% if is_review %} itemprop="reviewBody"{% endif %}>{{ text }}</p>
+			{% if signature %}
+				{% include '_divider.twig' %}
+				<p{% if is_review %} itemprop="author"{% endif %}>{{ signature }}</p>
+			{% endif %}
+		</div>
+	</div>
+
+</div>
