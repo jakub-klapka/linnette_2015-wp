@@ -42,6 +42,7 @@
             "min": "",
             "max": "",
             "preview_size": "thumbnail",
+            "insert": "prepend",
             "library": "all",
             "min_width": "",
             "min_height": "",
@@ -67,5 +68,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "modified": 1447874773
+    "active": 1,
+    "description": "",
+    "modified": 1464633005
 }

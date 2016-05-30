@@ -21,7 +21,7 @@ class Blog {
 
 		add_action( 'wp', array( $this, 'check_for_blog_type' ) );
 
-		add_action( 'wp', array( $this, 'add_blog_archive_cats' ) );
+		add_action( 'wp', array( $this, 'check_for_blog_archive' ) );
 
 		add_action( 'wp', array( $this, 'modify_og_image' ) );
 
@@ -144,11 +144,13 @@ class Blog {
 		return $context;
 	}
 
-	public function add_blog_archive_cats() {
+	public function check_for_blog_archive() {
 
 		if( is_post_type_archive( 'blog' ) || is_tax( 'blog_category' ) ) {
 
 			add_filter( 'timber_context', array( $this, 'add_blog_archive_cats_cb' ) );
+
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_cb' ) );
 
 		}
 
@@ -173,6 +175,12 @@ class Blog {
 		}
 
 		return $context;
+	}
+
+	public function enqueue_scripts_cb() {
+
+		wp_enqueue_script( 'lazysizes' );
+
 	}
 
 	public function modify_og_image() {
