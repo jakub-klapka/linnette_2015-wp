@@ -6,7 +6,6 @@
             "key": "field_55378ee63c011",
             "label": "Obr\u00e1zky",
             "name": "home_images",
-            "prefix": "",
             "type": "gallery",
             "instructions": "",
             "required": 0,
@@ -19,6 +18,7 @@
             "min": "",
             "max": "",
             "preview_size": "thumbnail",
+            "insert": "prepend",
             "library": "all",
             "min_width": "",
             "min_height": "",
@@ -44,5 +44,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "modified": 1429704449
+    "active": 1,
+    "description": "",
+    "modified": 1464632973
 }
