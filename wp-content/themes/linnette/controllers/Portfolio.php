@@ -69,6 +69,22 @@ class Portfolio {
 
 		}
 
+		/*
+		 * Quickfix
+		 * TODO: move lazysizes queueing to Twig function and call it from view (to keep it DRY!)
+		 */
+		if( is_post_type_archive( 'portfolio' ) ) {
+
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_lazysizes' ) );
+			
+		}
+
+	}
+
+	public function enqueue_lazysizes() {
+
+		wp_enqueue_script( 'lazysizes' );
+
 	}
 
 	public function enqueue_scripts_cb() {
