@@ -130,13 +130,13 @@ class Blog {
 		foreach( $terms_for_breadcb as $term ) {
 			$breadcrumbs[] = (object)array(
 				'title' => $term->name,
-				'url' => $term->get_url()
+				'url' => $term->link()
 			);
 		}
 
 		$breadcrumbs[] = (object)array(
 			'title' => $post->title(),
-			'url' => $post->permalink()
+			'url' => $post->link()
 		);
 
 		$context[ 'breadcrumbs' ] = $breadcrumbs;
@@ -199,7 +199,7 @@ class Blog {
 
 	public function modify_og_image_cb( $image ) {
 		$image = new \TimberImage( get_field( 'featured_image' ) );
-		return $image->get_src( 'full_image' );
+		return $image->src( 'full_image' );
 	}
 
 	public function remove_pass_protected_from_archive( $query ) {

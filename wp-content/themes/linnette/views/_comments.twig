@@ -10,7 +10,7 @@
 
 	<form action="{{ site.url }}/wp-comments-post.php" method="post" class="comments__form form is-left_aligned" role="form">
 		<input type="hidden" name="comment_post_ID" value="{{ post.id }}" />
-		<input type="hidden" name="redirect_to" value="{{ post.permalink }}" />
+		<input type="hidden" name="redirect_to" value="{{ post.link }}" />
 
 		<div class="form__input_wrap">
 			{#<label class="form__label" for="zprava">Napište mi komentář:</label>#}

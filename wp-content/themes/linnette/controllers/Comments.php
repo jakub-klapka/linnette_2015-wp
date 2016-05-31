@@ -18,7 +18,7 @@ class Comments {
 	public function __construct() {
 
 		add_filter( 'get_twig', array( $this, 'addEnqueueCommentsFunction' ) );
-		
+
 		add_filter( 'comment_form_default_fields', array( $this, 'modifyDefaultFields' ) );
 
 		add_filter( 'comment_post_redirect', array( $this, 'handleSentCommentURL' ), 10, 2 );
@@ -82,6 +82,8 @@ class Comments {
 	public function addCommentContext( $data ) {
 		global $lumi_is_comment;
 		if( $lumi_is_comment === true ) {
+
+			//TODO: we are not getting in here at all. Spam handling not working
 
 			$status_map = array(
 				'1' => 'approved',
