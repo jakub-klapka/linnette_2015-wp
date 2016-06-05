@@ -18,7 +18,10 @@
 		{% if posts %}
 			<div class="main_content__thumb_list">
 				{% for post in posts %}
-					{% if loop.index > 3 %}{% set below_fold = true %}{% endif %}
+					{% if loop.index > 3 %}
+						{% set below_fold = true %}
+						{{ enqueue_js_lazysizes() }}
+					{% endif %}
 
 					<a href="{{ post.link }}" class="main_content__thumb_list__item captioned_image is-hoverable is-lazyloaded" itemscope itemtype="https://schema.org/Article">
 						<meta itemprop="url" content="{{ post.link }}"/>
@@ -37,6 +40,7 @@
 							<span class="captioned_image__caption__heading">{{ post.title }}</span>
 							{% block item_subheading %}
 								<span class="captioned_image__caption__subheading">
+									{# TODO: optimize query, has 180 selects and 1,5s on dev PC #}
 									{% if post.terms('blog_category') %}
 										{{ post.terms('blog_category')|join(', ') }}<br>
 									{% endif %}

@@ -88,7 +88,11 @@ class ScriptStyle {
 	}
 
 	/**
+	 * Adds function to twig to lazyload required frontend scripts
+	 *
 	 * @param $twig \Twig_Environment
+	 *
+	 * @return \Twig_Environment
 	 */
 	public function add_load_scripts_functions( $twig ) {
 		$load_fb_like = new \Twig_SimpleFunction( 'enqueue_load_fb_like', function(){
@@ -100,6 +104,11 @@ class ScriptStyle {
 			wp_enqueue_script( 'js_social_login' );
 		} );
 		$twig->addFunction( $load_js_social_login );
+
+		$load_js_lazysizes = new \Twig_SimpleFunction( 'enqueue_js_lazysizes', function(){
+			wp_enqueue_script( 'lazysizes' );
+		} );
+		$twig->addFunction( $load_js_lazysizes );
 
 		return $twig;
 	}

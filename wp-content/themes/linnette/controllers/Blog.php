@@ -150,8 +150,6 @@ class Blog {
 
 			add_filter( 'timber_context', array( $this, 'add_blog_archive_cats_cb' ) );
 
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_cb' ) );
-
 		}
 
 	}
@@ -175,12 +173,6 @@ class Blog {
 		}
 
 		return $context;
-	}
-
-	public function enqueue_scripts_cb() {
-
-		wp_enqueue_script( 'lazysizes' );
-
 	}
 
 	public function modify_og_image() {
