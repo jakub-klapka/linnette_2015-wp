@@ -4,6 +4,8 @@
 namespace Linnette\Controllers;
 
 
+use Timber\Timber;
+
 class Blog {
 
 	public static function getInstance()
@@ -144,11 +146,18 @@ class Blog {
 		return $context;
 	}
 
+	/**
+	 * Check if we are running blog-archive or blog taxonomy list
+	 */
 	public function check_for_blog_archive() {
 
 		if( is_post_type_archive( 'blog' ) || is_tax( 'blog_category' ) ) {
 
 			add_filter( 'timber_context', array( $this, 'add_blog_archive_cats_cb' ) );
+
+			add_filter( 'timber_context', array( $this, 'change_timber_post_model' ) );
+
+			$this->fillPostTermCache();
 
 		}
 
@@ -203,6 +212,64 @@ class Blog {
 			$query->set( 'has_password', false );
 
 		};
+
+	}
+
+	/**
+	 * Change TimberPost class on Blog archive
+	 *
+	 * @param \TimberContext $context
+	 *
+	 * @return \TimberContext
+	 */
+	public function change_timber_post_model( $context ) {
+
+		$context[ 'posts' ] = \Timber::get_posts( false, 'Linnette\Models\LinnettePost' );
+
+		return $context;
+
+	}
+
+	/**
+	 * Will add term cache to wp_query global
+	 * 
+	 * @return void
+	 */
+	private function fillPostTermCache() {
+
+		global $wp_query;
+
+		//Bail on empty page
+		if( !$wp_query->have_posts() ) return;
+
+		$post_ids = array_map( function( $item ) {
+			return $item->ID;
+		}, $wp_query->posts );
+
+		//Get all terms at once
+		$terms = wp_get_object_terms( $post_ids, 'blog_category', array( 'fields' => 'all_with_object_id' ) );
+
+		//Attach terms to posts
+		foreach( $terms as $term ) {
+
+			foreach( $wp_query->posts as $post_pointer => $post ) {
+
+				if( $term->object_id === $post->ID ) {
+
+					if( !isset( $wp_query->posts[ $post_pointer ]->blog_category_cache ) ) {
+						$wp_query->posts[ $post_pointer ]->blog_category_cache = array();
+					}
+
+					$wp_query->posts[ $post_pointer ]->blog_category_cache[] = $term;
+
+					//Since there is only one post for each term, we can bail on first find
+					continue;
+
+				}
+
+			}
+
+		}
 
 	}
 

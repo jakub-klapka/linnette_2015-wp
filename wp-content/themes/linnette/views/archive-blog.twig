@@ -40,7 +40,6 @@
 							<span class="captioned_image__caption__heading">{{ post.title }}</span>
 							{% block item_subheading %}
 								<span class="captioned_image__caption__subheading">
-									{# TODO: optimize query, has 180 selects and 1,5s on dev PC #}
 									{% if post.terms('blog_category') %}
 										{{ post.terms('blog_category')|join(', ') }}<br>
 									{% endif %}
