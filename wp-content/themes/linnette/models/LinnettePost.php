@@ -8,18 +8,28 @@ class LinnettePost extends \TimberPost {
 	protected $blog_category_cache;
 
 	/**
+	 * @param int $count
+	 * @param string $order
+	 * @param string $type
+	 * @param string $status
+	 * @param string $CommentClass
+	 *
 	 * @return mixed
 	 */
-	public function comments() {
+	public function comments( $count = 0, $order = 'wp', $type = 'comment', $status = 'approve', $CommentClass = 'TimberComment' ) {
 		return parent::comments( 0, 'wp', 'comment', 'approve', '\Linnette\Models\LinnetteComment' );
 	}
 
 	/**
 	 * Modify terms getter to read from post cache first
-	 * 
+	 *
+	 * @param string $tax
+	 * @param bool $merge
+	 * @param string $TermClass
+	 *
 	 * @return array of BlogTerms
 	 */
-	public function terms() {
+	public function terms( $tax = '', $merge = true, $TermClass = '' ) {
 
 		if( !empty( $this->blog_category_cache ) ) {
 
@@ -34,7 +44,7 @@ class LinnettePost extends \TimberPost {
 		}
 
 		//On emty cache, use regular terms getter
-		return parent::terms();
+		return parent::terms( $tax, $merge, $TermClass );
 
 	}
 

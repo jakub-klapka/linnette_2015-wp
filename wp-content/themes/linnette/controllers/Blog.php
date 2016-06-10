@@ -159,6 +159,8 @@ class Blog {
 
 			$this->fillPostTermCache();
 
+			$this->fillFeaturedImageMetaCache();
+
 		}
 
 	}
@@ -270,6 +272,29 @@ class Blog {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Get featured images ids for all displayed posts and preload their meta to post cache
+	 *
+	 * TODO: extend this for almost all other pages
+	 */
+	private function fillFeaturedImageMetaCache() {
+
+		global $wp_query;
+
+		$featured_images_ids = array();
+
+		foreach( $wp_query->posts as $post ) {
+			$featured_images_ids[] = get_field( 'featured_image', $post->ID, false );
+		}
+
+		new \WP_Query( array(
+			'post__in' => $featured_images_ids,
+			'post_type' => 'any',
+			'post_status' => 'any'
+		) );
 
 	}
 
