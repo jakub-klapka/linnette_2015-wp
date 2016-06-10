@@ -4,6 +4,8 @@
 namespace Linnette\Controllers;
 
 
+use Timber\Timber;
+
 class Blog {
 
 	public static function getInstance()
@@ -130,13 +132,13 @@ class Blog {
 		foreach( $terms_for_breadcb as $term ) {
 			$breadcrumbs[] = (object)array(
 				'title' => $term->name,
-				'url' => $term->get_url()
+				'url' => $term->link()
 			);
 		}
 
 		$breadcrumbs[] = (object)array(
 			'title' => $post->title(),
-			'url' => $post->permalink()
+			'url' => $post->link()
 		);
 
 		$context[ 'breadcrumbs' ] = $breadcrumbs;
@@ -144,13 +146,20 @@ class Blog {
 		return $context;
 	}
 
+	/**
+	 * Check if we are running blog-archive or blog taxonomy list
+	 */
 	public function check_for_blog_archive() {
 
 		if( is_post_type_archive( 'blog' ) || is_tax( 'blog_category' ) ) {
 
 			add_filter( 'timber_context', array( $this, 'add_blog_archive_cats_cb' ) );
 
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_cb' ) );
+			add_filter( 'timber_context', array( $this, 'change_timber_post_model' ) );
+
+			$this->fillPostTermCache();
+
+			$this->fillFeaturedImageMetaCache();
 
 		}
 
@@ -177,12 +186,6 @@ class Blog {
 		return $context;
 	}
 
-	public function enqueue_scripts_cb() {
-
-		wp_enqueue_script( 'lazysizes' );
-
-	}
-
 	public function modify_og_image() {
 
 		if( is_singular( 'blog' ) || is_singular( 'page' ) ){
@@ -199,7 +202,7 @@ class Blog {
 
 	public function modify_og_image_cb( $image ) {
 		$image = new \TimberImage( get_field( 'featured_image' ) );
-		return $image->get_src( 'full_image' );
+		return $image->src( 'full_image' );
 	}
 
 	public function remove_pass_protected_from_archive( $query ) {
@@ -211,6 +214,87 @@ class Blog {
 			$query->set( 'has_password', false );
 
 		};
+
+	}
+
+	/**
+	 * Change TimberPost class on Blog archive
+	 *
+	 * @param \TimberContext $context
+	 *
+	 * @return \TimberContext
+	 */
+	public function change_timber_post_model( $context ) {
+
+		$context[ 'posts' ] = \Timber::get_posts( false, 'Linnette\Models\LinnettePost' );
+
+		return $context;
+
+	}
+
+	/**
+	 * Will add term cache to wp_query global
+	 * 
+	 * @return void
+	 */
+	private function fillPostTermCache() {
+
+		global $wp_query;
+
+		//Bail on empty page
+		if( !$wp_query->have_posts() ) return;
+
+		$post_ids = array_map( function( $item ) {
+			return $item->ID;
+		}, $wp_query->posts );
+
+		//Get all terms at once
+		$terms = wp_get_object_terms( $post_ids, 'blog_category', array( 'fields' => 'all_with_object_id' ) );
+
+		//Attach terms to posts
+		foreach( $terms as $term ) {
+
+			foreach( $wp_query->posts as $post_pointer => $post ) {
+
+				if( $term->object_id === $post->ID ) {
+
+					if( !isset( $wp_query->posts[ $post_pointer ]->blog_category_cache ) ) {
+						$wp_query->posts[ $post_pointer ]->blog_category_cache = array();
+					}
+
+					$wp_query->posts[ $post_pointer ]->blog_category_cache[] = $term;
+
+					//Since there is only one post for each term, we can bail on first find
+					continue;
+
+				}
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * Get featured images ids for all displayed posts and preload their meta to post cache
+	 *
+	 * TODO: extend this for almost all other pages
+	 */
+	private function fillFeaturedImageMetaCache() {
+
+		global $wp_query;
+
+		$featured_images_ids = array();
+
+		foreach( $wp_query->posts as $post ) {
+			$featured_images_ids[] = get_field( 'featured_image', $post->ID, false );
+		}
+
+		new \WP_Query( array(
+			'post__in' => $featured_images_ids,
+			'post_type' => 'any',
+			'post_status' => 'any'
+		) );
 
 	}
 
