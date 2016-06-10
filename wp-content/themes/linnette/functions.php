@@ -31,21 +31,11 @@ foreach( $plugins_textdomain_fix as $textdomain => $file_name ) {
 }
 
 /**
- * Global Var with all theme stuff
+ * Disable Twig cache on DEV
  */
-global $lumi;
-
-
-/**
- * Config
- */
-$lumi[ 'config' ] = [
-	'static_assets_ver' => 9
-];
 if( $_SERVER[ 'HTTP_HOST' ] !== 'localhost' ) {
 	Timber::$cache = true;
 }
-
 
 
 /**
