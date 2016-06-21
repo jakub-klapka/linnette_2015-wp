@@ -5,8 +5,11 @@ namespace Linnette\Models;
 
 class LinnettePost extends \TimberPost {
 
+	public $PostClass = self::class;
+
 	protected $blog_category_cache;
 	private $related_articles_count = 3;
+
 
 	/**
 	 * @param int $count
@@ -50,7 +53,20 @@ class LinnettePost extends \TimberPost {
 	}
 
 	/**
-	 * Get related articles
+	 * Get related articles as LinnettePosts
+	 *
+	 * @return array of LinnettePosts
+	 */
+	public function related_articles() {
+
+		return array_map( function( $post ) {
+			return new self( $post->ID );
+		}, $this->getRelatedArcilesWPPosts() );
+
+	}
+
+	/**
+	 * Get related articles as WP_Posts
 	 *
 	 * At first, get primary articles in selected order, than fill rest with random from
 	 * related articles and if we still have space left, fill it with random from same
@@ -58,7 +74,7 @@ class LinnettePost extends \TimberPost {
 	 *
 	 * @return array of WP_Posts
 	 */
-	public function related_articles() {
+	private function getRelatedArcilesWPPosts() {
 
 		$primary_articles_ids = get_field( 'primary_related_articles', $this->ID, false );
 		$primary_articles_ids = ( is_array( $primary_articles_ids ) ) ? $primary_articles_ids : [];
@@ -108,7 +124,7 @@ class LinnettePost extends \TimberPost {
 					'terms' => $terms_ids
 				]
 			],
-			'post__not_in' => $primary_with_related_ids
+			'post__not_in' => array_merge( $primary_with_related_ids, [ (string)$this->ID ] ) //Exclude self
 		] );
 
 		return array_merge( $primary_with_related, $posts_in_same_terms->posts );
