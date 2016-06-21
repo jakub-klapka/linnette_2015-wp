@@ -23,32 +23,7 @@
 						{{ enqueue_js_lazysizes() }}
 					{% endif %}
 
-					<a href="{{ post.link }}" class="main_content__thumb_list__item captioned_image is-hoverable is-lazyloaded" itemscope itemtype="https://schema.org/Article">
-						<meta itemprop="url" content="{{ post.link }}"/>
-						<meta itemprop="name" content="{{ post.title }}"/>
-						<div class="main_content__thumb_list__item__aspectratio" aria-hidden="true"></div>
-						{% set image_data = responsive_image_square( post.featured_image ) %}
-						{#<!-- max width: 503px -->#}
-						<img alt="{{ post.title }}"
-							 {% if below_fold %}src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="{% endif %}
-						     {% if below_fold %}data-{% endif %}srcset="{{ image_data.srcset }}"
-						     sizes="(max-width: 580px) 100vw, (max-width: 860px) 50vw, (max-width: 1024px) 34vw, (max-width: 1297px) calc( ( 100vw - 258px ) / 3 ), 341px"
-						     width="{{ image_data.width }}" height="{{ image_data.height }}"
-						     class="captioned_image__image{% if below_fold %} lazyload{% endif %}"
-						     itemprop="image" />
-						<div class="captioned_image__caption">
-							<span class="captioned_image__caption__heading">{{ post.title }}</span>
-							{% block item_subheading %}
-								<span class="captioned_image__caption__subheading">
-									{% if post.terms('blog_category') %}
-										{{ post.terms('blog_category')|join(', ') }}<br>
-									{% endif %}
-									<time itemprop="dateCreated" datetime="{{ post.post_date|date('Y-m-d') }}">{{ post.post_date|date }}</time>
-								</span>
-							{% endblock %}
-
-						</div>
-					</a>
+					{% include '_thumb_list_captioned_image.twig' %}
 				{% endfor %}
 
 			</div>

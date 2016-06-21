@@ -1,0 +1,76 @@
+{
+    "key": "group_575dad5741037",
+    "title": "Podobn\u00e9 \u010dl\u00e1nky",
+    "fields": [
+        {
+            "key": "field_57605e27a90c3",
+            "label": "Primarn\u00ed podobn\u00e9 \u010dl\u00e1nky",
+            "name": "primary_related_articles",
+            "type": "relationship",
+            "instructions": "Tyto p\u0159\u00edsp\u011bvky budou zobrazeny v\u017edy a v tomto po\u0159ad\u00ed",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "blog"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search",
+                "taxonomy"
+            ],
+            "elements": "",
+            "min": "",
+            "max": 3,
+            "return_format": "id"
+        },
+        {
+            "key": "field_575dad6ed1279",
+            "label": "Podobn\u00e9 \u010dl\u00e1nky",
+            "name": "related_articles",
+            "type": "relationship",
+            "instructions": "Sem si nah\u00e1zej v\u0161echny \u010dl\u00e1nky, co n\u011bjak souvis\u00ed, budou zobrazeny n\u00e1hodn\u011b. Kdy\u017e sem nic ned\u00e1\u0161, tak se vybere n\u00e1hodn\u011b ze stejn\u00e9 kategorie...",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "blog"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search",
+                "taxonomy"
+            ],
+            "elements": "",
+            "min": "",
+            "max": "",
+            "return_format": "id"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "blog"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1465933508
+}

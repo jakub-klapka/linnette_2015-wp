@@ -57,6 +57,7 @@ add_action( 'init', function(){
 	\Linnette\Controllers\ShortcodeTupliky::getInstance();
 	\Linnette\Controllers\ShortcodeCallToActionLink::getInstance();
 	\Linnette\Controllers\ShortcodePhotoWithDescription::getInstance();
+	\Linnette\Controllers\RelatedArticles::getInstance();
 
 	if( is_admin() ) {
 		\Linnette\Controllers\AdminModifications::getInstance();
