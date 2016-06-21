@@ -99,7 +99,7 @@ class LinnettePost extends \TimberPost {
 
 		if( count( $related_articles ) >= $count_to_add ) {
 			//We have enought articles in related, return them in random
-			return $primary_with_related;
+			return array_slice( $primary_with_related, 0, $this->related_articles_count );
 		}
 
 		//Fill rest with random from same category
@@ -124,7 +124,7 @@ class LinnettePost extends \TimberPost {
 					'terms' => $terms_ids
 				]
 			],
-			'post__not_in' => array_merge( $primary_with_related_ids, [ (string)$this->ID ] ) //Exclude self
+			'post__not_in' => array_merge( $primary_with_related_ids, [ $this->ID ] ) //Exclude self
 		] );
 
 		return array_merge( $primary_with_related, $posts_in_same_terms->posts );
