@@ -1,6 +1,7 @@
 <?php
 
 namespace Linnette\Controllers;
+use Linnette\Models\LinnettePost;
 
 /**
  * Class RelatedArticles
@@ -27,6 +28,9 @@ class RelatedArticles {
 	public function __construct() {
 		
 		add_action( 'acf/save_post', array( $this, 'linkArticles' ), 20 );
+
+		add_filter( 'manage_blog_posts_columns', [ $this, 'addAdminColumn' ] );
+		add_action( 'manage_blog_posts_custom_column', [ $this, 'addAdminColumnContent' ], 10, 2 );
 
 	}
 
@@ -128,6 +132,48 @@ class RelatedArticles {
 		} );
 
 		update_field( 'related_articles', $related_articles, $item_from_which_to_remove );
+
+	}
+
+	/**
+	 * Add related articles column to admin
+	 *
+	 * @wp-filter manage_blog_posts_columns
+	 * @param array $columns
+	 *
+	 * @return array
+	 */
+	public function addAdminColumn( $columns ) {
+		$comments_position = array_search( 'comments', array_keys( $columns ) );
+		$columns = array_merge( array_slice( $columns, 0, $comments_position ),
+			[ 'related_articles_count' => 'Počet podobných článků' ],
+			array_slice( $columns, $comments_position ) );
+		return $columns;
+	}
+
+	/**
+	 * Insert custom column content
+	 *
+	 * @wp-action manage_blog_posts_custom_column
+	 * @param string $column_name
+	 * @param string $post_id
+	 */
+	public function addAdminColumnContent( $column_name, $post_id ) {
+		if( $column_name !== 'related_articles_count' ) return;
+
+		$primary_articles = get_field( 'primary_articles', $post_id, false );
+		$primary_articles = ( is_array( $primary_articles ) ) ? $primary_articles : [];
+
+		$related_articles = get_field( 'related_articles', $post_id, false );
+		$related_articles = ( is_array( $related_articles ) ) ? $related_articles : [];
+
+		$count = count( $primary_articles ) + count( $related_articles );
+
+		if( $count < 3 ) {
+			echo "<b><span style='color: darkred;'>{$count}</span></b>";
+		} else {
+			echo "{$count}";
+		}
 
 	}
 
