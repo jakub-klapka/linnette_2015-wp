@@ -51,14 +51,20 @@ class RelatedArticles {
 		 */
 		$related_articles_ids = get_field( 'related_articles', $post_id, false );
 
-		$related_articles_query = new \WP_Query( array(
-			'post__in' => $related_articles_ids,
-			'post_type' => 'any',
-			'post_status' => 'any',
-			'nopaging' => true
-		) );
+		//Handle empty related "array"
+		if( !empty( $related_articles_ids ) ) {
+			$related_articles_query = new \WP_Query( array(
+				'post__in' => $related_articles_ids,
+				'post_type' => 'any',
+				'post_status' => 'any',
+				'nopaging' => true
+			) );
 
-		$related_articles = $related_articles_query->get_posts();
+			$related_articles = $related_articles_query->get_posts();
+		} else {
+			$related_articles_ids = [];
+			$related_articles = [];
+		}
 
 		/** @var \WP_Post $article */
 		foreach( $related_articles as $article ) {
