@@ -63,7 +63,7 @@ add_action( 'init', function(){
 		\Linnette\Controllers\AdminModifications::getInstance();
 		\Linnette\Controllers\EditorSEOSettings::getInstance();
 	}
-} );
+}, 5 );
 
 
 
