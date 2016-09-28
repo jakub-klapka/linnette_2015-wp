@@ -84,6 +84,16 @@ class PluginsModifications {
 		 */
 		remove_action ('wp_head', 'oa_social_login_add_javascripts');
 
+		/*
+		 * Secure post with link config
+		 */
+		add_filter( 'lumi.secure_post_with_link.config', [ $this, 'modify_secure_post_with_link_config' ] );
+
+	}
+
+	public function modify_secure_post_with_link_config( $config ) {
+		$config[ 'allowed_post_types' ] = [ 'blog' ];
+		return $config;
 	}
 
 	public function my_login_logo() { ?>
