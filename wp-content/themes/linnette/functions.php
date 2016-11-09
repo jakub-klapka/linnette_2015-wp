@@ -12,6 +12,10 @@ spl_autoload_register( function( $name ){
 		include_once( __DIR__ . '/models/' . str_replace( 'Linnette\\Models\\', '', $name ) . '.php' );
 		return;
 	}
+	if( strpos( $name, 'Linnette\\Traits\\' ) !== false ) {
+		include_once( __DIR__ . '/traits/' . str_replace( 'Linnette\\Traits\\', '', $name ) . '.php' );
+		return;
+	}
 } );
 
 /**
@@ -65,6 +69,8 @@ add_action( 'init', function(){
 	}
 }, 5 );
 
+//Brand new Controllers
+\Linnette\Controllers\PhotoSelection\Hooks::registerHooks();
 
 
 /*
