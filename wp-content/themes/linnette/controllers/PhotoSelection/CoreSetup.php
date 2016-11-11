@@ -33,77 +33,15 @@ class CoreSetup {
 
 		register_post_type( 'photo_selection', [
 			'labels'             => $labels,
-			'public'             => true,
-			'publicly_queryable' => true,
+			'public'             => false,
+			'publicly_queryable' => false,
 			'show_ui'            => true,
 			'menu_position'      => 28,
 			'query_var'          => true,
 			'menu_icon'          => 'dashicons-yes',
 			'supports'           => [ 'title', 'editor', 'revisions' ],
-			'rewrite'            => [
-				'slug'  => 'fs',
-				'pages' => false
-			]
+			'rewrite'            => false,
 		] );
-
-	}
-
-	/**
-	 * Register ACF Controls
-	 *
-	 * @wp-action acf/init
-	 */
-	public function addPostEditAcf() {
-
-		acf_add_local_field_group(array (
-			'key' => 'group_58238be61a6b5',
-			'title' => 'Výběr fotek',
-			'fields' => array (
-				array (
-					'key' => 'field_58238c1ebb2d8',
-					'label' => 'Fotky',
-					'name' => 'photos',
-					'type' => 'gallery',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'min' => '',
-					'max' => '',
-					'preview_size' => 'thumbnail',
-					'insert' => 'append',
-					'library' => 'all',
-					'min_width' => '',
-					'min_height' => '',
-					'min_size' => '',
-					'max_width' => '',
-					'max_height' => '',
-					'max_size' => '',
-					'mime_types' => '',
-				),
-			),
-			'location' => array (
-				array (
-					array (
-						'param' => 'post_type',
-						'operator' => '==',
-						'value' => 'photo_selection',
-					),
-				),
-			),
-			'menu_order' => 0,
-			'position' => 'normal',
-			'style' => 'default',
-			'label_placement' => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen' => '',
-			'active' => 1,
-			'description' => '',
-		));
 
 	}
 

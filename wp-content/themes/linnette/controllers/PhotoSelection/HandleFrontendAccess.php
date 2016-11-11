@@ -36,6 +36,13 @@ class HandleFrontendAccess {
 	 * Maybe, if current user don't have much caps, we shouldn't do that. (sitemap creators, etc.)
 	 *
 	 * @wp-filter post_type_link
+	 *
+	 * @param string    $post_link Unfiltered post link
+	 * @param \WP_Post  $post
+	 * @param bool      $leavename Indicates, if we should leave %postname% placeholder in link
+	 * @param bool      $sample
+	 *
+	 * @return string
 	 */
 	public function maybeModifyPermalink( $post_link, $post, $leavename, $sample ) {
 		if( get_post_type( $post ) !== 'photo_selection' ) return $post_link;
@@ -46,7 +53,85 @@ class HandleFrontendAccess {
 
 		if( empty( $access_token ) ) return $post_link;
 
-		return $post_link . $access_token . '/';
+		$postname = ( $leavename ) ? '%postname%' : $post->post_name;
+
+		return trailingslashit( get_bloginfo( 'url' ) ) . 'fs/' . $postname . '/' . $access_token . '/';
+	}
+
+	/**
+	 * Add rewrite tags for photo slection slug and access token
+	 *
+	 * @wp-action init
+	 */
+	public function addRewritetags() {
+		add_rewrite_tag('%photo_selection%', '([^&]+)');
+		add_rewrite_tag('%photo_selection_access_token%', '([^&]+)');
+	}
+
+	/**
+	 * Add rewrite rule
+	 *
+	 * @wp-action init
+	 */
+	public function addRewriteRule() {
+		add_rewrite_rule( '^fs/([^/]+)/([^/]+)/?', 'index.php?photo_selection=$matches[1]&photo_selection_access_token=$matches[2]', 'top' );
+	}
+
+	/**
+	 * Catch main query parsing and check for existing photo selection query vars
+	 *
+	 * If so, modify main query to get single photo_selection post and modify is_ variables accordingly
+	 *
+	 * @wp-filter pre_get_posts
+	 *
+	 * @param \WP_Query $query
+	 *
+	 * @return \WP_Query
+	 */
+	public function catchFrontendAccess( $query ) {
+		if( !$query->is_main_query() || is_admin() ) return $query;
+
+		if( empty( $query->get( 'photo_selection' ) ) ) return $query;
+
+		$query->set( 'post_type', 'photo_selection' );
+		$query->set( 'name', $query->get( 'photo_selection' ) );
+
+		$query->is_home = false;
+		$query->is_singular = true;
+
+		return $query;
+	}
+
+	/**
+	 * Hook to routes deciding and if we are dealing with single photo_selection, check for valid access token
+	 *
+	 * On invalid or missing token, fire 404
+	 *
+	 * @param string $template Path to template
+	 *
+	 * @return string
+	 */
+	public function redirectToTemplate( $template ) {
+		global $post;
+		global $wp_query;
+
+		if( $wp_query->is_singular( 'photo_selection' ) ) {
+
+			$post_access_token = get_post_meta( $post->ID, '_access_token', true );
+
+			if( $wp_query->get( 'photo_selection_access_token' ) !== $post_access_token ) {
+				//Deny access
+				$wp_query->set_404();
+				status_header( 404 );
+				return locate_template( '404.php' );
+			} else {
+				//Allow access
+				return locate_template( 'single-photo_selection.php' );
+			}
+
+		}
+
+		return $template;
 	}
 
 }

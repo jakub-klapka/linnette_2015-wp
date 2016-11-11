@@ -43,10 +43,9 @@ class Hooks {
 
 		$this->actions = [
 			'init' => [
-				[ CoreSetup::class, 'registerCustomPostType' ]
-			],
-			'acf/init' => [
-				[ CoreSetup::class, 'addPostEditAcf' ]
+				[ CoreSetup::class, 'registerCustomPostType' ],
+				[ HandleFrontendAccess::class, 'addRewritetags' ],
+				[ HandleFrontendAccess::class, 'addRewriteRule' ]
 			],
 			'save_post_photo_selection' => [
 				[ HandleFrontendAccess::class, 'createAccessToken' ]
@@ -56,14 +55,27 @@ class Hooks {
 		$this->filters = [
 			'post_type_link' => [
 				[ HandleFrontendAccess::class, 'maybeModifyPermalink', 10, 4 ]
+			],
+			'pre_get_posts' => [
+				[ HandleFrontendAccess::class, 'catchFrontendAccess' ]
+			],
+			'template_include' => [
+				[ HandleFrontendAccess::class, 'redirectToTemplate']
 			]
 		];
 
-		$this->adminActions = [];
+		$this->adminActions = [
+			'edit_form_before_permalink' => [
+				[ AdminSetup::class, 'addPermalinkUnderTitle' ]
+			]
+		];
 
 		$this->adminFilters = [
 			'manage_photo_selection_posts_columns' => [
 				[ AdminSetup::class, 'removeSubscribeColumnFromEditScreen', 15 ]
+			],
+			'post_row_actions' => [
+				[ AdminSetup::class, 'addViewToRowActions', 10, 2 ]
 			]
 		];
 
