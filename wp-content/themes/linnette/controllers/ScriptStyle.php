@@ -72,6 +72,7 @@ class ScriptStyle {
 		wp_register_script( 'text_fit', get_template_directory_uri() . '/assets/js/libs/textFit.js', array(), $theme_ver, true );
 		wp_register_script( 'image_with_text', get_template_directory_uri() . '/assets/js/image_with_text.js', array( 'jquery', 'text_fit', 'enquire' ), $theme_ver, true );
 
+		wp_register_script( 'photo_selection', get_template_directory_uri() . '/assets/js/photo_selection.js', [ 'jquery', 'lightbox', 'lazysizes', 'autosize' ], $theme_ver, true );
 	}
 
 	static function enqueuePicturefill() {

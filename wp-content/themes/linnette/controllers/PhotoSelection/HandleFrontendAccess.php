@@ -2,6 +2,9 @@
 
 namespace Linnette\Controllers\PhotoSelection;
 
+use Linnette\Controllers\ScriptStyle;
+use Linnette\Models\LightboxedImage;
+use Linnette\Models\PhotoSelectionImage;
 use Linnette\Traits\SingletonTrait;
 
 class HandleFrontendAccess {
@@ -132,6 +135,37 @@ class HandleFrontendAccess {
 		}
 
 		return $template;
+	}
+
+	/**
+	 * Setup view variables
+	 *
+	 * @return array
+	 */
+	public static function setupView() {
+		global $post;
+
+		/*
+		 * Setup required JS
+		 */
+		add_action( 'wp_enqueue_scripts', function() {
+			ScriptStyle::enqueueLightbox();
+			wp_enqueue_script( 'photo_selection' );
+		}, 15 );
+
+		/*
+		 * Get Photos and checked status
+		 */
+		$photos = get_field( 'photos', false, false );
+		$checked_ids = get_post_meta( $post->ID, '_checked_photos', true );
+		$checked_ids = ( is_array( $checked_ids ) ) ? $checked_ids : [];
+
+		$data = [];
+		$data[ 'images' ] = array_map( function( $image_id ) use ( $checked_ids ) {
+			return new PhotoSelectionImage( $image_id, true, ( in_array( (int) $image_id, $checked_ids ) ) );
+		}, $photos );
+
+		return $data;
 	}
 
 }

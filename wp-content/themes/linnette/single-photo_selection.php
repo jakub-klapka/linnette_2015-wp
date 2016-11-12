@@ -1,3 +1,2 @@
 <?php
-//TODO: continue from here
-echo 'aa';
+Timber::render( 'single-photo_selection.twig', array_merge( Timber::get_context(), \Linnette\Controllers\PhotoSelection\HandleFrontendAccess::setupView() ) );

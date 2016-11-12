@@ -1,0 +1,46 @@
+{% extends 'master.twig' %}
+
+{% block main_content %}
+
+	<article class="main_content" role="main" itemprop="mainContentOfPage">
+
+		<form method="post" action="photo_selection_response.json" class="photo_selection_form">
+
+			<div class="main_content__typo">
+				<h1>Výběr fotek: {{ post.title }}</h1>
+				{{ post.content }}
+			</div>
+
+			<div class="images_list photo_selection is-photo_selection" itemscope itemtype="https://schema.org/ImageGallery">
+
+				{% embed '_images_list.twig' %}
+
+					{% block end_wrap %}
+						<input class="photo_selection__checkbox"
+						       type="checkbox"
+						       name="photo_selection_{{ image.id }}"
+						       id="photo_selection_{{ image.id }}"
+						       value="1"
+						       {% if image.is_checked %}checked="checked"{% endif %}
+						       xdisabled="disabled">
+						<label class="photo_selection__checkbox__label" for="photo_selection_{{ image.id }}" aria-hidden="true">
+							<svg class="photo_selection__checkbox__label__svg is-open"><use xlink:href="#icon-check_open"></use></svg>
+							<svg class="photo_selection__checkbox__label__svg is-closed"><use xlink:href="#icon-check_close"></use></svg>
+						</label>
+					{% endblock %}
+
+					{% block endfigure %}
+						<figcaption class="article_gallery__item__caption" itemprop="caption">{{ image.post_title }}</figcaption>
+					{% endblock %}
+
+					{% block figure_class %}{% if image.is_checked %} is-checked{% endif %}{% endblock %}
+
+				{% endembed %}
+
+			</div>
+
+		</form>
+
+	</article>
+
+{% endblock %}
