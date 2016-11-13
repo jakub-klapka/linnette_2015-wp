@@ -79,13 +79,19 @@ class ScriptStyle {
 		wp_enqueue_script( 'picturefill' );
 	}
 
-	static function enqueueLightbox() {
+	/**
+	 * Enqueue lightbox JSs and add photoswipe elements do DOM
+	 *
+	 * @param string    $template_to_include    Allow for template override, pass template filename
+	 * @param array     $template_data          Data to pass to template
+	 */
+	static function enqueueLightbox( $template_to_include = '_pswp_footer.twig', $template_data = [] ) {
 		wp_enqueue_style( 'lightbox' );
 		wp_enqueue_script( 'lightbox' );
 
 		if( !self::$lightbox_enqueued ){
-			add_action( 'wp_footer', function() {
-				echo \Timber::compile( '_pswp_footer.twig' );
+			add_action( 'wp_footer', function() use ( $template_to_include, $template_data ) {
+				echo \Timber::compile( $template_to_include, $template_data );
 			} );
 			self::$lightbox_enqueued = true;
 		}

@@ -13,6 +13,12 @@
 
 			<div class="images_list photo_selection is-photo_selection" itemscope itemtype="https://schema.org/ImageGallery">
 
+				{% if not locked %}
+					<div class="photo_selection__note">
+						(Kliknutím na fotku se vám zobrazí její plná velikost. Pro prohlížení plných velikostí fotek můžete používat šipky na klávesnici a klávesu <strong>X</strong> pro označení.)
+					</div>
+				{% endif %}
+
 				{% embed '_images_list.twig' %}
 
 					{% block end_wrap %}
@@ -22,7 +28,7 @@
 						       id="photo_selection_{{ image.id }}"
 						       value="1"
 						       {% if image.is_checked %}checked="checked"{% endif %}
-						       xdisabled="disabled">
+						       {% if locked %}disabled="disabled"{% endif %}>
 						<label class="photo_selection__checkbox__label" for="photo_selection_{{ image.id }}" aria-hidden="true">
 							<svg class="photo_selection__checkbox__label__svg is-open"><use xlink:href="#icon-check_open"></use></svg>
 							<svg class="photo_selection__checkbox__label__svg is-closed"><use xlink:href="#icon-check_close"></use></svg>
@@ -37,9 +43,30 @@
 
 				{% endembed %}
 
-			</div>
+			</div><!-- photo_selection -->
 
-		</form>
+			<div class="main_content__typo photo_selection_actions">
+				<p>
+					<span class="photo_selection_actions__selected_count">Vybraných fotek:&nbsp;<strong data-photo_selection_counter>{{ checked_count }}</strong></span>
+					{% if not locked %}
+						<button type="submit" name="save_photo_selection" value="1" class="photo_selection_actions__save_button">
+							<span class="photo_selection_actions__save_button__save_text">Uložit</span>
+							<span class="photo_selection_actions__save_button__loader" aria-hidden="true"><svg><use xlink:href="#icon-loader"></use></svg></span>
+							<span class="photo_selection_actions__save_button__saved_text" aria-hidden="true">Uloženo!</span>
+						</button>
+						<span class="photo_selection_actions__button_note">(K výběru se můžete později vrátit)</span>
+					{% else %}
+						<span class="photo_selection_actions__button_note">(Výběr byl uzamčen. Pokud potřebujete ještě něco změnit, tak mě, prosím, kontaktujte.)</span>
+					{% endif %}
+				</p>
+				<p>
+					<label class="form__label" for="zprava">Vzkaz:</label>
+					<textarea class="form__input is-textarea" name="zprava" id="zprava"{% if locked %} disabled="disabled"{% endif %}>{{ note }}</textarea>
+					{% if not locked %}<br><button type="submit" name="form_submit" value="1" class="form__submit">Odeslat ke zpracování</button>{% endif %}
+				</p>
+			</div><!-- photo_selection_actions -->
+
+		</form><!-- photo_selection_form -->
 
 	</article>
 

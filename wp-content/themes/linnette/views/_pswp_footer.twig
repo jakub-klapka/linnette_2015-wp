@@ -57,8 +57,10 @@
 			</button>
 
 			<div class="pswp__caption">
-				<div class="pswp__caption__center"></div>
+				<div class="pswp__caption__center{% block pswp_caption_class %}{% endblock %}"></div>
 			</div>
+
+			{% block pswp_ui_end %}{% endblock %}
 
 		</div>
 

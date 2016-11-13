@@ -144,12 +144,13 @@ class HandleFrontendAccess {
 	 */
 	public static function setupView() {
 		global $post;
+		$post_locked = get_field( 'photo_selection_locked' );
 
 		/*
 		 * Setup required JS
 		 */
-		add_action( 'wp_enqueue_scripts', function() {
-			ScriptStyle::enqueueLightbox();
+		add_action( 'wp_enqueue_scripts', function() use ( $post_locked ) {
+			ScriptStyle::enqueueLightbox( 'photo_selection/_photo_selection_pswp_footer.twig', [ 'locked' => $post_locked ] );
 			wp_enqueue_script( 'photo_selection' );
 		}, 15 );
 
@@ -164,6 +165,9 @@ class HandleFrontendAccess {
 		$data[ 'images' ] = array_map( function( $image_id ) use ( $checked_ids ) {
 			return new PhotoSelectionImage( $image_id, true, ( in_array( (int) $image_id, $checked_ids ) ) );
 		}, $photos );
+		$data[ 'checked_count' ] = count( $checked_ids );
+		$data[ 'note' ] = get_field( 'photo_selection_note' );
+		$data[ 'locked' ] = $post_locked;
 
 		return $data;
 	}
