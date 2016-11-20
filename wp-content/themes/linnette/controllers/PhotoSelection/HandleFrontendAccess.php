@@ -147,6 +147,11 @@ class HandleFrontendAccess {
 		$post_locked = get_field( 'photo_selection_locked' );
 
 		/*
+		 * Do not cache this views with WP Super Cache
+		 */
+		define( 'DONOTCACHEPAGE', true );
+
+		/*
 		 * Setup required JS
 		 */
 		add_action( 'wp_enqueue_scripts', function() use ( $post_locked ) {
@@ -168,8 +173,94 @@ class HandleFrontendAccess {
 		$data[ 'checked_count' ] = count( $checked_ids );
 		$data[ 'note' ] = get_field( 'photo_selection_note' );
 		$data[ 'locked' ] = $post_locked;
+		$data[ 'ajax_url' ] = admin_url( 'admin-ajax.php' );
+		$data[ 'nonce' ] = wp_create_nonce( 'photo_selection_nonce_id_' . $post->ID );
+		$data[ 'access_token' ] = get_post_meta( $post->ID, '_access_token', true );
 
 		return $data;
+	}
+
+	/**
+	 * Handle requests to admin-ajax.php
+	 *
+	 * If request has photo_selection_action => save_selection, it is (auto)save request, which expects json response.
+	 * If reqest have form_submit => 1, it is form submission, which should lock selection and return 302 redirect
+	 *
+	 * Expected json response: { "result": "saved" }
+	 *
+	 * @wp-action wp_ajax_nopriv_photo_selection, wp_ajax_photo_selection
+	 */
+	public function handleFormSubmission() {
+		/*
+		 * Var Normalization
+		 */
+		$req = [
+			'post_id' => ( isset( $_POST[ 'post_id' ] ) ) ? (int)$_POST[ 'post_id' ] : false,
+			'_wp_nonce' => ( isset( $_POST[ '_wp_nonce' ] ) ) ? $_POST[ '_wp_nonce' ] : false,
+			'access_token' => ( isset( $_POST[ 'access_token' ] ) ) ? $_POST[ 'access_token' ] : false
+		];
+
+		/*
+		 * Checks
+		 */
+		if( $req[ 'post_id' ] === false || $req[ '_wp_nonce' ] === false || $req[ 'access_token' ] === false ) wp_die( 'Ivalid access' );
+
+		check_ajax_referer( 'photo_selection_nonce_id_' . $req[ 'post_id' ], '_wp_nonce' );
+
+		$post_access_token = get_post_meta( $req[ 'post_id' ], '_access_token', true );
+		if( $post_access_token !== $req[ 'access_token' ] ) wp_die( 'Invalid access' );
+
+		/*
+		 * Saving
+		 */
+		$this->savePhotoSelection( $req );
+		update_field( 'photo_selection_note', $_REQUEST[ 'zprava' ], $req[ 'post_id' ] ); //Is sanitized by wp_sanitize_meta
+
+		/*
+		 * Routing
+		 */
+		if( isset( $_REQUEST[ 'photo_selection_action' ] ) && $_REQUEST[ 'photo_selection_action' ] === 'save_selection' ) {
+			//Autosave
+			wp_send_json( [ "result" => "saved" ] );
+		} elseif ( isset( $_REQUEST[ 'form_submit' ] ) ) {
+			//Standard form submission
+			update_field( 'photo_selection_locked', true, $req[ 'post_id' ] );
+			wp_redirect( get_permalink( $req[ 'post_id' ] ) );
+		} else {
+			//Case, we are not aware of
+			wp_die( 'Invalid form submission. Data saved.' );
+		}
+
+		//TODO: indication on form submission, lock indicator on admin screen
+
+	}
+
+	/**
+	 * Saves current photo selection to DB
+	 *
+	 * Expecting, that request is validated and user has adequate privileges.
+	 * This func checks only, if selected photos are in fact in current post
+	 *
+	 * @param array $req Normalized request variables
+	 */
+	private function savePhotoSelection( $req ) {
+
+		// Get selected IDs
+		$ids_of_selected = [];
+		foreach( array_keys( $_REQUEST ) as $request_key ) {
+			preg_match( '/^photo\_selection\_(\d+)$/', $request_key, $matches );
+			if( isset( $matches[ 1 ] ) ) $ids_of_selected[] = (int)$matches[ 1 ];
+		}
+
+		//Check, if those IDs are really in current post
+		$all_post_photos = get_field( 'photos', $req[ 'post_id' ], false );
+		foreach ( $ids_of_selected as $photo_id ) {
+			if( !in_array( $photo_id, $all_post_photos ) ) wp_die( 'Invalid photo selection.' );
+		}
+
+		//Save photo selection
+		update_post_meta( $req[ 'post_id' ], '_checked_photos', $ids_of_selected );
+
 	}
 
 }

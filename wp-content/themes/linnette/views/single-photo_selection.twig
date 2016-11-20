@@ -4,7 +4,11 @@
 
 	<article class="main_content" role="main" itemprop="mainContentOfPage">
 
-		<form method="post" action="photo_selection_response.json" class="photo_selection_form">
+		<form method="post" action="{{ ajax_url }}" class="photo_selection_form">
+			<input type="hidden" name="action" value="photo_selection">
+			<input type="hidden" name="_wp_nonce" value="{{ nonce }}">
+			<input type="hidden" name="post_id" value="{{ post.id }}">
+			<input type="hidden" name="access_token" value="{{ access_token }}">
 
 			<div class="main_content__typo">
 				<h1>Výběr fotek: {{ post.title }}</h1>

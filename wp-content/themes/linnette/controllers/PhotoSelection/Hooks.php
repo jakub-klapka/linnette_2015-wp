@@ -49,6 +49,12 @@ class Hooks {
 			],
 			'save_post_photo_selection' => [
 				[ HandleFrontendAccess::class, 'createAccessToken' ]
+			],
+			'wp_ajax_nopriv_photo_selection' => [
+				[ HandleFrontendAccess::class, 'handleFormSubmission' ]
+			],
+			'wp_ajax_photo_selection' => [
+				[ HandleFrontendAccess::class, 'handleFormSubmission' ]
 			]
 		];
 
