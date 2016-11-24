@@ -5,7 +5,9 @@ namespace Linnette\Controllers\PhotoSelection;
 use Linnette\Controllers\ScriptStyle;
 use Linnette\Models\LightboxedImage;
 use Linnette\Models\PhotoSelectionImage;
+use Linnette\Models\PhotoSelectionPost;
 use Linnette\Traits\SingletonTrait;
+use Timber\Timber;
 
 class HandleFrontendAccess {
 	use SingletonTrait;
@@ -176,8 +178,21 @@ class HandleFrontendAccess {
 		$data[ 'ajax_url' ] = admin_url( 'admin-ajax.php' );
 		$data[ 'nonce' ] = wp_create_nonce( 'photo_selection_nonce_id_' . $post->ID );
 		$data[ 'access_token' ] = get_post_meta( $post->ID, '_access_token', true );
+		$data[ 'form_submitted' ] = ( get_query_var( 'photo_selection_submitted' ) == '1' ) ? get_field( 'photo_selection_success_message', 'option' ) : false;
+		$data[ 'instructions' ] = get_field( 'photo_selection_instructions', 'option' );
 
 		return $data;
+	}
+
+	/**
+	 * @wp-filter query_vars
+	 * @param $vars
+	 *
+	 * @return array
+	 */
+	public function registerSubmittedQueryVar( $vars ) {
+		$vars[] = 'photo_selection_submitted';
+		return $vars;
 	}
 
 	/**
@@ -195,9 +210,9 @@ class HandleFrontendAccess {
 		 * Var Normalization
 		 */
 		$req = [
-			'post_id' => ( isset( $_POST[ 'post_id' ] ) ) ? (int)$_POST[ 'post_id' ] : false,
-			'_wp_nonce' => ( isset( $_POST[ '_wp_nonce' ] ) ) ? $_POST[ '_wp_nonce' ] : false,
-			'access_token' => ( isset( $_POST[ 'access_token' ] ) ) ? $_POST[ 'access_token' ] : false
+			'post_id'      => ( isset( $_POST['post_id'] ) ) ? (int) $_POST['post_id'] : false,
+			'_wp_nonce'    => ( isset( $_POST['_wp_nonce'] ) ) ? $_POST['_wp_nonce'] : false,
+			'access_token' => ( isset( $_POST['access_token'] ) ) ? $_POST['access_token'] : false
 		];
 
 		/*
@@ -210,9 +225,12 @@ class HandleFrontendAccess {
 		$post_access_token = get_post_meta( $req[ 'post_id' ], '_access_token', true );
 		if( $post_access_token !== $req[ 'access_token' ] ) wp_die( 'Invalid access' );
 
+		if( get_field( 'photo_selection_locked', $req[ 'post_id' ] ) == true ) wp_die( 'Snažíte se upravit uzavřený výběr. To nejde...' );
+
 		/*
 		 * Saving
 		 */
+		$post = new PhotoSelectionPost( $req[ 'post_id' ] );
 		$this->savePhotoSelection( $req );
 		update_field( 'photo_selection_note', $_REQUEST[ 'zprava' ], $req[ 'post_id' ] ); //Is sanitized by wp_sanitize_meta
 
@@ -224,14 +242,12 @@ class HandleFrontendAccess {
 			wp_send_json( [ "result" => "saved" ] );
 		} elseif ( isset( $_REQUEST[ 'form_submit' ] ) ) {
 			//Standard form submission
-			update_field( 'photo_selection_locked', true, $req[ 'post_id' ] );
-			wp_redirect( get_permalink( $req[ 'post_id' ] ) );
+			$this->processSubmission( $post );
+			wp_redirect( add_query_arg( 'photo_selection_submitted', '1', get_permalink( $req[ 'post_id' ] ) ) );
 		} else {
 			//Case, we are not aware of
 			wp_die( 'Invalid form submission. Data saved.' );
 		}
-
-		//TODO: indication on form submission, lock indicator on admin screen
 
 	}
 
@@ -260,6 +276,37 @@ class HandleFrontendAccess {
 
 		//Save photo selection
 		update_post_meta( $req[ 'post_id' ], '_checked_photos', $ids_of_selected );
+
+	}
+
+	/**
+	 * Do actual post locking and send notification e-mail
+	 *
+	 * @param PhotoSelectionPost $post
+	 */
+	private function processSubmission( $post ) {
+		//Set locked
+		$post->update( 'photo_selection_locked', true );
+
+		//Send mail
+		$recipient_emails = get_field( 'photo_selection_notifications_email', 'option' );
+		$recipient_emails = array_map( function( $repeater_item ) {
+			return $repeater_item[ 'email' ];
+		}, $recipient_emails );
+
+		$mail_data = [
+			'title'           => $post->title(),
+			'link'            => $post->link(),
+			'selected_photos' => $post->getSelectedPhotosHtml()
+		];
+
+		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+		wp_mail(
+			$recipient_emails,
+			"Uzavřený výběr fotek: {$post->post_title}",
+			Timber::compile( 'photo_selection/notification_email.twig', $mail_data ),
+			$headers
+		);
 
 	}
 

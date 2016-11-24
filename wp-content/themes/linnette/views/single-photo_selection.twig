@@ -4,22 +4,29 @@
 
 	<article class="main_content" role="main" itemprop="mainContentOfPage">
 
-		<form method="post" action="{{ ajax_url }}" class="photo_selection_form">
-			<input type="hidden" name="action" value="photo_selection">
-			<input type="hidden" name="_wp_nonce" value="{{ nonce }}">
-			<input type="hidden" name="post_id" value="{{ post.id }}">
-			<input type="hidden" name="access_token" value="{{ access_token }}">
+		{% if not locked %}
+			<form method="post" action="{{ ajax_url }}" class="photo_selection_form">
+				<input type="hidden" name="action" value="photo_selection">
+				<input type="hidden" name="_wp_nonce" value="{{ nonce }}">
+				<input type="hidden" name="post_id" value="{{ post.id }}">
+				<input type="hidden" name="access_token" value="{{ access_token }}">
+		{% endif %}
 
 			<div class="main_content__typo">
 				<h1>Výběr fotek: {{ post.title }}</h1>
+
+				{% if form_submitted %}
+					<div class="form_notification">{{ form_submitted|raw }}</div>
+				{% endif %}
+
 				{{ post.content }}
 			</div>
 
 			<div class="images_list photo_selection is-photo_selection" itemscope itemtype="https://schema.org/ImageGallery">
 
-				{% if not locked %}
+				{% if not locked and instructions %}
 					<div class="photo_selection__note">
-						(Kliknutím na fotku se vám zobrazí její plná velikost. Pro prohlížení plných velikostí fotek můžete používat šipky na klávesnici a klávesu <strong>X</strong> pro označení.)
+						({{ instructions|raw }})
 					</div>
 				{% endif %}
 
@@ -70,7 +77,9 @@
 				</p>
 			</div><!-- photo_selection_actions -->
 
-		</form><!-- photo_selection_form -->
+		{% if not locked %}
+			</form><!-- photo_selection_form -->
+		{% endif %}
 
 	</article>
 

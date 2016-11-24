@@ -67,12 +67,18 @@ class Hooks {
 			],
 			'template_include' => [
 				[ HandleFrontendAccess::class, 'redirectToTemplate']
+			],
+			'query_vars' => [
+				[ HandleFrontendAccess::class, 'registerSubmittedQueryVar' ]
 			]
 		];
 
 		$this->adminActions = [
 			'edit_form_before_permalink' => [
 				[ AdminSetup::class, 'addPermalinkUnderTitle' ]
+			],
+			'admin_menu' => [
+				[ AdminSetup::class, 'registerAcfSettingsPage' ]
 			]
 		];
 

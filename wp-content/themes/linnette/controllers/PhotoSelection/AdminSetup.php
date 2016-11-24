@@ -67,5 +67,25 @@ class AdminSetup {
 
 	}
 
+	/**
+	 * Add photo selection settings page under CPTs edit.php parent
+	 *
+	 * @wp-action admin_init
+	 */
+	public function registerAcfSettingsPage() {
+
+		if( function_exists('acf_add_options_page') ) {
+
+			acf_add_options_page( [
+				'page_title' 	=> 'Nastavení Výběrů fotek',
+				'menu_title'    => 'Nastavení Výběrů fotek',
+				'menu_slug'     => 'photo-selection-settings',
+				'capability'    => 'edit_posts',
+				'parent'        => 'edit.php?post_type=photo_selection'
+			] );
+
+		}
+
+	}
 
 }
