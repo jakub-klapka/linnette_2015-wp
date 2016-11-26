@@ -1,0 +1,21 @@
+{% extends '_pswp_footer.twig' %}
+
+{% block pswp_caption_class %} is-photo_selection{% endblock %}
+
+{% block pswp_ui_end %}
+
+	<!-- Linnete photo selection -->
+
+	<div class="pswp__linnete-photo-selection{% if locked %} is-disabled{% endif %}">
+		<button class="pswp__linnete-photo-selection__button"{% if locked %}  disabled="disabled"{% endif %}>
+			<span class="pswp__linnete-photo-selection__button__text">Výběr fotky</span>
+			<span class="pswp__linnete-photo-selection__button__icon">
+				<svg class="pswp__linnete-photo-selection__button__icon__svg is-open"><use xlink:href="#icon-check_open"></use></svg>
+				<svg class="pswp__linnete-photo-selection__button__icon__svg is-closed"><use xlink:href="#icon-check_checkmark"></use></svg>
+			</span>
+		</button>
+	</div>
+
+	<!--/Linnete photo selection -->
+
+{% endblock %}

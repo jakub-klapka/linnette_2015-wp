@@ -4,12 +4,20 @@
  * Classes Autoloader
  */
 spl_autoload_register( function( $name ){
+	if( strpos( $name, 'Linnette\\Controllers\\PhotoSelection\\' ) !== false ) {
+		include_once( __DIR__ . '/controllers/PhotoSelection/' . str_replace( 'Linnette\\Controllers\\PhotoSelection\\', '', $name ) . '.php' );
+		return;
+	}
 	if( strpos( $name, 'Linnette\\Controllers\\' ) !== false ) {
 		include_once( __DIR__ . '/controllers/' . str_replace( 'Linnette\\Controllers\\', '', $name ) . '.php' );
 		return;
 	}
 	if( strpos( $name, 'Linnette\\Models\\' ) !== false ) {
 		include_once( __DIR__ . '/models/' . str_replace( 'Linnette\\Models\\', '', $name ) . '.php' );
+		return;
+	}
+	if( strpos( $name, 'Linnette\\Traits\\' ) !== false ) {
+		include_once( __DIR__ . '/traits/' . str_replace( 'Linnette\\Traits\\', '', $name ) . '.php' );
 		return;
 	}
 } );
@@ -65,6 +73,8 @@ add_action( 'init', function(){
 	}
 }, 5 );
 
+//Brand new Controllers
+\Linnette\Controllers\PhotoSelection\Hooks::registerHooks();
 
 
 /*

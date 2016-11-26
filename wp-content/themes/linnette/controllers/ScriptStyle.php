@@ -72,19 +72,26 @@ class ScriptStyle {
 		wp_register_script( 'text_fit', get_template_directory_uri() . '/assets/js/libs/textFit.js', array(), $theme_ver, true );
 		wp_register_script( 'image_with_text', get_template_directory_uri() . '/assets/js/image_with_text.js', array( 'jquery', 'text_fit', 'enquire' ), $theme_ver, true );
 
+		wp_register_script( 'photo_selection', get_template_directory_uri() . '/assets/js/photo_selection.js', [ 'jquery', 'lightbox', 'lazysizes', 'autosize' ], $theme_ver, true );
 	}
 
 	static function enqueuePicturefill() {
 		wp_enqueue_script( 'picturefill' );
 	}
 
-	static function enqueueLightbox() {
+	/**
+	 * Enqueue lightbox JSs and add photoswipe elements do DOM
+	 *
+	 * @param string    $template_to_include    Allow for template override, pass template filename
+	 * @param array     $template_data          Data to pass to template
+	 */
+	static function enqueueLightbox( $template_to_include = '_pswp_footer.twig', $template_data = [] ) {
 		wp_enqueue_style( 'lightbox' );
 		wp_enqueue_script( 'lightbox' );
 
 		if( !self::$lightbox_enqueued ){
-			add_action( 'wp_footer', function() {
-				echo \Timber::compile( '_pswp_footer.twig' );
+			add_action( 'wp_footer', function() use ( $template_to_include, $template_data ) {
+				echo \Timber::compile( $template_to_include, $template_data );
 			} );
 			self::$lightbox_enqueued = true;
 		}

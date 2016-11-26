@@ -1,0 +1,86 @@
+{% extends 'master.twig' %}
+
+{% block main_content %}
+
+	<article class="main_content" role="main" itemprop="mainContentOfPage">
+
+		{% if not locked %}
+			<form method="post" action="{{ ajax_url }}" class="photo_selection_form">
+				<input type="hidden" name="action" value="photo_selection">
+				<input type="hidden" name="_wp_nonce" value="{{ nonce }}">
+				<input type="hidden" name="post_id" value="{{ post.id }}">
+				<input type="hidden" name="access_token" value="{{ access_token }}">
+		{% endif %}
+
+			<div class="main_content__typo">
+				<h1>Výběr fotek: {{ post.title }}</h1>
+
+				{% if form_submitted %}
+					<div class="form_notification">{{ form_submitted|raw }}</div>
+				{% endif %}
+
+				{{ post.content }}
+			</div>
+
+			<div class="images_list photo_selection is-photo_selection" itemscope itemtype="https://schema.org/ImageGallery">
+
+				{% if not locked and instructions %}
+					<div class="photo_selection__note">
+						({{ instructions|raw }})
+					</div>
+				{% endif %}
+
+				{% embed '_images_list.twig' %}
+
+					{% block end_wrap %}
+						<input class="photo_selection__checkbox"
+						       type="checkbox"
+						       name="photo_selection_{{ image.id }}"
+						       id="photo_selection_{{ image.id }}"
+						       value="1"
+						       {% if image.is_checked %}checked="checked"{% endif %}
+						       {% if locked %}disabled="disabled"{% endif %}>
+						<label class="photo_selection__checkbox__label" for="photo_selection_{{ image.id }}" aria-hidden="true">
+							<svg class="photo_selection__checkbox__label__svg is-open"><use xlink:href="#icon-check_open"></use></svg>
+							<svg class="photo_selection__checkbox__label__svg is-closed"><use xlink:href="#icon-check_close"></use></svg>
+						</label>
+					{% endblock %}
+
+					{% block endfigure %}
+						<figcaption class="article_gallery__item__caption" itemprop="caption">{{ image.post_title }}</figcaption>
+					{% endblock %}
+
+					{% block figure_class %}{% if image.is_checked %} is-checked{% endif %}{% endblock %}
+
+				{% endembed %}
+
+			</div><!-- photo_selection -->
+
+			<div class="main_content__typo photo_selection_actions">
+				<p>
+					<span class="photo_selection_actions__selected_count">Vybraných fotek:&nbsp;<strong data-photo_selection_counter>{{ checked_count }}</strong></span>
+					{% if not locked %}
+						<button type="submit" name="save_photo_selection" value="1" class="photo_selection_actions__save_button">
+							<span class="photo_selection_actions__save_button__save_text">Uložit</span>
+							<span class="photo_selection_actions__save_button__loader" aria-hidden="true"><svg><use xlink:href="#icon-loader"></use></svg></span>
+							<span class="photo_selection_actions__save_button__saved_text" aria-hidden="true">Uloženo!</span>
+						</button>
+						<span class="photo_selection_actions__button_note">(K výběru se můžete později vrátit)</span>
+					{% else %}
+						<span class="photo_selection_actions__button_note">(Výběr byl uzamčen. Pokud potřebujete ještě něco změnit, tak mě, prosím, kontaktujte.)</span>
+					{% endif %}
+				</p>
+				<p>
+					<label class="form__label" for="zprava">Vzkaz:</label>
+					<textarea class="form__input is-textarea" name="zprava" id="zprava"{% if locked %} disabled="disabled"{% endif %}>{{ note }}</textarea>
+					{% if not locked %}<br><button type="submit" name="form_submit" value="1" class="form__submit">Odeslat ke zpracování</button>{% endif %}
+				</p>
+			</div><!-- photo_selection_actions -->
+
+		{% if not locked %}
+			</form><!-- photo_selection_form -->
+		{% endif %}
+
+	</article>
+
+{% endblock %}
