@@ -37,6 +37,7 @@ class PhotoSelectionPost extends Post {
 	private function getSelectedPhotosTitles() {
 
 		$photo_ids = $this->meta( '_checked_photos' );
+		if( $photo_ids == false ) return [];
 
 		$photo_titles = [];
 		foreach( $photo_ids as $photo_id ) {
@@ -46,6 +47,15 @@ class PhotoSelectionPost extends Post {
 
 		return $photo_titles;
 
+	}
+
+	/**
+	 * Check, if current post has locked selection
+	 *
+	 * @return bool
+	 */
+	public function isLocked() {
+		return (bool)get_field( 'photo_selection_locked', $this->ID );
 	}
 
 }

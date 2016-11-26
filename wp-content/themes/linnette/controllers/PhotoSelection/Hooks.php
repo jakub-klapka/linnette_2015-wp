@@ -3,6 +3,7 @@
 namespace Linnette\Controllers\PhotoSelection;
 
 use Linnette\Traits\SingletonTrait;
+use Timber\Admin;
 
 class Hooks {
 	use SingletonTrait;
@@ -79,12 +80,19 @@ class Hooks {
 			],
 			'admin_menu' => [
 				[ AdminSetup::class, 'registerAcfSettingsPage' ]
+			],
+			'add_meta_boxes' => [
+				[ AdminSetup::class, 'registerSelectedImagesMetabox' ]
 			]
 		];
 
 		$this->adminFilters = [
 			'manage_photo_selection_posts_columns' => [
-				[ AdminSetup::class, 'removeSubscribeColumnFromEditScreen', 15 ]
+				[ AdminSetup::class, 'removeSubscribeColumnFromEditScreen', 15 ],
+				[ AdminSetup::class, 'registerLockColumn' ]
+			],
+			'manage_photo_selection_posts_custom_column' => [
+				[ AdminSetup::class, 'lockColumn', 10, 2 ]
 			],
 			'post_row_actions' => [
 				[ AdminSetup::class, 'addViewToRowActions', 10, 2 ]

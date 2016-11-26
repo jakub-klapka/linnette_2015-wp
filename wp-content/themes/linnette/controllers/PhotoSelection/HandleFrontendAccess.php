@@ -151,7 +151,7 @@ class HandleFrontendAccess {
 		/*
 		 * Do not cache this views with WP Super Cache
 		 */
-		define( 'DONOTCACHEPAGE', true );
+		if( !defined( 'DONOTCACHEPAGE' ) ) define( 'DONOTCACHEPAGE', true );
 
 		/*
 		 * Setup required JS
@@ -165,6 +165,7 @@ class HandleFrontendAccess {
 		 * Get Photos and checked status
 		 */
 		$photos = get_field( 'photos', false, false );
+		if( $photos == false ) $photos = [];
 		$checked_ids = get_post_meta( $post->ID, '_checked_photos', true );
 		$checked_ids = ( is_array( $checked_ids ) ) ? $checked_ids : [];
 

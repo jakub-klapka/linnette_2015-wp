@@ -2,6 +2,7 @@
 
 namespace Linnette\Controllers\PhotoSelection;
 
+use Linnette\Models\PhotoSelectionPost;
 use Linnette\Traits\SingletonTrait;
 use Timber\Timber;
 
@@ -84,6 +85,68 @@ class AdminSetup {
 				'parent'        => 'edit.php?post_type=photo_selection'
 			] );
 
+		}
+
+	}
+
+	/**
+	 * Register post edit metaboxes
+	 *
+	 * @wp-action add_meta_boxes
+	 */
+	public function registerSelectedImagesMetabox() {
+		add_meta_box(
+			'selected-photos',
+			'Seznam vybraných fotek',
+			[ $this, 'selectedImagesMetabox' ],
+			'photo_selection',
+			'normal',
+			'high'
+		);
+	}
+
+	/**
+	 * Render selected photos metabox content
+	 *
+	 * @param \WP_Post $wp_post
+	 */
+	public function selectedImagesMetabox( $wp_post ) {
+		$post = new PhotoSelectionPost( $wp_post->ID );
+		echo $post->getSelectedPhotosHtml();
+	}
+
+	/**
+	 * Register column on edit.php for post lock indication
+	 *
+	 * @wp-filter manage_photo_selection_posts_columns
+	 *
+	 * @param array $columns
+	 *
+	 * @return array
+	 */
+	public function registerLockColumn( $columns ) {
+		$new_column = [ 'photo_selection_locked' => 'Výběr uzamčen' ];
+
+		$date_index = array_search( 'date', array_keys( $columns ) );
+		$date_index = ( $date_index === false ) ? count( $columns ) - 1 : $date_index;
+
+		return array_merge( array_slice( $columns, 0, $date_index ), $new_column, array_slice( $columns, $date_index ) );
+	}
+
+	/**
+	 * Add column to edit.php, which indicates, if post was already locked by user
+	 *
+	 * @wp-action manage_photo_selection_posts_custom_column
+	 */
+	public function lockColumn( $column, $post_id ) {
+		if( $column !== 'photo_selection_locked' ) return;
+
+		$post = new PhotoSelectionPost( $post_id );
+
+		if( $post->isLocked() ) {
+			echo '<span class="dashicons dashicons-lock" style="color: green;"></span>';
+		} else {
+			echo '<span class="dashicons dashicons-unlock" style="color: red;"></span>';
 		}
 
 	}
