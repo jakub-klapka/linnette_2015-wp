@@ -4,3 +4,5 @@
 !wp-content/themes
 !wp-content/themes/linnette
 !wp-content/themes/linnette/**
+!puphpet
+!puphpet/config.yaml
