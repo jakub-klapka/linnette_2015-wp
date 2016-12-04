@@ -13,6 +13,9 @@
 {% endblock %}
 
 {% block content %}
+
+	{{ post.soundcloudMusicPlayer }}
+
 	{{ post.content }}
 
 	{{ enqueue_load_fb_like() }}

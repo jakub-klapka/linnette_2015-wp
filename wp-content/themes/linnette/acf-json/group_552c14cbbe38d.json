@@ -3,19 +3,6 @@
     "title": "Hlavn\u00ed obr\u00e1zek blogu",
     "fields": [
         {
-            "key": "field_552c14cc0953b",
-            "label": "Hlavn\u00ed obr\u00e1zek",
-            "name": "featured_image",
-            "prefix": "",
-            "type": "image",
-            "instructions": "Alespo\u0148 1023px na \u0161\u00ed\u0159ku.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
             "return_format": "id",
             "preview_size": "thumbnail",
             "library": "all",
@@ -25,7 +12,62 @@
             "max_width": "",
             "max_height": "",
             "max_size": "",
-            "mime_types": ""
+            "mime_types": "",
+            "key": "field_552c14cc0953b",
+            "label": "Hlavn\u00ed obr\u00e1zek",
+            "name": "featured_image",
+            "type": "image",
+            "instructions": "Alespo\u0148 1023px na \u0161\u00ed\u0159ku.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "default_value": 0,
+            "message": "",
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "key": "field_5843329529676",
+            "label": "P\u0159idat p\u00edsni\u010dkova\u010d?",
+            "name": "add_music",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "width": "",
+            "height": 80,
+            "key": "field_584332bf29677",
+            "label": "Odkaz na soundcloud",
+            "name": "soundcloud_link",
+            "type": "oembed",
+            "instructions": "Bereme jenom odkazy z <a href=\"https:\/\/www.soundcloud.com\">soundcloud.com<\/a>",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5843329529676",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
         }
     ],
     "location": [
@@ -43,6 +85,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "modified": 1430509269,
-    "local": "json"
+    "active": 1,
+    "description": "",
+    "modified": 1480798973
 }

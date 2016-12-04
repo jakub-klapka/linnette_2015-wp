@@ -3,7 +3,10 @@
 namespace Linnette\Models;
 
 
-class LinnettePost extends \TimberPost {
+use Timber\Post;
+use Timber\Timber;
+
+class LinnettePost extends Post {
 
 	public $PostClass = self::class;
 
@@ -152,5 +155,22 @@ class LinnettePost extends \TimberPost {
 
 	}
 
+	/**
+	 * Get Soundcloud link from admin and construct player
+	 *
+	 * Used in template
+	 *
+	 * @return bool|string
+	 */
+	public function soundcloudMusicPlayer() {
+
+		if( !get_field( 'add_music', $this->id ) ) return false;
+
+		$url = get_field( 'soundcloud_link', $this->id, false );
+		if( !preg_match( '/https?\:\/\/(:?www\.)?soundcloud\.com/i', $url ) ) return false;
+
+		return Timber::compile( '_soundcloud_player.twig', [ 'url' => htmlspecialchars( $url ) ] );
+
+	}
 
 }

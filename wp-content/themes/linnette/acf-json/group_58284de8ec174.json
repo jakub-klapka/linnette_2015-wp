@@ -3,6 +3,11 @@
     "title": "V\u00fdb\u011br fotek Header",
     "fields": [
         {
+            "default_value": 0,
+            "message": "",
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": "",
             "key": "field_58284df6bb90a",
             "label": "V\u00fdb\u011br uzam\u010den",
             "name": "photo_selection_locked",
@@ -14,9 +19,7 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            },
-            "message": "Uzam\u010deno",
-            "default_value": 0
+            }
         }
     ],
     "location": [
@@ -36,5 +39,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1479036485
+    "modified": 1480882102
 }
