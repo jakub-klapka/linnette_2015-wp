@@ -149,8 +149,8 @@ class HandleFrontendAccess {
 	public static function setupView() {
 		global $post;
 		$ps_post = new PhotoSelectionPost( $post->ID );
-		$ps_post->setSessionLock(); //TODO: set also on ajax autosave!
-		$post_locked = $ps_post->isLocked();
+		$ps_post->setSessionLock();
+		$post_locked = ( $ps_post->isLocked() || $ps_post->isSessionLocked() );
 
 		/*
 		 * Do not cache this views with WP Super Cache
@@ -180,6 +180,7 @@ class HandleFrontendAccess {
 		$data[ 'checked_count' ] = count( $checked_ids );
 		$data[ 'note' ] = get_field( 'photo_selection_note' );
 		$data[ 'locked' ] = $post_locked;
+		$data[ 'session_locked' ] = $ps_post->isSessionLocked();
 		$data[ 'ajax_url' ] = admin_url( 'admin-ajax.php' );
 		$data[ 'nonce' ] = wp_create_nonce( 'photo_selection_nonce_id_' . $post->ID );
 		$data[ 'access_token' ] = get_post_meta( $post->ID, '_access_token', true );
@@ -212,6 +213,8 @@ class HandleFrontendAccess {
 	 * @wp-action wp_ajax_nopriv_photo_selection, wp_ajax_photo_selection
 	 */
 	public function handleFormSubmission() {
+		//TODO: handle lock_reject
+		session_start();
 		/*
 		 * Var Normalization
 		 */
@@ -226,17 +229,21 @@ class HandleFrontendAccess {
 		 */
 		if( $req[ 'post_id' ] === false || $req[ '_wp_nonce' ] === false || $req[ 'access_token' ] === false ) wp_die( 'Ivalid access' );
 
-		check_ajax_referer( 'photo_selection_nonce_id_' . $req[ 'post_id' ], '_wp_nonce' );
+		//Setup post
+		$post = new PhotoSelectionPost( $req[ 'post_id' ] );
 
-		$post_access_token = get_post_meta( $req[ 'post_id' ], '_access_token', true );
-		if( $post_access_token !== $req[ 'access_token' ] ) wp_die( 'Invalid access' );
+		//Check for valid access
+		if( $post->checkAccessTokenAndNonce( $req[ 'access_token' ] ) === false ) {
+			wp_die( 'Invalid access' );
+		}
 
 		if( get_field( 'photo_selection_locked', $req[ 'post_id' ] ) == true ) wp_die( 'Snažíte se upravit uzavřený výběr. To nejde...' );
+		if( $post->isSessionLocked() ) wp_die( 'Někdo vás předběhnul, zkuste to za chvíli.' );
 
 		/*
 		 * Saving
 		 */
-		$post = new PhotoSelectionPost( $req[ 'post_id' ] );
+		$post->setSessionLock();
 		$this->savePhotoSelection( $req );
 		update_field( 'photo_selection_note', $_REQUEST[ 'zprava' ], $req[ 'post_id' ] ); //Is sanitized by wp_sanitize_meta
 

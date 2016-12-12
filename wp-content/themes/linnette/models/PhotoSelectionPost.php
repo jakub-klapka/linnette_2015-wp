@@ -57,6 +57,20 @@ class PhotoSelectionPost extends Post {
 	}
 
 	/**
+	 * Validate request nonce and access token
+	 *
+	 * @param string $submitted_access_token
+	 *
+	 * @return bool
+	 */
+	public function checkAccessTokenAndNonce( $submitted_access_token ) {
+		check_ajax_referer( 'photo_selection_nonce_id_' . $this->ID, '_wp_nonce' );
+
+		$post_access_token = $this->meta( '_access_token' );
+		if( $post_access_token !== $submitted_access_token ) return false;
+	}
+
+	/**
 	 * Check, if current post has locked selection
 	 *
 	 * @return bool
