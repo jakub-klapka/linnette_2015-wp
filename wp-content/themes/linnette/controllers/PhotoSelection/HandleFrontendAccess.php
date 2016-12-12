@@ -111,6 +111,7 @@ class HandleFrontendAccess {
 	 * Hook to routes deciding and if we are dealing with single photo_selection, check for valid access token
 	 *
 	 * On invalid or missing token, fire 404
+	 * Also, start PHP session for valid request, we need it even for non-logged users
 	 *
 	 * @param string $template Path to template
 	 *
@@ -131,6 +132,7 @@ class HandleFrontendAccess {
 				return locate_template( '404.php' );
 			} else {
 				//Allow access
+				session_start();
 				return locate_template( 'single-photo_selection.php' );
 			}
 
@@ -146,7 +148,9 @@ class HandleFrontendAccess {
 	 */
 	public static function setupView() {
 		global $post;
-		$post_locked = get_field( 'photo_selection_locked' );
+		$ps_post = new PhotoSelectionPost( $post->ID );
+		$ps_post->setSessionLock(); //TODO: set also on ajax autosave!
+		$post_locked = $ps_post->isLocked();
 
 		/*
 		 * Do not cache this views with WP Super Cache
@@ -200,6 +204,7 @@ class HandleFrontendAccess {
 	 * Handle requests to admin-ajax.php
 	 *
 	 * If request has photo_selection_action => save_selection, it is (auto)save request, which expects json response.
+	 * If request has photo_selection_action => reject_lock, it is window unload handler and don't expect response
 	 * If reqest have form_submit => 1, it is form submission, which should lock selection and return 302 redirect
 	 *
 	 * Expected json response: { "result": "saved" }
