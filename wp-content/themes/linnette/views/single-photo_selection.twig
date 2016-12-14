@@ -19,6 +19,10 @@
 					<div class="form_notification">{{ form_submitted|raw }}</div>
 				{% endif %}
 
+				{% if session_locked %}
+					<div class="form_notification is-warning">Někdo jiný právě upravuje výběr. Zkuste to prosím za chvíli.</div>
+				{% endif %}
+
 				{{ post.content }}
 			</div>
 

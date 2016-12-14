@@ -111,6 +111,7 @@ class HandleFrontendAccess {
 	 * Hook to routes deciding and if we are dealing with single photo_selection, check for valid access token
 	 *
 	 * On invalid or missing token, fire 404
+	 * Also, start PHP session for valid request, we need it even for non-logged users
 	 *
 	 * @param string $template Path to template
 	 *
@@ -131,6 +132,7 @@ class HandleFrontendAccess {
 				return locate_template( '404.php' );
 			} else {
 				//Allow access
+				session_start();
 				return locate_template( 'single-photo_selection.php' );
 			}
 
@@ -146,7 +148,9 @@ class HandleFrontendAccess {
 	 */
 	public static function setupView() {
 		global $post;
-		$post_locked = get_field( 'photo_selection_locked' );
+		$ps_post = new PhotoSelectionPost( $post->ID );
+		$ps_post->setSessionLock();
+		$post_locked = ( $ps_post->isLocked() || $ps_post->isSessionLocked() );
 
 		/*
 		 * Do not cache this views with WP Super Cache
@@ -158,7 +162,9 @@ class HandleFrontendAccess {
 		 */
 		add_action( 'wp_enqueue_scripts', function() use ( $post_locked ) {
 			ScriptStyle::enqueueLightbox( 'photo_selection/_photo_selection_pswp_footer.twig', [ 'locked' => $post_locked ] );
-			wp_enqueue_script( 'photo_selection' );
+			if( !$post_locked ){
+				wp_enqueue_script( 'photo_selection' );
+			}
 		}, 15 );
 
 		/*
@@ -176,6 +182,7 @@ class HandleFrontendAccess {
 		$data[ 'checked_count' ] = count( $checked_ids );
 		$data[ 'note' ] = get_field( 'photo_selection_note' );
 		$data[ 'locked' ] = $post_locked;
+		$data[ 'session_locked' ] = $ps_post->isSessionLocked();
 		$data[ 'ajax_url' ] = admin_url( 'admin-ajax.php' );
 		$data[ 'nonce' ] = wp_create_nonce( 'photo_selection_nonce_id_' . $post->ID );
 		$data[ 'access_token' ] = get_post_meta( $post->ID, '_access_token', true );
@@ -200,6 +207,7 @@ class HandleFrontendAccess {
 	 * Handle requests to admin-ajax.php
 	 *
 	 * If request has photo_selection_action => save_selection, it is (auto)save request, which expects json response.
+	 * If request has photo_selection_action => reject_lock, it is window unload handler and don't expect response
 	 * If reqest have form_submit => 1, it is form submission, which should lock selection and return 302 redirect
 	 *
 	 * Expected json response: { "result": "saved" }
@@ -207,6 +215,7 @@ class HandleFrontendAccess {
 	 * @wp-action wp_ajax_nopriv_photo_selection, wp_ajax_photo_selection
 	 */
 	public function handleFormSubmission() {
+		session_start();
 		/*
 		 * Var Normalization
 		 */
@@ -221,17 +230,29 @@ class HandleFrontendAccess {
 		 */
 		if( $req[ 'post_id' ] === false || $req[ '_wp_nonce' ] === false || $req[ 'access_token' ] === false ) wp_die( 'Ivalid access' );
 
-		check_ajax_referer( 'photo_selection_nonce_id_' . $req[ 'post_id' ], '_wp_nonce' );
+		//Setup post
+		$post = new PhotoSelectionPost( $req[ 'post_id' ] );
 
-		$post_access_token = get_post_meta( $req[ 'post_id' ], '_access_token', true );
-		if( $post_access_token !== $req[ 'access_token' ] ) wp_die( 'Invalid access' );
+		//Check for valid access
+		if( $post->checkAccessTokenAndNonce( $req[ 'access_token' ] ) === false ) {
+			wp_die( 'Invalid access' );
+		}
 
 		if( get_field( 'photo_selection_locked', $req[ 'post_id' ] ) == true ) wp_die( 'Snažíte se upravit uzavřený výběr. To nejde...' );
+		if( $post->isSessionLocked() ) wp_die( 'Někdo vás předběhnul, zkuste to za chvíli.' );
+
+		/*
+		 * Session lock reject
+		 */
+		if( isset( $_REQUEST[ 'photo_selection_action' ] ) && $_REQUEST[ 'photo_selection_action' ] === 'reject_lock' ) {
+			$post->releaseSessionLock();
+			wp_die();
+		}
 
 		/*
 		 * Saving
 		 */
-		$post = new PhotoSelectionPost( $req[ 'post_id' ] );
+		$post->setSessionLock();
 		$this->savePhotoSelection( $req );
 		update_field( 'photo_selection_note', $_REQUEST[ 'zprava' ], $req[ 'post_id' ] ); //Is sanitized by wp_sanitize_meta
 
