@@ -89,15 +89,7 @@ class PhotoSelectionPost extends Post {
 	 */
 	public function isSessionLocked() {
 
-		/** @var \DateTime|null $lock_timestamp */
-		$lock_timestamp = $this->meta( '_session_lock_timestamp' );
-
-		//Post has not been locked
-		if( empty( $lock_timestamp ) ) return false;
-
-		//Check, if lock is beyond TTL
-		if( $lock_timestamp->add( new \DateInterval( 'PT' . $this->sessionLockTTL . 'M' ) ) > new \DateTime() ) {
-			//Still in TTL, might be locked if we are not the ones, editing
+		if( $this->isWithinLockTtl() ) {
 
 			//If current user set the lock, we are returning unlocked
 			$session_user = isset( $_SESSION[ 'session_lock_user' ] ) ? $_SESSION[ 'session_lock_user' ] : false;
@@ -107,6 +99,29 @@ class PhotoSelectionPost extends Post {
 				return true;
 			}
 
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Checks, if there is any lock within TTL, regardless of user
+	 *
+	 * @return bool
+	 */
+	private function isWithinLockTtl() {
+
+		/** @var \DateTime|null $lock_timestamp */
+		$lock_timestamp = $this->meta( '_session_lock_timestamp' );
+
+		//Post has not been locked
+		if( empty( $lock_timestamp ) ) return false;
+
+		//Check, if lock is beyond TTL
+		if( $lock_timestamp->add( new \DateInterval( 'PT' . $this->sessionLockTTL . 'M' ) ) > new \DateTime() ) {
+			//Still in TTL
+			return true;
 		} else {
 			//Outside TTL
 			return false;
@@ -128,6 +143,23 @@ class PhotoSelectionPost extends Post {
 
 		$this->update( '_session_lock_user', $user_id );
 		$this->update( '_session_lock_timestamp', new \DateTime() );
+	}
+
+	/**
+	 * Remove session protection on post.
+	 *
+	 * Does not validate against nonce. Validates for user, which placed the lock
+	 */
+	public function releaseSessionLock() {
+		if( $this->isSessionLocked() ) return; //Validation for session
+
+		if( $this->isWithinLockTtl() ) {
+
+			$this->update( '_session_lock_user', false );
+			$this->update( '_session_lock_timestamp', false );
+
+		}
+
 	}
 
 }

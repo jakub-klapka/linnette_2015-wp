@@ -162,7 +162,9 @@ class HandleFrontendAccess {
 		 */
 		add_action( 'wp_enqueue_scripts', function() use ( $post_locked ) {
 			ScriptStyle::enqueueLightbox( 'photo_selection/_photo_selection_pswp_footer.twig', [ 'locked' => $post_locked ] );
-			wp_enqueue_script( 'photo_selection' );
+			if( !$post_locked ){
+				wp_enqueue_script( 'photo_selection' );
+			}
 		}, 15 );
 
 		/*
@@ -213,7 +215,6 @@ class HandleFrontendAccess {
 	 * @wp-action wp_ajax_nopriv_photo_selection, wp_ajax_photo_selection
 	 */
 	public function handleFormSubmission() {
-		//TODO: handle lock_reject
 		session_start();
 		/*
 		 * Var Normalization
@@ -239,6 +240,14 @@ class HandleFrontendAccess {
 
 		if( get_field( 'photo_selection_locked', $req[ 'post_id' ] ) == true ) wp_die( 'Snažíte se upravit uzavřený výběr. To nejde...' );
 		if( $post->isSessionLocked() ) wp_die( 'Někdo vás předběhnul, zkuste to za chvíli.' );
+
+		/*
+		 * Session lock reject
+		 */
+		if( isset( $_REQUEST[ 'photo_selection_action' ] ) && $_REQUEST[ 'photo_selection_action' ] === 'reject_lock' ) {
+			$post->releaseSessionLock();
+			wp_die();
+		}
 
 		/*
 		 * Saving
