@@ -89,6 +89,13 @@ class PluginsModifications {
 		 */
 		add_filter( 'lumi.secure_post_with_link.config', [ $this, 'modify_secure_post_with_link_config' ] );
 
+		/*
+		 * Fix select2 conflict between ACF and shortcake
+		 */
+		add_filter( 'acf/settings/select2_version', function( $version ) {
+			return 4; // 3 or 4
+		});
+
 	}
 
 	public function modify_secure_post_with_link_config( $config ) {
