@@ -162,9 +162,7 @@ class HandleFrontendAccess {
 		 */
 		add_action( 'wp_enqueue_scripts', function() use ( $post_locked ) {
 			ScriptStyle::enqueueLightbox( 'photo_selection/_photo_selection_pswp_footer.twig', [ 'locked' => $post_locked ] );
-			if( !$post_locked ){
-				wp_enqueue_script( 'photo_selection' );
-			}
+			wp_enqueue_script( 'photo_selection' );
 		}, 15 );
 
 		/*
