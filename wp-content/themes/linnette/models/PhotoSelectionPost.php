@@ -85,9 +85,13 @@ class PhotoSelectionPost extends Post {
 	 * For user, which has set the lock, this will always return false (since it's supposed to be used in post validations)
 	 * If last lock was set within TTL and it was set up by different user, return true
 	 *
+	 * If post is finalized and locked already, return false
+	 *
 	 * @return bool
 	 */
 	public function isSessionLocked() {
+
+		if( $this->isLocked() ) return false;
 
 		if( $this->isWithinLockTtl() ) {
 
