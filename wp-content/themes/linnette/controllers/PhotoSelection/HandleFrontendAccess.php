@@ -54,13 +54,9 @@ class HandleFrontendAccess {
 
 		if( !current_user_can( 'publish_posts' ) ) return $post_link; //Don't display to anybody without proper caps
 
-		$access_token = get_post_meta( $post->ID, '_access_token', true );
+		$post = new PhotoSelectionPost( $post );
 
-		if( empty( $access_token ) ) return $post_link;
-
-		$postname = ( $leavename ) ? '%postname%' : $post->post_name;
-
-		return trailingslashit( get_bloginfo( 'url' ) ) . 'fs/' . $postname . '/' . $access_token . '/';
+		return $post->getLinkWithAccessToken( $post_link, $leavename );
 	}
 
 	/**
@@ -263,7 +259,7 @@ class HandleFrontendAccess {
 		} elseif ( isset( $_REQUEST[ 'form_submit' ] ) ) {
 			//Standard form submission
 			$this->processSubmission( $post );
-			wp_redirect( add_query_arg( 'photo_selection_submitted', '1', get_permalink( $req[ 'post_id' ] ) ) );
+			wp_redirect( add_query_arg( 'photo_selection_submitted', '1', $post->getLinkWithAccessToken() ) );
 		} else {
 			//Case, we are not aware of
 			wp_die( 'Invalid form submission. Data saved.' );
@@ -316,8 +312,9 @@ class HandleFrontendAccess {
 
 		$mail_data = [
 			'title'           => $post->title(),
-			'link'            => $post->link(),
-			'selected_photos' => $post->getSelectedPhotosHtml()
+			'link'            => $post->getLinkWithAccessToken(),
+			'selected_photos' => $post->getSelectedPhotosHtml(),
+			'message'         => $post->getCustomerMessage(),
 		];
 
 		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];

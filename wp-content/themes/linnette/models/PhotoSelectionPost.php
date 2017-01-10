@@ -162,4 +162,29 @@ class PhotoSelectionPost extends Post {
 
 	}
 
+	/**
+	 * Gets message, which customer attached to photo selection
+	 *
+	 * @return string
+	 */
+	public function getCustomerMessage() {
+		return ( !empty( $this->get_field( 'photo_selection_note' ) ) ) ? $this->get_field( 'photo_selection_note' ) : '';
+	}
+
+	/**
+	 * Get link with access token for current post
+	 *
+	 * @param null|string $post_link Pass unfiltered URL, which overides $this->link (Used in get_permalink filter)
+	 * @param bool $leavename If true, leave placeholder %postname% insetead of post name in URL (Used on post detail admin page)
+	 *
+	 * @return string
+	 */
+	public function getLinkWithAccessToken( $post_link = null, $leavename = false ) {
+		$access_token = $this->get_field( '_access_token' );
+		$post_link = ( $post_link !== null ) ? $post_link : $this->link(); //Won't cycle thanks to caching layer in Timber\Post
+		if( empty( $access_token ) ) return $post_link;
+		$postname = ( $leavename ) ? '%postname%' : $this->post_name;
+		return trailingslashit( get_bloginfo( 'url' ) ) . 'fs/' . $postname . '/' . $access_token . '/';
+	}
+
 }
