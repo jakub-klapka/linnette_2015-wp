@@ -315,6 +315,7 @@ class HandleFrontendAccess {
 			'link'            => $post->getLinkWithAccessToken(),
 			'selected_photos' => $post->getSelectedPhotosHtml(),
 			'message'         => $post->getCustomerMessage(),
+			'photo_count'     => $post->getSelectedPhotosCount()
 		];
 
 		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];

@@ -37,6 +37,17 @@ class PhotoSelectionPost extends Post {
 	}
 
 	/**
+	 * Get number of selected photos
+	 *
+	 * @return int
+	 */
+	public function getSelectedPhotosCount() {
+		$photo_ids = $this->meta( '_checked_photos' );
+		if( empty( $photo_ids ) ) return 0;
+		return count( $photo_ids );
+	}
+
+	/**
 	 * Return all selected photo titles
 	 *
 	 * @return array
