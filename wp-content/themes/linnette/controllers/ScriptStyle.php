@@ -2,6 +2,7 @@
 
 
 namespace Linnette\Controllers;
+use function foo\func;
 
 /**
  * Singleton Class ScriptStyle
@@ -110,6 +111,11 @@ class ScriptStyle {
 			wp_enqueue_script( 'load_fb_share' );
 		} );
 		$twig->addFunction( $load_fb_like );
+
+		$get_fb_share_app_id = new \Twig_SimpleFunction( 'get_fb_share_id', function(){
+			return ( defined( 'LINN_FB_SHARE_APP_ID' ) ? LINN_FB_SHARE_APP_ID : '' );
+		} );
+		$twig->addFunction( $get_fb_share_app_id );
 
 		$load_js_social_login = new \Twig_SimpleFunction( 'enqueue_js_social_login', function(){
 			wp_enqueue_script( 'js_social_login' );

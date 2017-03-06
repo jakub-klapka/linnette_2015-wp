@@ -19,7 +19,7 @@
 	{{ post.content }}
 
 	{{ enqueue_load_fb_like() }}
-	<div class="fb_share_area">
+	<div class="fb_share_area" data-app-id="{{ get_fb_share_id() }}">
 		<div class="fb-like" data-href="{{ canonical_url }}" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 	</div>
 
