@@ -3,6 +3,16 @@
     "title": "Portfolio",
     "fields": [
         {
+            "return_format": "id",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
             "key": "field_564cd03ee668c",
             "label": "Hlavn\u00ed obr\u00e1zek portfolia",
             "name": "featured_image",
@@ -14,19 +24,20 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            },
-            "return_format": "id",
-            "preview_size": "thumbnail",
+            }
+        },
+        {
             "library": "all",
+            "min": "",
+            "max": "",
             "min_width": "",
             "min_height": "",
             "min_size": "",
             "max_width": "",
             "max_height": "",
             "max_size": "",
-            "mime_types": ""
-        },
-        {
+            "mime_types": "",
+            "insert": "prepend",
             "key": "field_564cd0bce668d",
             "label": "Obr\u00e1zky portfolia",
             "name": "images",
@@ -39,18 +50,85 @@
                 "class": "",
                 "id": ""
             },
-            "min": "",
-            "max": "",
-            "preview_size": "thumbnail",
-            "insert": "prepend",
-            "library": "all",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": ""
+            "preview_size": "thumbnail"
+        },
+        {
+            "default_value": 0,
+            "message": "",
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "key": "field_58f66a7e5d698",
+            "label": "Tla\u010d\u00edtkova\u010d pod portfoliem",
+            "name": "call_to_action_enabled",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "post_type": [
+                "page",
+                "blog",
+                "portfolio"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1,
+            "key": "field_58f6699214285",
+            "label": "Odkaz",
+            "name": "call_to_action_button_post",
+            "type": "post_object",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_58f66a7e5d698",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
+        },
+        {
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "key": "field_58f66a945d699",
+            "label": "Text",
+            "name": "call_to_action_button_text",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_58f66a7e5d698",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            }
         }
     ],
     "location": [
@@ -70,5 +148,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1464633005
+    "modified": 1492544378
 }
