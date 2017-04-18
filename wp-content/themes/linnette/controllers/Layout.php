@@ -2,6 +2,7 @@
 
 
 namespace Linnette\Controllers;
+use Linnette\Models\LinnetteMenu;
 use Linnette\Models\LinnettePost;
 
 /**
@@ -39,7 +40,7 @@ class Layout {
 
 	public function add_post_to_context( $context ) {
 		$context[ 'post' ] = new LinnettePost();
-		$context[ 'main_menu' ] = new \TimberMenu();
+		$context[ 'main_menu' ] = new LinnetteMenu();
 
 		$wpseo_options = \WPSEO_Options::get_instance();
 		$wpseo_options = $wpseo_options->get_all();
