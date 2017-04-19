@@ -10,3 +10,15 @@
 	</nav>
 
 {% endblock %}
+
+{% block below_images %}
+
+	{% if call_to_action_button_enabled %}
+		<div class="main_content__typo">
+			<div class="call_to_action_link has-no-bottom-margin">
+				<a href="{{ call_to_action_button_link }}" class="call_to_action_link__inner">{{ call_to_action_button_text }}</a>
+			</div>
+		</div>
+	{% endif %}
+
+{% endblock %}

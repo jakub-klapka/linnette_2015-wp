@@ -116,6 +116,14 @@ class Portfolio {
 
 		$context[ 'cats' ] = $cats;
 
+		/*
+		 * Call to action button
+		 */
+		$context[ 'call_to_action_button_enabled' ] = get_field( 'call_to_action_enabled' );
+		$context[ 'call_to_action_button_link' ] = get_permalink( get_field( 'call_to_action_button_post', null, false ) );
+		$context[ 'call_to_action_button_text' ] = get_field( 'call_to_action_button_text' );
+
+
 		return $context;
 
 	}

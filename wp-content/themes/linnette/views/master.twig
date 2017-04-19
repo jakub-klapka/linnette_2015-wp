@@ -45,7 +45,7 @@
 		<nav class="main_header__nav" role="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement">
 			<ul class="main_header__nav__ul">
 				{% for item in main_menu.get_items %}
-					<li class="main_header__nav__ul__item">
+					<li class="main_header__nav__ul__item{% if item.isActive %} is-active{% endif %}">
 						<a href="{{ item.link }}" itemprop="name url">{{ item.title }}</a>
 					</li>
 				{% endfor %}
