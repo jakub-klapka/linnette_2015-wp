@@ -96,6 +96,13 @@ class PluginsModifications {
 			return 4; // 3 or 4
 		});
 
+		/*
+		 * Delete attachments with posts config
+		 */
+		add_filter( 'jk/delete-attachments-with-post/affected-post-types', function() {
+			return [ 'photo_selection' ];
+		} );
+
 	}
 
 	public function modify_secure_post_with_link_config( $config ) {
