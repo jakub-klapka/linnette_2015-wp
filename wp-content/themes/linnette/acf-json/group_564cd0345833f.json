@@ -72,20 +72,12 @@
             }
         },
         {
-            "post_type": [
-                "page",
-                "blog",
-                "portfolio"
-            ],
-            "taxonomy": [],
-            "allow_null": 0,
-            "multiple": 0,
-            "return_format": "id",
-            "ui": 1,
+            "default_value": "",
+            "placeholder": "https:\/\/www.linnette.cz\/",
             "key": "field_58f6699214285",
             "label": "Odkaz",
-            "name": "call_to_action_button_post",
-            "type": "post_object",
+            "name": "call_to_action_button_link",
+            "type": "url",
             "instructions": "",
             "required": 1,
             "conditional_logic": [
@@ -148,5 +140,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1492544378
+    "modified": 1492715496
 }
