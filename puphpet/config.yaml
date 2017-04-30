@@ -3,8 +3,8 @@ vagrantfile:
     vm:
         provider:
             local:
-                box: puphpet/ubuntu1404-x64
-                box_url: puphpet/ubuntu1404-x64
+                box: puphpet/ubuntu1604-x64
+                box_url: 'false'
                 box_version: '0'
                 chosen_virtualizer: virtualbox
                 virtualizers:
@@ -19,11 +19,15 @@ vagrantfile:
                         check_guest_tools: 0
                         update_guest_tools: 0
                 machines:
-                    vflm_5tfbobyyieab:
-                        id: linnette
+                    vflm_v7ch7sre0gse:
+                        id: linnette.dev
                         hostname: linnette.dev
                         network:
                             private_network: 192.168.56.101
+                            forwarded_port:
+                                vflmnfp_zw33jg7ifdoq:
+                                    host: '8099'
+                                    guest: '22'
                         memory: '512'
                         cpus: '1'
         provision:
@@ -36,7 +40,9 @@ vagrantfile:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
         synced_folder:
-            vflsf_5jzdivkd9qtz:
+            vflsf_i5ayde2czuxq:
+                owner: www-data
+                group: www-data
                 source: ./
                 target: /var/www
                 sync_type: default
@@ -56,8 +62,6 @@ vagrantfile:
                         - .vagrant/
                         - .git/
                     auto: 'true'
-                owner: www-data
-                group: www-data
         usable_port_range:
             start: 10200
             stop: 10500
@@ -80,7 +84,6 @@ vagrantfile:
         https: ''
         ftp: ''
         no_proxy: ''
-        enabled: '0'
 server:
     install: '1'
     packages: {  }
@@ -91,29 +94,22 @@ users_groups:
 locale:
     install: '1'
     settings:
-        default_locale: en_US.UTF-8
+        default_locale: cs_CZ.UTF-8
         locales:
-            - cs_CZ.UTF-8
             - en_GB.UTF-8
             - en_US.UTF-8
+            - cs_CZ.UTF-8
         timezone: Europe/Prague
 firewall:
     install: '1'
-    rules:
-        fr_5pnixhwe9s3t:
-            port:
-                - '3306'
-                - '9000'
-            priority: '100'
-            proto: tcp
-            action: accept
-        fr_btvn086nacfn:
-            port:
-                - '3306'
-                - '9000'
-            priority: '100'
-            proto: udp
-            action: accept
+    rules: {  }
+resolv:
+    install: '1'
+    nameservers:
+        - 8.8.8.8
+        - 8.8.4.4
+    domainname: ''
+    searchpath: {  }
 cron:
     install: '1'
     jobs: {  }
@@ -130,7 +126,7 @@ nginx:
         names_hash_bucket_size: 128
     upstreams: {  }
     vhosts:
-        nxv_4bf7vzb3s8sp:
+        nxv_cdoz12vnrgdm:
             server_name: awesome.dev
             server_aliases:
                 - www.awesome.dev
@@ -138,33 +134,50 @@ nginx:
             listen_port: '80'
             client_max_body_size: 1m
             ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
             locations:
-                nxvl_huhz4uvbweoj:
-                    www_root: ''
+                nxvl_ldenewmnolxp:
+                    www_root: /var/www/awesome/web
                     location: /
+                    autoindex: 'off'
+                    internal: 'false'
                     index_files:
                         - index.html
-                        - index.htm
                         - index.php
+                        - app.php
                     try_files:
                         - $uri
                         - $uri/
                         - /index.php$is_args$args
+                        - /app.php$is_args$args
                     fastcgi: ''
                     fastcgi_index: ''
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
-                nxvl_dv0kggws9i8y:
-                    www_root: ''
-                    location: '~ \.php$'
+                nxvl_e605qwew9co6:
+                    www_root: /var/www/awesome/web
+                    location: '~ ^/(app_dev|config)\.php(/|$)'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /app_dev.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: app_dev.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+                nxvl_qrlf758gv8y4:
+                    www_root: /var/www/awesome/web
+                    location: '~ ^/index\.php(/|$)'
+                    autoindex: 'off'
+                    internal: 'false'
                     try_files:
                         - $uri
                         - $uri/
@@ -173,8 +186,26 @@ nginx:
                     fastcgi_index: index.php
                     fastcgi_split_path: '^(.+\.php)(/.*)$'
                     fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
+                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+                nxvl_tpy6zq13h7dt:
+                    www_root: /var/www/awesome/web
+                    location: '~ ^/app\.php(/|$)'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /app.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: app.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+                        - 'APP_ENV prod'
                     set:
                         - '$path_info $fastcgi_path_info'
                     proxy: ''
@@ -191,52 +222,19 @@ apache:
         manage_group: false
         sendfile: 0
     modules:
-        - deflate
-        - expires
         - proxy_fcgi
         - rewrite
+        - deflate
+        - expires
     vhosts:
-        av_7nhvtzibn5mp:
-            servername: linnette.dev
-            serveraliases:
-                - www.linnette.dev
-            docroot: /var/www/
-            port: '80'
-            setenvif:
-                - 'Authorization "(.*)" HTTP_AUTHORIZATION=$1'
-            custom_fragment: ''
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_chain: ''
-            ssl_certs_dir: ''
-            ssl_protocol: ''
-            ssl_cipher: ''
-            directories:
-                avd_e97hffk9lfx2:
-                    path: /var/www/
-                    options:
-                        - Indexes
-                        - FollowSymlinks
-                        - MultiViews
-                    allow_override:
-                        - All
-                    require:
-                        - 'all granted'
-                    custom_fragment: ''
-                    files_match:
-                        avdfm_vd3xv04qgu03:
-                            path: \.php$
-                            sethandler: 'proxy:fcgi://127.0.0.1:8000'
-                            custom_fragment: ''
-                            provider: filesmatch
-                    provider: directory
-        av_31le2p5ofv1e:
+        av_8kc3sxasyt7w:
             servername: linnette.dev
             serveraliases:
                 - www.linnette.dev
             docroot: /var/www
             port: '443'
+            setenvif:
+                - 'Authorization "(.*)" HTTP_AUTHORIZATION=$1'
             custom_fragment: ''
             ssl: '1'
             ssl_cert: ''
@@ -246,8 +244,9 @@ apache:
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
-                avd_zojqi3xy7ket:
+                avd_2bqrlxjgymkv:
                     path: /var/www
+                    directoryindex: index.php
                     options:
                         - Indexes
                         - FollowSymlinks
@@ -257,22 +256,23 @@ apache:
                     require:
                         - 'all granted'
                     custom_fragment: ''
-                    files_match:
-                        avdfm_3o6rn6pe8qmx:
-                            path: \.php$
-                            sethandler: 'proxy:fcgi://127.0.0.1:8000'
-                            custom_fragment: ''
-                            provider: filesmatch
                     provider: directory
+            files_match:
+                avfm_gycda2oqz7h6:
+                    path: \.php$
+                    sethandler: 'proxy:fcgi://127.0.0.1:9000'
+                    custom_fragment: ''
+                    provider: filesmatch
 letsencrypt:
     install: '1'
     settings:
         email: ''
+        webserver_service: ''
     domains: {  }
 php:
     install: '1'
     settings:
-        version: '7.0'
+        version: '5.6'
     modules:
         php:
             - cli
@@ -285,40 +285,38 @@ php:
         pear: {  }
         pecl: {  }
     ini:
-        display_errors: 'On'
         session.save_path: /var/lib/php/session
         date.timezone: Europe/Prague
         error_reporting: '24567'
-        max_execution_time: '600'
-        memeory_limit: 128M
+        max_execution_time: '6000'
         memory_limit: 128M
-        post_max: 32M
-        upload_max: 32M
+        post_max_size: 32M
+        upload_max_filesize: 32M
         disable_functions: 'apache_child_terminate,apache_setenv,define_syslog_variables,diskfreespace,disk_free_space,disk_total_space,dl,escapeshellarg,escapeshellcmd,exec,leak,link,openlog,passthru,pfsockopen,popen,posix_getgrnam,posix_getpgid,posix_getpwuid,posix_getpwnam,posix_getrlimit,posix_initgroups,posix_kill,posix_mkfifo,posix_mknod,posix_setpgid,posix_setsid,posix_setuid,posix_uname,proc_close,proc_get_status,proc_nice,proc_open,proc_terminate,putenv,readlink,register_tick_function,set_time_limit,shell_exec,show_source,symlink,syslog,system'
     fpm_ini:
         error_log: /var/log/php-fpm.log
     fpm_pools:
-        phpfp_rlbrsvqevkpi:
+        phpfp_tntyqs4jtibo:
             ini:
                 prefix: www
+                listen: '127.0.0.1:9000'
                 security.limit_extensions: .php
                 user: www-user
                 group: www-data
-                listen: '127.0.0.1:8000'
-    composer: 1
+    composer: '0'
     composer_home: ''
 xdebug:
     install: '1'
     settings:
-        xdebug.remote_host: 192.168.56.101
         xdebug.default_enable: '1'
         xdebug.remote_autostart: '0'
         xdebug.remote_connect_back: '1'
         xdebug.remote_enable: '1'
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
+        xdebug.remote_host: linnette.dev
 blackfire:
-    install: '0'
+    install: '1'
     settings:
         server_id: ''
         server_token: ''
@@ -335,7 +333,7 @@ xhprof:
     install: '0'
 wpcli:
     install: '0'
-    version: v0.24.1
+    version: v1.1.0
 drush:
     install: '0'
     version: 8.0.5
@@ -351,37 +349,22 @@ nodejs:
     settings:
         version: '6'
     npm_packages: {  }
-hhvm:
-    install: '0'
-    composer: '1'
-    composer_home: ''
-    settings: {  }
-    server_ini:
-        hhvm.server.host: 127.0.0.1
-        hhvm.server.port: '9000'
-        hhvm.log.use_log_file: '1'
-        hhvm.log.file: /var/log/hhvm/error.log
-    php_ini:
-        display_errors: 'On'
-        error_reporting: '-1'
-        date.timezone: UTC
 mariadb:
     install: '0'
     settings:
         version: '10.1'
         root_password: '123'
         override_options: {  }
-    adminer: 0
     users:
-        mariadbnu_6lqen5f3weaw:
+        mariadbnu_z9c5aoihg5bo:
             name: dbuser
             password: '123'
     databases:
-        mariadbnd_vcmgr3g6vqpv:
+        mariadbnd_hn3xiek5euif:
             name: dbname
             sql: ''
     grants:
-        mariadbng_ob2aq6qwwnjx:
+        mariadbng_svjo1hrtvy3e:
             user: dbuser
             table: '*.*'
             privileges:
@@ -392,9 +375,11 @@ mysql:
         version: '5.6'
         root_password: root
         override_options: {  }
-    adminer: 0
     users: {  }
-    databases: {  }
+    databases:
+        mysqlnd_f64kzysn4dce:
+            name: linnette
+            sql: ''
     grants: {  }
 postgresql:
     install: '0'
@@ -407,7 +392,6 @@ postgresql:
     databases: {  }
     users: {  }
     grants: {  }
-    adminer: 0
 mongodb:
     install: '0'
     settings:
@@ -422,7 +406,6 @@ redis:
         port: '6379'
 sqlite:
     install: '0'
-    adminer: 0
     databases: {  }
 mailhog:
     install: '1'
@@ -456,7 +439,7 @@ elastic_search:
         version: 2.3.1
         java_install: true
     instances:
-        esi_2yn44nydvd61:
+        esi_fj6b15eo4b22:
             name: es-01
 solr:
     install: '0'
