@@ -46,6 +46,7 @@ class Layout {
 		$wpseo_options = $wpseo_options->get_all();
 		$context[ 'facebook_link' ] = $wpseo_options[ 'facebook_site' ];
 		$context[ 'instagram_link' ] = $wpseo_options[ 'instagram_url' ];
+		$context[ 'slusna_firma_link' ] = get_field( 'slusna_firma_link', 'option' );
 
 		$wpseo_front = \WPSEO_Frontend::get_instance();
 		$context[ 'canonical_url' ] = $wpseo_front->canonical( false );
@@ -53,6 +54,7 @@ class Layout {
 
 		$context[ 'is_user_logged_in' ] = is_user_logged_in();
 		$context[ 'user' ] = new \TimberUser();
+		$context[ 'theme_version' ] = $theme_ver = wp_get_theme()->get( 'Version' );
 		return $context;
 	}
 

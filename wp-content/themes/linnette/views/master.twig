@@ -13,7 +13,7 @@
 
 	<script>
 		var ajax = new XMLHttpRequest();
-		ajax.open("GET", "{{ theme.uri }}/assets/images/svg_sprite.svg", true);
+		ajax.open("GET", "{{ theme.uri }}/assets/images/svg_sprite.svg?v={{ theme_version }}", true);
 		ajax.send();
 		ajax.onload = function(e) {
 			var div = document.createElement("div");
@@ -54,7 +54,7 @@
 
 		{% include '_divider.twig' %}
 
-		{% if facebook_link and instagram_link %}
+		{% if facebook_link or instagram_link or slusna_firma_link %}
 			<nav class="main_header__socials">
 				{% if facebook_link %}
 					<a class="main_header__socials__link" href="{{ facebook_link }}">
@@ -64,6 +64,11 @@
 				{% if instagram_link %}
 					<a class="main_header__socials__link" href="{{ instagram_link }}">
 						<svg class="main_header__socials__link__image" aria-label="Instagram"><use xlink:href="#icon-instagram"></use></svg>
+					</a>
+				{% endif %}
+				{% if slusna_firma_link %}
+					<a class="main_header__socials__link" href="{{ slusna_firma_link }}">
+						<svg class="main_header__socials__link__image" aria-label="Jsme Slušná firma"><use xlink:href="#icon-slusna_firma"></use></svg>
 					</a>
 				{% endif %}
 			</nav>
