@@ -1,4 +1,9 @@
 *
+!*.png
+!*.xml
+!*.json
+!*.svg
+!*.ico
 !.gitignore
 !wp-content
 !wp-content/themes
