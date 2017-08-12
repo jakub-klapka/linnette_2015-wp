@@ -36,6 +36,7 @@ class Layout {
 		wp_enqueue_style( 'layout' );
 		wp_enqueue_script( 'modernizr' );
 		wp_enqueue_script( 'menu' );
+		wp_enqueue_script( 'webfontloader' );
 	}
 
 	public function add_post_to_context( $context ) {
