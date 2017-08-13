@@ -29,6 +29,8 @@ class ScriptStyle {
 
 		add_filter( 'get_twig', array( $this, 'add_load_scripts_functions' ) );
 
+		add_filter( 'style_loader_tag', [ $this, 'change_link_tag_to_preload' ], 10, 4 );
+
 	}
 
 	public function register_scripts() {
@@ -42,6 +44,8 @@ class ScriptStyle {
 		wp_register_script( 'picturefill', get_template_directory_uri() . '/assets/js/libs/picturefill.js', array(), $theme_ver, true );
 		wp_register_script( 'modernizr', get_template_directory_uri() . '/assets/js/libs/modernizr.js', array(), $theme_ver, true );
 		wp_register_script( 'webfontloader', get_template_directory_uri() . '/assets/js/webfontloader.js', [], $theme_ver, true );
+		wp_register_script( 'loadcss_dep', get_template_directory_uri() . '/assets/js/libs/loadcss.js', [], $theme_ver, true );
+		wp_register_script( 'loadcss', get_template_directory_uri() . '/assets/js/libs/loadcss_polyfill.js', [ 'loadcss_dep' ], $theme_ver, true );
 
 		wp_deregister_script( 'jquery' );
 		wp_register_script( 'jquery', get_template_directory_uri() . '/assets/js/libs/jquery-2.1.3.js', array(), $theme_ver, true );
@@ -127,6 +131,24 @@ class ScriptStyle {
 		$twig->addFunction( $load_js_lazysizes );
 
 		return $twig;
+	}
+
+	/**
+	 * Change css link tags to preload, to stop render blocking
+	 *
+	 * @wp-filter style_loader_tag
+	 *
+	 * @param $html
+	 * @param $handle
+	 * @param $href
+	 * @param $media
+	 *
+	 * @return string
+	 */
+	public function change_link_tag_to_preload( $html, $handle, $href, $media ) {
+		//<link rel="preload" href="../dist/css/layout.css" as="style" onload="this.rel='stylesheet'">
+		$tag = "<link rel='preload' id='$handle-css' href='$href' media='$media' as=\"style\" onload=\"this.rel='stylesheet'\" />\n";
+		return $tag;
 	}
 
 }
