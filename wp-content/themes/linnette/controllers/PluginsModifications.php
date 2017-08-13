@@ -103,6 +103,11 @@ class PluginsModifications {
 			return [ 'photo_selection' ];
 		} );
 
+		/*
+		 * Subscribe to comments scripts/styles controll
+		 */
+        add_action( 'wp_enqueue_scripts', [ $this, 'dequeue_stcr_scripts' ], 20 );
+
 	}
 
 	public function modify_secure_post_with_link_config( $config ) {
@@ -181,6 +186,26 @@ class PluginsModifications {
 
 	public function add_wpcf7_scripts_cb() {
 		wp_enqueue_script( 'form' );
+	}
+
+	/**
+	 * Check, if we are on comments subscribe page and if not, dequeue it's scripts and styles
+     *
+     * @url https://wordpress.org/support/topic/conditionaly-load-plugins-scripts-and-styles/
+     *
+     * @wp-acion wp_enqueue_scripts 20
+	 */
+	public function dequeue_stcr_scripts() {
+
+	    global $wp_query;
+	    if( $wp_query->get( 'name' ) === 'comment-subscriptions' ) return;
+
+	    global $wp_scripts;
+	    $wp_scripts->dequeue( 'stcr-plugin-js' );
+
+	    global $wp_styles;
+	    $wp_styles->dequeue( [ 'stcr-plugin-style', 'stcr-font-awesome' ] );
+
 	}
 
 }
