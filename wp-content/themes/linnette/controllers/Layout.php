@@ -34,9 +34,10 @@ class Layout {
 
 	public function enqueue_global_scripts() {
 		wp_enqueue_style( 'layout' );
+		wp_enqueue_script( 'webfontloader' );
+		wp_enqueue_script( 'loadcss' );
 		wp_enqueue_script( 'modernizr' );
 		wp_enqueue_script( 'menu' );
-		wp_enqueue_script( 'webfontloader' );
 	}
 
 	public function add_post_to_context( $context ) {
@@ -56,6 +57,7 @@ class Layout {
 		$context[ 'is_user_logged_in' ] = is_user_logged_in();
 		$context[ 'user' ] = new \TimberUser();
 		$context[ 'theme_version' ] = $theme_ver = wp_get_theme()->get( 'Version' );
+		$context[ 'critical_css_contents' ] = file_get_contents( dirname( __DIR__ ) . '/assets/css/critical.css' );
 		return $context;
 	}
 
