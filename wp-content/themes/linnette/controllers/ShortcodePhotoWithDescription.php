@@ -61,7 +61,7 @@ class ShortcodePhotoWithDescription {
 		ScriptStyle::enqueuePicturefill();
 		wp_enqueue_script( 'image_with_text' );
 
-		return \Timber::compile( '_photo_with_description.twig', array_merge( $atts, array( 'text' => esc_textarea( $content ), 'is_rendering_shortcake' => is_admin() ) ) );
+		return \Timber::compile( '_photo_with_description.twig', array_merge( $atts, array( 'text' => $content, 'is_rendering_shortcake' => is_admin() ) ) );
 
 	}
 
