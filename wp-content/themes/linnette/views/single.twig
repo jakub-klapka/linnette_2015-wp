@@ -25,3 +25,25 @@
 		</figure>
 	{% endif %}
 {% endblock %}
+
+{% block below_content %}
+
+	{% if post.related_articles is not empty %}
+
+		<section class="related_articles" itemscope itemtype="http://schema.org/WebPage">
+
+			<h2>Mohlo by vás zajímat</h2>
+
+			<div class="main_content__thumb_list">
+
+				{% for post in post.related_articles %}
+					{% include '_thumb_list_captioned_image.twig' %}
+				{% endfor %}
+
+			</div>
+
+		</section>
+
+	{% endif %}
+
+{% endblock %}

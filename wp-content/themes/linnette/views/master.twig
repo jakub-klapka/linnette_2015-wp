@@ -107,6 +107,8 @@
 
 				{% endblock %}
 
+				{% block below_content %}{% endblock %}
+
 				{% block comments %}
 					{% if post.comment_status == 'open' or post.comment_count > 0 %}
 						{{ function( 'comments_template', '/comments.php' ) }}

@@ -41,7 +41,7 @@ foreach( $plugins_textdomain_fix as $textdomain => $file_name ) {
 /**
  * Disable Twig cache on DEV
  */
-if( $_SERVER[ 'HTTP_HOST' ] !== 'linnette.dev' ) {
+if( ! defined( 'WP_DEBUG' ) || WP_DEBUG !== true ) {
 	Timber::$cache = true;
 }
 
