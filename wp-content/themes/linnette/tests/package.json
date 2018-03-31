@@ -1,0 +1,12 @@
+{
+  "name": "linnette-tester",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "testcafe": "^0.19.1"
+  },
+  "scripts": {
+    "test": "testcafe chrome integration_tests"
+  }
+}

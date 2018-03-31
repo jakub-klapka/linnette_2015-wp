@@ -98,7 +98,7 @@ class LinnettePost extends Post {
 
 		$related_post_ids = get_field( 'selected_related_articles', $this->ID );
 
-		if( $related_post_ids === null ) {
+		if( $related_post_ids === null || $related_post_ids === '' ) {
 			return [];
 		}
 

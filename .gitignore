@@ -9,5 +9,6 @@
 !wp-content/themes
 !wp-content/themes/linnette
 !wp-content/themes/linnette/**
+wp-content/themes/linnette/tests/node_modules
 !puphpet
 !puphpet/config.yaml
