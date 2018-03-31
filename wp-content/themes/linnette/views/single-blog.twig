@@ -23,19 +23,4 @@
 		{#<div class="fb-like" data-href="{{ canonical_url }}" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>#}
 	{#</div>#}
 
-
-	<section class="related_articles" itemscope itemtype="http://schema.org/WebPage">
-
-		<h2>Mohlo by vás zajímat</h2>
-
-		<div class="main_content__thumb_list">
-
-			{% for post in post.related_articles %}
-				{% include '_thumb_list_captioned_image.twig' %}
-			{% endfor %}
-
-		</div>
-
-	</section>
-
 {% endblock %}

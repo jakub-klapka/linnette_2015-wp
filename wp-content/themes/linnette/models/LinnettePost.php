@@ -58,13 +58,53 @@ class LinnettePost extends Post {
 	/**
 	 * Get related articles as LinnettePosts
 	 *
-	 * @return array of LinnettePosts
+	 * For blog posts, always use special logic
+	 * For pages, use those, selected in admin
+	 *
+	 * @return self[]
 	 */
-	public function related_articles() {
+	public function related_articles(): array {
+
+		switch( $this->post_type ) {
+			case 'blog':
+				return $this->getBlogRelatedArticles();
+			case 'page':
+				return $this->getPageRelatedArticles();
+			default:
+				return [];
+		}
+
+	}
+
+	/**
+	 * Get related articles by blog post logic
+	 *
+	 * @return self[]
+	 */
+	private function getBlogRelatedArticles(): array {
 
 		return array_map( function( $post ) {
 			return new self( $post->ID );
 		}, $this->getRelatedArcilesWPPosts() );
+
+	}
+
+	/**
+	 * Page related articles are simply set (or not) in admin acf box
+	 *
+	 * @return self[]
+	 */
+	private function getPageRelatedArticles(): array {
+
+		$related_post_ids = get_field( 'selected_related_articles', $this->ID );
+
+		if( $related_post_ids === null ) {
+			return [];
+		}
+
+		return array_map( function( $post_id ) {
+			return new self( $post_id );
+		}, \array_slice( $related_post_ids, 0, 3 ) );
 
 	}
 
