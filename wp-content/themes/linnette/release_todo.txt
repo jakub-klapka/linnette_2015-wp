@@ -1,0 +1,3 @@
+- change menu icon and position
+- flush rewrite rules
+- Yoast - category - fix title

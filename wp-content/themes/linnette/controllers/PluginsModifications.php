@@ -111,7 +111,7 @@ class PluginsModifications {
 	}
 
 	public function modify_secure_post_with_link_config( $config ) {
-		$config[ 'allowed_post_types' ] = [ 'blog' ];
+		$config[ 'allowed_post_types' ] = [ 'blog', 'zivotni-dokument' ];
 		return $config;
 	}
 

@@ -3,6 +3,7 @@
 namespace Linnette\Models;
 
 
+use Linnette\Controllers\Blog;
 use Timber\Post;
 use Timber\Timber;
 
@@ -38,13 +39,15 @@ class LinnettePost extends Post {
 	 */
 	public function terms( $tax = '', $merge = true, $TermClass = '' ) {
 
+		$current_tax_name = get_post_taxonomies()[0];
+
 		if( !empty( $this->blog_category_cache ) ) {
 
 			$terms = $this->blog_category_cache;
 
 			//Run through WP_Terms and create BlogTerms from them 
-			$terms = array_map(function( $term ) {
-				return call_user_func(array( BlogTerm::class, 'fromWithoutACF'), $term->term_id, 'blog_category');
+			$terms = array_map(function( $term ) use( $current_tax_name ) {
+				return call_user_func(array( BlogTerm::class, 'fromWithoutACF'), $term->term_id, $current_tax_name );
 			}, $terms);
 
 			return $terms;
@@ -66,7 +69,7 @@ class LinnettePost extends Post {
 	public function related_articles(): array {
 
 		switch( $this->post_type ) {
-			case 'blog':
+			case \in_array( $this->post_type, Blog::getPostSlugsArray(), true ):
 				return $this->getBlogRelatedArticles();
 			case 'page':
 				return $this->getPageRelatedArticles();
@@ -159,10 +162,10 @@ class LinnettePost extends Post {
 		$posts_in_same_terms = new \WP_Query( [
 			'orderby' => 'rand',
 			'posts_per_page' => $count_to_add,
-			'post_type' => 'blog',
+			'post_type' => $this->post_type,
 			'tax_query' => [
 				[
-					'taxonomy' => 'blog_category',
+					'taxonomy' => get_post_taxonomies()[0],
 					'field' => 'term_id',
 					'terms' => $terms_ids
 				]
@@ -187,7 +190,7 @@ class LinnettePost extends Post {
 
 		$query = new \WP_Query( [
 			'nopaging' => true,
-			'post_type' => 'blog',
+			'post_type' => Blog::getPostSlugsArray(),
 			'post__in' => $ids
 		] );
 

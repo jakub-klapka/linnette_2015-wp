@@ -1,8 +1,20 @@
 {
     "key": "group_552c14cbbe38d",
-    "title": "Hlavn\u00ed obr\u00e1zek blogu",
+    "title": "Hlavní obrázek blogu",
     "fields": [
         {
+            "key": "field_552c14cc0953b",
+            "label": "Hlavní obrázek",
+            "name": "featured_image",
+            "type": "image",
+            "instructions": "Alespoň 1023px na šířku.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "return_format": "id",
             "preview_size": "thumbnail",
             "library": "all",
@@ -12,28 +24,11 @@
             "max_width": "",
             "max_height": "",
             "max_size": "",
-            "mime_types": "",
-            "key": "field_552c14cc0953b",
-            "label": "Hlavn\u00ed obr\u00e1zek",
-            "name": "featured_image",
-            "type": "image",
-            "instructions": "Alespo\u0148 1023px na \u0161\u00ed\u0159ku.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            }
+            "mime_types": ""
         },
         {
-            "default_value": 0,
-            "message": "",
-            "ui": 1,
-            "ui_on_text": "",
-            "ui_off_text": "",
             "key": "field_5843329529676",
-            "label": "P\u0159idat p\u00edsni\u010dkova\u010d?",
+            "label": "Přidat písničkovač?",
             "name": "add_music",
             "type": "true_false",
             "instructions": "",
@@ -43,11 +38,14 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "default_value": 0,
+            "message": "",
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
         },
         {
-            "width": "",
-            "height": 80,
             "key": "field_584332bf29677",
             "label": "Odkaz na soundcloud",
             "name": "soundcloud_link",
@@ -67,7 +65,9 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "width": "",
+            "height": 80
         }
     ],
     "location": [
@@ -76,6 +76,13 @@
                 "param": "post_type",
                 "operator": "==",
                 "value": "blog"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "zivotni-dokument"
             }
         ]
     ],
@@ -87,5 +94,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1480798973
+    "modified": 1528015808
 }

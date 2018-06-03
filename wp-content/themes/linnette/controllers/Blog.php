@@ -1,12 +1,65 @@
 <?php
 
-
 namespace Linnette\Controllers;
-
 
 use Timber\Timber;
 
 class Blog {
+
+	/**
+	 * Config array for Blog-like post types
+	 *
+	 * Adding new post type:
+	 *  - Add to this config
+	 *  - Add new post type to location on ACFs
+	 *  - Add new post type to filter on related articles ACF
+	 *
+	 * @var array
+	 */
+	private static $post_types_config = [
+		'blog' => [
+			'labels' => [
+				'name'               => 'Blog',
+				'singular_name'      => 'Blog',
+				'menu_name'          => 'Blog',
+				'name_admin_bar'     => 'Blog',
+				'add_new'            => 'Přidat',
+				'add_new_item'       => 'Přidat blog',
+				'new_item'           => 'Nový blog',
+				'edit_item'          => 'Upravit blog',
+				'view_item'          => 'Ukázat blog',
+				'all_items'          => 'Všechny příspěvky',
+				'search_items'       => 'Hledat příspěvky',
+				'parent_item_colon'  => 'Nadřazený blog:',
+				'not_found'          => 'Žádný blog nenalezen.',
+				'not_found_in_trash' => 'Žádný blog nenalezen ani v koši.'
+			],
+			'slug' => 'blog',
+			'taxonomy_name' => 'blog_category',
+			'taxonomy_slug' => 'kategorie',
+		],
+		'life_documentary' => [
+			'labels' => [
+				'name'               => 'Životní dokument',
+				'singular_name'      => 'Životní dokument',
+				'menu_name'          => 'Životní dokument',
+				'name_admin_bar'     => 'Životní dokument',
+				'add_new'            => 'Přidat',
+				'add_new_item'       => 'Přidat životní dokument',
+				'new_item'           => 'Nový životní dokument',
+				'edit_item'          => 'Upravit životní dokument',
+				'view_item'          => 'Ukázat životní dokument',
+				'all_items'          => 'Všechny příspěvky',
+				'search_items'       => 'Hledat příspěvky',
+				'parent_item_colon'  => 'Nadřazený životní dokument:',
+				'not_found'          => 'Žádný životní dokument nenalezen.',
+				'not_found_in_trash' => 'Žádný životní dokument nenalezen ani v koši.'
+			],
+			'slug' => 'zivotni-dokument',
+			'taxonomy_name' => 'life_documentary_category',
+			'taxonomy_slug' => 'kategorie-dokumentu',
+		]
+	];
 
 	public static function getInstance()
 	{
@@ -33,34 +86,6 @@ class Blog {
 
 	private function register_post_type() {
 
-		$labels = array(
-			'name'               => 'Blog',
-			'singular_name'      => 'Blog',
-			'menu_name'          => 'Blog',
-			'name_admin_bar'     => 'Blog',
-			'add_new'            => 'Přidat',
-			'add_new_item'       => 'Přidat blog',
-			'new_item'           => 'Nový blog',
-			'edit_item'          => 'Upravit blog',
-			'view_item'          => 'Ukázat blog',
-			'all_items'          => 'Všechny příspěvky',
-			'search_items'       => 'Hledat příspěvky',
-			'parent_item_colon'  => 'Nadřazený blog:',
-			'not_found'          => 'Žádný blog nenalezen.',
-			'not_found_in_trash' => 'Žádný blog nenalezen ani v koši.'
-		);
-
-		register_post_type( 'blog', array(
-			'labels' => $labels,
-			'public' => true,
-			'supports' => array( 'title', 'editor', 'revisions', 'comments' ),
-			'has_archive' => true,
-			'taxonomies' => array( 'blog_category' ),
-			'rewrite' => array(
-				'pages' => false
-			)
-		) );
-
 		$tax_labels = array(
 			'name'              => 'Kategorie',
 			'singular_name'     => 'Kategorie',
@@ -75,22 +100,83 @@ class Blog {
 			'menu_name'         => 'Kategorie'
 		);
 
-		register_taxonomy( 'blog_category', 'blog', array(
-			'labels' => $tax_labels,
-			'show_tagcloud' => false,
-			'show_admin_column' => true,
-			'hierarchical' => true,
-			'rewrite' => array(
-				'slug' => 'kategorie',
-				'hierarchical' => true
-			)
-		) );
+		foreach( self::$post_types_config as $post_type_config ) {
 
+			register_post_type( $post_type_config['slug'], array(
+				'labels' => $post_type_config['labels'],
+				'public' => true,
+				'supports' => array( 'title', 'editor', 'revisions', 'comments' ),
+				'has_archive' => true,
+				'taxonomies' => array( $post_type_config['taxonomy_name'] ),
+				'rewrite' => array(
+					'pages' => false
+				)
+			) );
+
+			register_taxonomy( $post_type_config['taxonomy_name'], $post_type_config['slug'], array(
+				'labels' => $tax_labels,
+				'show_tagcloud' => false,
+				'show_admin_column' => true,
+				'hierarchical' => true,
+				'rewrite' => array(
+					'slug' => $post_type_config['taxonomy_slug'],
+					'hierarchical' => true
+				)
+			) );
+
+		}
+
+	}
+
+	/**
+	 * Get blog-like CPTs DB names (which are used almost nowhere)
+	 *
+	 * @return array
+	 */
+	public function getPostTypeNamesArray(): array {
+		return array_keys( self::$post_types_config );
+	}
+
+	/**
+	 * Get blog-like CPTs slugs (which are everywhere)
+	 *
+	 * @return array
+	 */
+	public static function getPostSlugsArray(): array {
+
+		return array_map( function( $post_type_config ) {
+			return $post_type_config['slug'];
+		}, self::$post_types_config );
+
+	}
+
+	/**
+	 * Get config for specific CPT by it's slug
+	 *
+	 * @param string $slug
+	 *
+	 * @return array
+	 */
+	public function getPostTypeConfigBySlug( string $slug ): array {
+		return current( array_filter( self::$post_types_config, function( $post_type_config ) use ( $slug ) {
+			return $post_type_config['slug'] === $slug;
+		} ) );
+	}
+
+	/**
+	 * Get all taxonomy names for all blog-like cpts
+	 *
+	 * @return array
+	 */
+	public function getPostTaxonomyNamesArray(): array {
+		return array_map( function( $post_type_config ) {
+			return $post_type_config['taxonomy_name'];
+		}, self::$post_types_config );
 	}
 
 	public function check_for_blog_type() {
 
-		if( is_singular( 'blog' ) ) {
+		if( is_singular( Blog::getPostSlugsArray() ) ) {
 
 			add_filter( 'timber_context', array( $this, 'add_blog_breadcrumbs' ) );
 
@@ -99,8 +185,13 @@ class Blog {
 	}
 
 	public function add_blog_breadcrumbs( $context ) {
+
+		$post_type_config = $this->getPostTypeConfigBySlug( get_post_type() );
+
+		$taxonomy_name = $post_type_config['taxonomy_name'];
+
 		$post = new \TimberPost();
-		$terms = $post->get_terms( 'blog_category' );
+		$terms = $post->get_terms( $taxonomy_name );
 
 		if( empty( $terms ) ) return $context;
 
@@ -110,7 +201,7 @@ class Blog {
 
 		$iterating_term = $base_term;
 		while( $iterating_term->parent !== 0 ) {
-			$new_term = new \TimberTerm( $iterating_term->parent, 'blog_category' );
+			$new_term = new \TimberTerm( $iterating_term->parent, $taxonomy_name );
 			$terms_for_breadcb[] = $new_term;
 			$iterating_term = $new_term;
 		}
@@ -123,8 +214,8 @@ class Blog {
 		 */
 		$breadcrumbs = array(
 			(object)array(
-				'title' => 'Blog',
-				'url' => get_post_type_archive_link( 'blog' )
+				'title' => $post_type_config['labels']['name'],
+				'url' => get_post_type_archive_link( get_post_type() )
 			)
 		);
 
@@ -151,7 +242,7 @@ class Blog {
 	 */
 	public function check_for_blog_archive() {
 
-		if( is_post_type_archive( 'blog' ) || is_tax( 'blog_category' ) ) {
+		if( is_post_type_archive( Blog::getPostSlugsArray() ) || is_tax( $this->getPostTaxonomyNamesArray() ) ) {
 
 			add_filter( 'timber_context', array( $this, 'add_blog_archive_cats_cb' ) );
 
@@ -166,14 +257,17 @@ class Blog {
 	}
 
 	public function add_blog_archive_cats_cb( $context ) {
-		$context[ 'cats' ] = \Timber::get_terms( 'blog_category', array(), '\Linnette\Models\BlogTerm' );
 
-		if( is_tax( 'blog_category' ) ) {
+		$current_tax_name = get_post_taxonomies()[0];
+
+		$context[ 'cats' ] = \Timber::get_terms( $current_tax_name, array(), '\Linnette\Models\BlogTerm' );
+
+		if( is_tax( $current_tax_name ) ) {
 			//On any term page, but not on all items page
 			$new_item = (object)array(
 				'current' => false,
 				'name' => 'Všechny',
-				'link' => get_post_type_archive_link( 'blog' )
+				'link' => get_post_type_archive_link( get_post_type() )
 			);
 
 			if( is_array( $context[ 'cats' ] ) ) {
@@ -188,7 +282,7 @@ class Blog {
 
 	public function modify_og_image() {
 
-		if( is_singular( 'blog' ) || is_singular( 'page' ) ){
+		if( is_singular( Blog::getPostSlugsArray() ) || is_singular( 'page' ) ){
 
 			if( get_field( 'featured_image' ) ) {
 
@@ -209,7 +303,7 @@ class Blog {
 
 		//Bail if not on blog archive page
 		if( !$query->is_main_query() || is_admin() ) return;
-		if( $query->is_post_type_archive( 'blog' ) || $query->is_tax( 'blog_category' ) ) {
+		if( $query->is_post_type_archive( Blog::getPostSlugsArray() ) || $query->is_tax( $this->getPostTaxonomyNamesArray() ) ) {
 
 			$query->set( 'has_password', false );
 
@@ -249,7 +343,8 @@ class Blog {
 		}, $wp_query->posts );
 
 		//Get all terms at once
-		$terms = wp_get_object_terms( $post_ids, 'blog_category', array( 'fields' => 'all_with_object_id' ) );
+		$current_tax_name = get_post_taxonomies()[0];
+		$terms = wp_get_object_terms( $post_ids, $current_tax_name, array( 'fields' => 'all_with_object_id' ) );
 
 		//Attach terms to posts
 		foreach( $terms as $term ) {
