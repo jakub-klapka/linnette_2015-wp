@@ -78,8 +78,11 @@
 			{% include '_divider.twig' %}
 		{% endif %}
 
-
 		<div class="main_header__copyright">&copy; {{ "now"|date('Y') }} Linnette.cz</div>
+
+		<button class="main_header__go_to_top is-hidden" data-js-scroll_to_top_button>
+			<svg class="main_header__go_to_top__image" aria-label="Go to top"><use xlink:href="#icon-circle_up"></use></svg>
+		</button>
 
 	</header>
 
