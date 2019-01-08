@@ -44,15 +44,17 @@ class Layout {
 		$context[ 'post' ] = new LinnettePost();
 		$context[ 'main_menu' ] = new LinnetteMenu();
 
-		$wpseo_options = \WPSEO_Options::get_instance();
-		$wpseo_options = $wpseo_options->get_all();
-		$context[ 'facebook_link' ] = $wpseo_options[ 'facebook_site' ];
-		$context[ 'instagram_link' ] = $wpseo_options[ 'instagram_url' ];
-		$context[ 'slusna_firma_link' ] = get_field( 'slusna_firma_link', 'option' );
+		if( class_exists( \WPSEO_Options::class ) ) {
+			$wpseo_options = \WPSEO_Options::get_instance();
+			$wpseo_options = $wpseo_options->get_all();
+			$context[ 'facebook_link' ] = $wpseo_options[ 'facebook_site' ];
+			$context[ 'instagram_link' ] = $wpseo_options[ 'instagram_url' ];
+			$context[ 'slusna_firma_link' ] = get_field( 'slusna_firma_link', 'option' );
 
-		$wpseo_front = \WPSEO_Frontend::get_instance();
-		$context[ 'canonical_url' ] = $wpseo_front->canonical( false );
-		$context[ 'seo_description' ] = $wpseo_front->metadesc( false );
+			$wpseo_front = \WPSEO_Frontend::get_instance();
+			$context[ 'canonical_url' ] = $wpseo_front->canonical( false );
+			$context[ 'seo_description' ] = $wpseo_front->metadesc( false );
+		}
 
 		$context[ 'is_user_logged_in' ] = is_user_logged_in();
 		$context[ 'user' ] = new \TimberUser();

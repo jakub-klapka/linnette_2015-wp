@@ -1,14 +1,13 @@
 {
     "key": "group_55294e09dd646",
-    "title": "Hlavn\u00ed obr\u00e1zek",
+    "title": "Hlavní obrázek",
     "fields": [
         {
             "key": "field_55294e17072de",
-            "label": "Hlavn\u00ed obr\u00e1zek",
+            "label": "Hlavní obrázek",
             "name": "featured_image",
-            "prefix": "",
             "type": "image",
-            "instructions": "Alespo\u0148 1023px na \u0161\u00ed\u0159ku.",
+            "instructions": "Alespoň 1023px na šířku.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -29,9 +28,8 @@
         },
         {
             "key": "field_55294e87072df",
-            "label": "Prvn\u00ed \u0159\u00e1dek popisku",
+            "label": "První řádek popisku",
             "name": "featured_image_caption_1",
-            "prefix": "",
             "type": "text",
             "instructions": "",
             "required": 0,
@@ -51,9 +49,8 @@
         },
         {
             "key": "field_55294ea5072e0",
-            "label": "Druh\u00fd \u0159\u00e1dek popisku",
+            "label": "Druhý řádek popisku",
             "name": "featured_image_caption_2",
-            "prefix": "",
             "type": "text",
             "instructions": "",
             "required": 0,
@@ -82,10 +79,12 @@
         ]
     ],
     "menu_order": 0,
-    "position": "acf_after_title",
+    "position": "normal",
     "style": "default",
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "modified": 1428952257
+    "active": 1,
+    "description": "",
+    "modified": 1545757757
 }

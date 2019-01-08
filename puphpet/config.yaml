@@ -41,11 +41,11 @@ vagrantfile:
                     - '--hiera_config /opt/puphpet/puppet/hiera.yaml'
         synced_folder:
             folder1:
-                owner: www-user
-                group: www-data
+                owner: vagrant
+                group: vagrant
                 source: ./
                 target: /var/www
-                sync_type: smb
+                sync_type: default
                 smb:
                     smb_host: ''
                     smb_username: ''
@@ -97,9 +97,9 @@ locale:
     settings:
         default_locale: cs_CZ.UTF-8
         locales:
+            - cs_CZ.UTF-8
             - en_GB.UTF-8
             - en_US.UTF-8
-            - cs_CZ.UTF-8
         timezone: Europe/Prague
 firewall:
     install: '1'
@@ -177,10 +177,10 @@ apache:
         manage_group: false
         sendfile: 0
     modules:
-        - proxy_fcgi
-        - rewrite
         - deflate
         - expires
+        - proxy_fcgi
+        - rewrite
     vhosts:
         vhost1:
             servername: linnette.test
@@ -233,6 +233,7 @@ php:
             - opcache
             - zip
             - gd
+            - mbstring
         pear: {  }
         pecl: {  }
     ini:
@@ -254,8 +255,8 @@ php:
                 prefix: www
                 listen: '127.0.0.1:9000'
                 security.limit_extensions: .php
-                user: www-user
-                group: www-data
+                user: vagrant
+                group: vagrant
     composer: '0'
     composer_home: ''
 xdebug:

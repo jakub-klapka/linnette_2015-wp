@@ -16,7 +16,10 @@ class AdminModifications {
 
 	protected function __construct() {
 
-		add_editor_style( 'assets/css/editor-style.css' );
+		/*
+		 * Editor styles are handled in Gutenberg
+		 */
+		//add_editor_style( 'assets/css/editor-style.css' );
 
 		add_action( 'current_screen', array( $this, 'is_edit_page' ) );
 
