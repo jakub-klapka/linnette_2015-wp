@@ -53,6 +53,7 @@ class Gutenberg {
 		if( \get_current_screen()->is_block_editor ) {
 
 			wp_enqueue_style( 'editor-style', trailingslashit( get_stylesheet_directory_uri() ) . 'assets/css/editor-style.css' );
+			wp_enqueue_script( 'image_with_text' );
 
 			/*
 			 * Skeleton, not using it now:
@@ -103,20 +104,56 @@ class Gutenberg {
 	 */
 	public function registerAcfBlocks() {
 
-		// check function exists
-		if( \function_exists('acf_register_block') ) {
+		if ( \function_exists( 'acf_register_block' ) ) {
 
-			acf_register_block(array(
-				'name'				=> 'linn-gallery',
-				'title'				=> 'Galerie',
-				'render_callback'	=> [ $this, 'linnGalleryRender' ],
-				'category'			=> 'layout',
-				'icon'				=> 'format-gallery',
-				'supports' => [
+			acf_register_block( [
+				'name'            => 'linn-gallery',
+				'title'           => 'Galerie',
+				'render_callback' => [ $this, 'linnGalleryRender' ],
+				'category'        => 'layout',
+				'icon'            => 'format-gallery',
+				'supports'        => [
 					'align' => false,
-					'html' => true
+					'html'  => true
 				]
-			));
+			] );
+
+			acf_register_block( [
+				'name'            => 'linn-tupliky',
+				'title'           => 'Ťuplíky',
+				'render_callback' => [ $this, 'linnTuplikyRender' ],
+				'category'        => 'layout',
+				'icon'            => 'format-status',
+				'supports'        => [
+					'align' => false,
+					'html'  => true
+				]
+			] );
+
+			acf_register_block( [
+				'name'            => 'linn-call_to_action_button',
+				'title'           => 'Tlačítko',
+				'render_callback' => [ $this, 'linnCallToActionButtonRender' ],
+				'category'        => 'layout',
+				'icon'            => 'align-center',
+				'supports'        => [
+					'align' => false,
+					'html'  => true
+				]
+			] );
+
+			acf_register_block( [
+				'name'            => 'linn-photo_with_description',
+				'title'           => 'Fotka s popisem',
+				'render_callback' => [ $this, 'linnPhotoWithDescriptionRender' ],
+				'category'        => 'layout',
+				'icon'            => 'analytics',
+				'supports'        => [
+					'align' => false,
+					'html'  => true
+				]
+			] );
+
 		}
 
 	}
@@ -137,6 +174,59 @@ class Gutenberg {
 		}
 
 		echo \Timber::compile( '_wp_gallery.twig', array( 'images' => $images, 'cols' => get_field( 'column_count' ) ) );
+
+	}
+
+	/**
+	 * Render linn-tupliky ACF Block
+	 */
+	public function linnTuplikyRender() {
+
+		echo \Timber::compile( '_divider.twig', array( 'is_rendering_shortcake' => is_admin() ) );
+
+	}
+
+	/**
+	 * Render linn-call_to_action_button Block
+	 */
+	public function linnCallToActionButtonRender() {
+
+		if( ! get_field( 'custom_link' ) ) {
+			$post_url = get_field( 'post' );
+		} else {
+			$post_url = esc_url( get_field( 'custom_link' ) );
+		}
+
+		$url = is_admin() ? '#' : $post_url;
+		$content = get_field( 'text' );
+
+		echo \Timber::compile( '_call_to_action_link.twig', array( 'url' => $url, 'text' => $content ) );
+
+	}
+
+	/**
+	 * Render linn-photo_with_description Block
+	 */
+	public function linnPhotoWithDescriptionRender() {
+
+		//Enqueue Scripts
+		ScriptStyle::enqueueLightbox();
+		ScriptStyle::enqueuePicturefill();
+		wp_enqueue_script( 'image_with_text' );
+
+		$data = [
+			'image'                  => new LightboxedImage( (int) get_field( 'attachment' ) ),
+			'signature'              => get_field( 'signature' ),
+			'type'                   => get_field( 'type' ),
+			'is_review'              => get_field( 'is_review' ),
+			'text'                   => get_field( 'text' ),
+			'is_rendering_shortcake' => is_admin()
+		];
+
+		echo \Timber::compile( '_photo_with_description.twig', $data );
+		if( is_admin() ) {
+			echo '<script type="text/javascript">window.linnette.imageWithText.refreshAllImages()</script>';
+		}
 
 	}
 

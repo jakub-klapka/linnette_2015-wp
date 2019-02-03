@@ -26,6 +26,7 @@ class ScriptStyle {
 	protected function __construct() {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ) );
 
 		add_filter( 'get_twig', array( $this, 'add_load_scripts_functions' ) );
 
@@ -47,8 +48,10 @@ class ScriptStyle {
 		wp_register_script( 'loadcss_dep', get_template_directory_uri() . '/assets/js/libs/loadcss.js', [], $theme_ver, true );
 		wp_register_script( 'loadcss', get_template_directory_uri() . '/assets/js/libs/loadcss_polyfill.js', [ 'loadcss_dep' ], $theme_ver, true );
 
-		wp_deregister_script( 'jquery' );
-		wp_register_script( 'jquery', get_template_directory_uri() . '/assets/js/libs/jquery-2.1.3.js', array(), $theme_ver, true );
+		if( !is_admin() ) {
+			wp_deregister_script( 'jquery' );
+			wp_register_script( 'jquery', get_template_directory_uri() . '/assets/js/libs/jquery-2.1.3.js', array(), $theme_ver, true );
+		}
 		wp_register_script( 'velocity', get_template_directory_uri() . '/assets/js/libs/velocity.js', array( 'jquery' ), $theme_ver, true );
 		wp_register_script( 'enquire', get_template_directory_uri() . '/assets/js/libs/enquire.js', array(), $theme_ver, true );
 		wp_register_script( 'headroom_dep', get_template_directory_uri() . '/assets/js/libs/headroom.js', array(), $theme_ver, true );
