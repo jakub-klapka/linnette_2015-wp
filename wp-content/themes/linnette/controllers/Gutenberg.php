@@ -14,6 +14,8 @@ class Gutenberg {
 		 * Theme setup
 		 */
 		add_theme_support('editor-styles');
+		add_theme_support( 'disable-custom-colors' );
+		add_theme_support( 'editor-color-palette' );
 		add_editor_style( 'assets/css/editor-style.css' );
 
 		/*
@@ -54,6 +56,12 @@ class Gutenberg {
 
 			wp_enqueue_style( 'editor-style', trailingslashit( get_stylesheet_directory_uri() ) . 'assets/css/editor-style.css' );
 			wp_enqueue_script( 'image_with_text' );
+
+			wp_enqueue_script(
+				'gutenberg-settings',
+				trailingslashit( get_stylesheet_directory_uri() ) . 'admin-js/gutenberg-settings.js',
+				array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' )
+			);
 
 			/*
 			 * Skeleton, not using it now:
