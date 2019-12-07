@@ -41,11 +41,11 @@ vagrantfile:
                     - '--hiera_config /opt/puphpet/puppet/hiera.yaml'
         synced_folder:
             folder1:
-                owner: www-user
-                group: www-data
+                owner: vagrant
+                group: vagrant
                 source: ./
                 target: /var/www
-                sync_type: smb
+                sync_type: default
                 smb:
                     smb_host: ''
                     smb_username: ''

@@ -94,7 +94,7 @@
 				<nav class="main_content__breadcrumbs" data-js-breadcrumbs>
 					<div class="main_content__breadcrumbs__wrap" itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
 						{% for item in breadcrumbs %}
-							<a class="main_content__breadcrumbs__item" href="{{ item.url }}" itemprop="itemListElement">{{ item.title }}</a>
+							<a class="main_content__breadcrumbs__item" href="{{ item.url }}" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">{{ item.title }}</span><meta itemprop="position" content="{{ loop.index }}"></a>
 						{% endfor %}
 					</div>
 				</nav>
