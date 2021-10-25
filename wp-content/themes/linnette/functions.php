@@ -68,6 +68,7 @@ add_action( 'init', function(){
 	\Linnette\Controllers\RelatedArticles::getInstance();
 	\Linnette\Controllers\Migrations::getInstance();
 	\Linnette\Controllers\Gutenberg::getInstance();
+	\Linnette\Controllers\ShortcodeConvertor::getInstance();
 
 	if( is_admin() ) {
 		\Linnette\Controllers\AdminModifications::getInstance();

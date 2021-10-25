@@ -110,7 +110,8 @@ class Blog {
 				'taxonomies' => array( $post_type_config['taxonomy_name'] ),
 				'rewrite' => array(
 					'pages' => false
-				)
+				),
+				'show_in_rest' => true
 			) );
 
 			register_taxonomy( $post_type_config['taxonomy_name'], $post_type_config['slug'], array(

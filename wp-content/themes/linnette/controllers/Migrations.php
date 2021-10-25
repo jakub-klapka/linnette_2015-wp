@@ -2,6 +2,7 @@
 
 namespace Linnette\Controllers;
 
+use Linnette\Controllers\Migrations\Migration1ShortcodeConverter;
 use Linnette\Traits\SingletonTrait;
 
 class Migrations {
@@ -104,13 +105,21 @@ class Migrations {
 		$result = '';
 		$schema_version = get_option( 'theme_schema_version' );
 
-//		if( $schema_version == false || $schema_version < 1 ) {
-//			$result .= $this->migration_1();
-//			$schema_version = 1;
-//		};
+		if( $schema_version == false || $schema_version < 1 ) {
+			$result .= $this->migration_1();
+			$schema_version = 1;
+		};
 
 //		update_option( 'theme_schema_version', $schema_version, false );
 		return $result;
+
+	}
+
+	private function migration_1() {
+
+//		require_once 'Migrations/Migration1ShortcodeConverter.php';
+
+
 
 	}
 
